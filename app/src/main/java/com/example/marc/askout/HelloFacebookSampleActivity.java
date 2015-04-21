@@ -329,6 +329,7 @@ public class HelloFacebookSampleActivity extends FragmentActivity {
 
     private void dumbFunction() {
         int a = 9;
+        int b = 7;
     }
 
     private boolean hasPublishPermission() {
