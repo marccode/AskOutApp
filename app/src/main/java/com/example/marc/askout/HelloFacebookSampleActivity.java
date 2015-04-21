@@ -327,6 +327,10 @@ public class HelloFacebookSampleActivity extends FragmentActivity {
         }
     }
 
+    private void dumbFunction() {
+        int a = 9;
+    }
+
     private boolean hasPublishPermission() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null && accessToken.getPermissions().contains("publish_actions");
