@@ -94,6 +94,7 @@ public class MainActivity extends FragmentActivity {
                         //updateUI();
                         Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                         startActivity(i);
+                        finish();
                     }
 
                     @Override
@@ -134,6 +135,7 @@ public class MainActivity extends FragmentActivity {
         if (checkLogin()) {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(i);
+            finish();
         }
         /*
         profilePictureView = (ProfilePictureView) findViewById(R.id.profilePicture);

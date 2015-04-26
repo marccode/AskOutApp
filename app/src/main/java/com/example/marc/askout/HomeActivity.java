@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.Profile;
@@ -34,6 +35,8 @@ public class HomeActivity extends ActionBarActivity
         // Set up the drawer.
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
+        // Profile.getCurrentProfile().getName()
+        //mNavigationDrawerFragment.setUserData("My Name", false);
         mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
 
     }
