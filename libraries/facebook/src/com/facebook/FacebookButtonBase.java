@@ -76,9 +76,10 @@ public abstract class FacebookButtonBase extends Button {
      *
      * @param fragment the fragment that contains this control
      */
-    public void setFragment(final Fragment fragment) {
+    /*
+    public void setFragment(final com.example.marc.askout.LoginActivity fragment) {
         parentFragment = fragment;
-    }
+    }*/
 
     /**
      * Gets the fragment that contains this control.

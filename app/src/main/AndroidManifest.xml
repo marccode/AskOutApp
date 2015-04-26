@@ -38,16 +38,6 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
         <activity
-            android:name=".HelloFacebookSampleActivity"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="adjustResize" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
@@ -74,6 +64,19 @@
         <activity
             android:name=".HelloFacebookBroadcastReceiver"
             android:label="@string/title_activity_hello_facebook_broadcast_receiver" >
+        </activity>
+        <activity
+            android:name=".SampleFacebookActivity"
+            android:label="@string/title_activity_sample_facebook" >
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

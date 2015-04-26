@@ -56,7 +56,7 @@ import java.util.Arrays;
 
 //package com.facebook.samples.hellofacebook;
 
-public class HelloFacebookSampleActivity extends FragmentActivity {
+public class SampleFacebookActivity extends FragmentActivity {
 
     private static final String PERMISSION = "publish_actions";
     private static final Location SEATTLE_LOCATION = new Location("") {
@@ -105,7 +105,7 @@ public class HelloFacebookSampleActivity extends FragmentActivity {
         }
 
         private void showResult(String title, String alertMessage) {
-            new AlertDialog.Builder(HelloFacebookSampleActivity.this)
+            new AlertDialog.Builder(SampleFacebookActivity.this)
                     .setTitle(title)
                     .setMessage(alertMessage)
                     .setPositiveButton(R.string.ok, null)
@@ -154,7 +154,7 @@ public class HelloFacebookSampleActivity extends FragmentActivity {
                     }
 
                     private void showAlert() {
-                        new AlertDialog.Builder(HelloFacebookSampleActivity.this)
+                        new AlertDialog.Builder(SampleFacebookActivity.this)
                                 .setTitle(R.string.cancelled)
                                 .setMessage(R.string.permission_not_granted)
                                 .setPositiveButton(R.string.ok, null)
