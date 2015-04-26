@@ -43,5 +43,6 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_sample_facebook">SampleFacebookActivity</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_home">HomeActivity</string>
 
 </resources>

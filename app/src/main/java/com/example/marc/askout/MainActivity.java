@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -19,14 +20,25 @@ import com.facebook.login.LoginResult;
 public class MainActivity extends FragmentActivity {
 
     private CallbackManager callbackManager;
+    public static FileOperations fop;
+    private int TOKEN = 0;
 
-    private void checklogin() {
-        ;
+    private boolean checklogin() {
+        return getToken() != "0";
     }
+
+    public void writeToken() {
+        String s = String.valueOf(TOKEN);
+        if (!s.equals("0")) fop.writeToken(s);
+    }
+
+    public String getToken() {
+        return fop.readToken();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        checklogin();
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
@@ -37,7 +49,10 @@ public class MainActivity extends FragmentActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-
+                        Log.d("MainActivity", "Ha fet el login");
+                        TOKEN = 1234;
+                        loginResult.getAccessToken();
+                        writeToken();
                     }
 
                     @Override
@@ -58,6 +73,12 @@ public class MainActivity extends FragmentActivity {
                                 .show();
                     }
                 });
+        if (checklogin()) { //no login
+            Log.d("MainActivity", "L'usuari ja ha fet login");
+        }
+        else {
+            Log.d("MainActivity", "L'usuari no ha fet login");
+        }
         setContentView(R.layout.activity_main);
     }
 

@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="41dp" />
+        android:layout_marginTop="20dp" />
 
     <com.facebook.login.widget.LoginButton
         android:layout_width="wrap_content"
@@ -28,9 +28,8 @@
         facebook:confirm_logout="false"
         facebook:tooltip_mode="never_display"
         android:layout_below="@+id/imageView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
