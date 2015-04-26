@@ -231,7 +231,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mActionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    public void setUserData(String user, String email) {
+    public void setUserData(String user) {
         ProfilePictureView profile_picture = (ProfilePictureView) mFragmentContainerView.findViewById(R.id.profilePicture);
         ((TextView) mFragmentContainerView.findViewById(R.id.userName)).setText(user);
         //avatarContainer.setImageDrawable(new RoundImage(avatar));
