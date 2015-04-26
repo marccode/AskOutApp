@@ -14,6 +14,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.media.tv.TvContract;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,6 +27,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.Profile;
+import com.facebook.login.widget.ProfilePictureView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +61,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
      * Helper component that ties the action bar tthe navigation drawer.
      */
     private ActionBarDrawerToggle mActionBarDrawerToggle;
+    private ProfilePictureView profilePictureView;
 
     private DrawerLayout mDrawerLayout;
     private RecyclerView mDrawerList;
@@ -123,6 +128,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         items.add(new NavigationItem("Interests", getResources().getDrawable(R.drawable.heart)));
         items.add(new NavigationItem("Profile", getResources().getDrawable(R.drawable.account)));
         items.add(new NavigationItem("Settings", getResources().getDrawable(R.drawable.settings)));
+        items.add(new NavigationItem("Logout", getResources().getDrawable(R.drawable.logout)));
 
         return items;
     }
@@ -232,6 +238,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         ImageView avatarContainer = (ImageView) mFragmentContainerView.findViewById(R.id.imgAvatar);
         ((TextView) mFragmentContainerView.findViewById(R.id.txtUserEmail)).setText(email);
         ((TextView) mFragmentContainerView.findViewById(R.id.userName)).setText(user);
+        //profilePictureView.setProfileId(Profile.getCurrentProfile().getId());
         avatarContainer.setImageDrawable(new RoundImage(avatar));
     }
 

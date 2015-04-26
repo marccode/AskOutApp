@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.facebook.login.widget.ProfilePictureView;
+
 import java.util.List;
 
 

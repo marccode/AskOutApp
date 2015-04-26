@@ -1,13 +1,27 @@
 package com.example.marc.askout;
 
+import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class HomeActivity extends ActionBarActivity
@@ -32,14 +46,47 @@ public class HomeActivity extends ActionBarActivity
         // Set up the drawer.
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
-        mNavigationDrawerFragment.setUserData("Albert Viñés", "albert.vines@gmail.com", BitmapFactory.decodeResource(getResources(), R.drawable.avatar));
+        mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName(), Profile.getCurrentProfile().getId(), BitmapFactory.decodeResource(getResources(), R.drawable.avatar));
+
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         Toast.makeText(this, "Menu item selected -> " + position, Toast.LENGTH_SHORT).show();
+        Fragment fragment;
+        switch (position) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+        break;
+        case 4:
+        break;
+        case 5:
+        new MaterialDialog.Builder(this)
+                .title("Warning")
+                .content("Do you want to log out from your Facebook account?")
+                .positiveText("LOG OUT")
+                .negativeText("CANCEL")
+                .positiveColorRes(R.color.material_blue_grey_900)
+                .neutralColorRes(R.color.material_blue_grey_900)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        //LOG OUT FROM FACEBOOK
+                        LoginManager.getInstance().logOut();
+                    }
+                }).show();
+
+
+        break;
+
     }
+}
 
 
     @Override
