@@ -5,6 +5,7 @@ package com.example.marc.askout;
  */
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -49,7 +50,9 @@ public class FileOperations {                                                   
             e.printStackTrace();
         }
         s = fileContent.toString();
-        if (!s.isEmpty()) return s;
+        if (!s.isEmpty()) {
+            return s;
+        }
         else return "0";
     }
 

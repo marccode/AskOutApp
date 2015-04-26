@@ -21,15 +21,14 @@ public class MainActivity extends FragmentActivity {
 
     private CallbackManager callbackManager;
     public static FileOperations fop;
-    private int TOKEN = 0;
+    private String TOKEN;
 
     private boolean checklogin() {
-        return getToken() != "0";
+        return false;
     }
 
     public void writeToken() {
-        String s = String.valueOf(TOKEN);
-        if (!s.equals("0")) fop.writeToken(s);
+        fop.writeToken(TOKEN);
     }
 
     public String getToken() {
@@ -49,8 +48,8 @@ public class MainActivity extends FragmentActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Log.d("MainActivity", "Ha fet el login");
-                        TOKEN = 1234;
+                        Log.d("MainActivity", "TOKEN" + loginResult.getAccessToken().getToken());
+                        TOKEN = loginResult.getAccessToken().getToken();
                         loginResult.getAccessToken();
                         writeToken();
                     }
@@ -73,12 +72,13 @@ public class MainActivity extends FragmentActivity {
                                 .show();
                     }
                 });
+        /*
         if (checklogin()) { //no login
             Log.d("MainActivity", "L'usuari ja ha fet login");
         }
         else {
             Log.d("MainActivity", "L'usuari no ha fet login");
-        }
+        }*/
         setContentView(R.layout.activity_main);
     }
 
