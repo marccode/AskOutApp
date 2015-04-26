@@ -19,7 +19,7 @@
     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -->
 <resources>
-
+    <!-- FACEBOOK STRINGS -->
     <string name="app_name">HelloFacebookSample</string>
     <string name="facebook_app_name">HelloFBSample</string>
     <string name="cancelled">Cancelled</string>
@@ -44,5 +44,8 @@
     <string name="title_activity_sample_facebook">SampleFacebookActivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_home">HomeActivity</string>
-
+    <string name="drawer_open">Menu opened</string>
+    <string name="drawer_close">Menu closed</string>
+    <!-- App strings-->
+    <string name="userName">Albert</string>
 </resources>
