@@ -1,16 +1,17 @@
 package com.example.marc.askout;
 
 import android.app.AlertDialog;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
@@ -37,10 +38,40 @@ public class MainActivity extends FragmentActivity {
     }
 
 
+    private void updateWithToken(AccessToken currentAccessToken) {
+
+        if (currentAccessToken != null) {
+            Intent i = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(i);
+        } else {
+            /*
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    Intent i = new Intent(SplashScreen.this, Login.class);
+                    startActivity(i);
+
+                    finish();
+                }
+            }, SPLASH_TIME_OUT);
+            */
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
+
+        AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken newAccessToken) {
+                updateWithToken(newAccessToken);
+            }
+        };
+
+        updateWithToken(AccessToken.getCurrentAccessToken());
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -52,18 +83,22 @@ public class MainActivity extends FragmentActivity {
                         Log.d("MainActivity", "TOKEN" + loginResult.getAccessToken().getToken());
                         Toast.makeText(getApplicationContext(),"TOKEN" + loginResult.getAccessToken().getToken(), Toast.LENGTH_LONG).show();
                         TOKEN = loginResult.getAccessToken().getToken();
-                        loginResult.getAccessToken().isExpired();
-                        loginResult.getAccessToken();
-                        writeToken();
+                        //loginResult.getAccessToken().isExpired();
+                        //loginResult.getAccessToken();
+                        //writeToken();
+                        Intent i = new Intent(MainActivity.this, HomeActivity.class);
+                        startActivity(i);
                     }
 
                     @Override
                     public void onCancel() {
+                        Toast.makeText(getApplicationContext(),"CANCAEL", Toast.LENGTH_LONG).show();
                         Log.d("MainActivity", "cancel");
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
+                        Toast.makeText(getApplicationContext(),"ERROR", Toast.LENGTH_LONG).show();
                         Log.d("MainActivity", "error");
                     }
 
