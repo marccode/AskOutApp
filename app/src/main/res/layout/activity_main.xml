@@ -11,24 +11,28 @@
     android:background="#ffffffff"
     android:id="@+id/relativeLayoutMain">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/logo"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="250pt"
+        android:layout_centerVertical="true">
 
-    <com.facebook.login.widget.LoginButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        facebook:confirm_logout="false"
-        facebook:tooltip_mode="never_display"
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/view" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10pt"
+            android:id="@+id/imageView"
+            android:src="@drawable/logo"
+            android:layout_gravity="center_horizontal" />
+
+        <com.facebook.login.widget.LoginButton
+            android:layout_width="140pt"
+            android:layout_height="30pt"
+            android:layout_gravity="center_horizontal"
+            facebook:confirm_logout="false"
+            facebook:tooltip_mode="never_display"
+            android:id="@+id/view" />
+    </LinearLayout>
+
 
 </RelativeLayout>
