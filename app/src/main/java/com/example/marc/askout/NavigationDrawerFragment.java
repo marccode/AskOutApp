@@ -233,7 +233,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     public void setUserData(String user, String email) {
         ProfilePictureView profile_picture = (ProfilePictureView) mFragmentContainerView.findViewById(R.id.profilePicture);
-        ((TextView) mFragmentContainerView.findViewById(R.id.txtUserEmail)).setText(email);
         ((TextView) mFragmentContainerView.findViewById(R.id.userName)).setText(user);
         //avatarContainer.setImageDrawable(new RoundImage(avatar));
         profile_picture.setProfileId(Profile.getCurrentProfile().getId());

@@ -92,6 +92,7 @@ public class MainActivity extends FragmentActivity {
                         //updateUI();
                         Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                         startActivity(i);
+                        finish();
                     }
 
                     @Override

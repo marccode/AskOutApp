@@ -1,6 +1,5 @@
 package com.example.marc.askout;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -8,7 +7,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.Profile;
@@ -44,8 +42,6 @@ public class HomeActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        Toast.makeText(this, "Menu item selected -> " + position, Toast.LENGTH_SHORT).show();
-        Fragment fragment;
         switch (position) {
             case 0:
                 break;
@@ -54,29 +50,27 @@ public class HomeActivity extends ActionBarActivity
             case 2:
                 break;
             case 3:
-        break;
-        case 4:
-        break;
-        case 5:
-        new MaterialDialog.Builder(this)
-                .title("Warning")
-                .content("Do you want to log out from your Facebook account?")
-                .positiveText("LOG OUT")
-                .negativeText("CANCEL")
-                .positiveColorRes(R.color.material_blue_grey_900)
-                .neutralColorRes(R.color.material_blue_grey_900)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        //LOG OUT FROM FACEBOOK
-                        LoginManager.getInstance().logOut();
-                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(i);
-                        finish();
-                    }
-                }).show();
-
-
+                break;
+            case 4:
+                break;
+            case 5:
+                new MaterialDialog.Builder(this)
+                        .title("Warning")
+                        .content("Do you want to log out from your Facebook account?")
+                        .positiveText("LOG OUT")
+                        .negativeText("CANCEL")
+                        .positiveColorRes(R.color.material_blue_grey_900)
+                        .neutralColorRes(R.color.material_blue_grey_900)
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                //LOG OUT FROM FACEBOOK
+                                LoginManager.getInstance().logOut();
+                                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
+                        }).show();
         break;
 
     }
