@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookAuthorizationException;
@@ -49,19 +50,21 @@ public class MainActivity extends FragmentActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         Log.d("MainActivity", "TOKEN" + loginResult.getAccessToken().getToken());
+                        Toast.makeText(getApplicationContext(),"TOKEN" + loginResult.getAccessToken().getToken(), Toast.LENGTH_LONG).show();
                         TOKEN = loginResult.getAccessToken().getToken();
+                        loginResult.getAccessToken().isExpired();
                         loginResult.getAccessToken();
                         writeToken();
                     }
 
                     @Override
                     public void onCancel() {
-
+                        Log.d("MainActivity", "cancel");
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-
+                        Log.d("MainActivity", "error");
                     }
 
                     private void showAlert() {
