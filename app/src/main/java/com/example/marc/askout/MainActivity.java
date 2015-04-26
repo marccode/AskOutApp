@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,10 +66,6 @@ public class MainActivity extends FragmentActivity {
     private CallbackManager callbackManager;
     private ProfileTracker profileTracker;
     private ShareDialog shareDialog;
-
-    public void testing(View v) {
-        Toast.makeText(getApplicationContext(), Profile.getCurrentProfile().getFirstName(), Toast.LENGTH_LONG).show();
-    }
 
     private Boolean checkLogin() {
         if (Profile.getCurrentProfile() != null) {
@@ -137,6 +132,7 @@ public class MainActivity extends FragmentActivity {
         if (checkLogin()) {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(i);
+            finish();
         }
         /*
         profilePictureView = (ProfilePictureView) findViewById(R.id.profilePicture);

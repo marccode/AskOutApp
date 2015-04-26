@@ -14,18 +14,16 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
-import android.media.tv.TvContract;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.Profile;
@@ -61,7 +59,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
      * Helper component that ties the action bar tthe navigation drawer.
      */
     private ActionBarDrawerToggle mActionBarDrawerToggle;
-    private ProfilePictureView profilePictureView;
 
     private DrawerLayout mDrawerLayout;
     private RecyclerView mDrawerList;
@@ -234,12 +231,12 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mActionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    public void setUserData(String user, String email, Bitmap avatar) {
-        ImageView avatarContainer = (ImageView) mFragmentContainerView.findViewById(R.id.imgAvatar);
+    public void setUserData(String user, String email) {
+        ProfilePictureView profile_picture = (ProfilePictureView) mFragmentContainerView.findViewById(R.id.profilePicture);
         ((TextView) mFragmentContainerView.findViewById(R.id.txtUserEmail)).setText(email);
         ((TextView) mFragmentContainerView.findViewById(R.id.userName)).setText(user);
-        //profilePictureView.setProfileId(Profile.getCurrentProfile().getId());
-        avatarContainer.setImageDrawable(new RoundImage(avatar));
+        //avatarContainer.setImageDrawable(new RoundImage(avatar));
+        profile_picture.setProfileId(Profile.getCurrentProfile().getId());
     }
 
     public View getGoogleDrawer() {
