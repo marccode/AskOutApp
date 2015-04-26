@@ -66,10 +66,6 @@
             android:label="@string/title_activity_hello_facebook_broadcast_receiver" >
         </activity>
         <activity
-            android:name=".SampleFacebookActivity"
-            android:label="@string/title_activity_sample_facebook" >
-        </activity>
-        <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >
         </activity>
