@@ -37,7 +37,12 @@ public class HomeActivity extends ActionBarActivity
         // populate the navigation drawer
         // Profile.getCurrentProfile().getName()
         //mNavigationDrawerFragment.setUserData("My Name", false);
-        mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
+        if (Profile.getCurrentProfile() != null) {
+            mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
+        }
+        else {
+            Toast.makeText(this, "IS NUL ON HOME ACTIVITY", Toast.LENGTH_LONG).show();
+        }
 
     }
 

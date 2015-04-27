@@ -24,8 +24,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,7 +87,13 @@ public class MainActivity extends FragmentActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Toast.makeText(getApplicationContext(), "LOGGED", Toast.LENGTH_LONG).show();
+                        Profile.fetchProfileForCurrentAccessToken();
+                        if (Profile.getCurrentProfile() != null) {
+                            Toast.makeText(getApplicationContext(), Profile.getCurrentProfile().getName(), Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "IS NULL AFTER LOGIN", Toast.LENGTH_LONG).show();
+                        }
                         //handlePendingAction();
                         //updateUI();
                         Intent i = new Intent(getApplicationContext(), HomeActivity.class);

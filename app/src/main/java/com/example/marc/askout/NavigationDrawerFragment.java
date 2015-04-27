@@ -26,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.facebook.Profile;
 import com.facebook.login.widget.ProfilePictureView;
 
 import java.util.ArrayList;
@@ -235,7 +234,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         ProfilePictureView profile_picture = (ProfilePictureView) mFragmentContainerView.findViewById(R.id.profilePicture);
         ((TextView) mFragmentContainerView.findViewById(R.id.userName)).setText(user);
         //avatarContainer.setImageDrawable(new RoundImage(avatar));
-        profile_picture.setProfileId(Profile.getCurrentProfile().getId());
+       // profile_picture.setProfileId(Profile.getCurrentProfile().getId());
     }
 
     public View getGoogleDrawer() {
