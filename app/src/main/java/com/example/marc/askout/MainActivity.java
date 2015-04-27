@@ -87,7 +87,7 @@ public class MainActivity extends FragmentActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Profile.fetchProfileForCurrentAccessToken();
+                        //Profile.fetchProfileForCurrentAccessToken();
                         if (Profile.getCurrentProfile() != null) {
                             Toast.makeText(getApplicationContext(), Profile.getCurrentProfile().getName(), Toast.LENGTH_LONG).show();
                         }
