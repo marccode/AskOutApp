@@ -88,17 +88,35 @@ public class MainActivity extends FragmentActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         //Profile.fetchProfileForCurrentAccessToken();
-                        if (Profile.getCurrentProfile() != null) {
-                            Toast.makeText(getApplicationContext(), Profile.getCurrentProfile().getName(), Toast.LENGTH_LONG).show();
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(), "IS NULL AFTER LOGIN", Toast.LENGTH_LONG).show();
-                        }
+                        //if (Profile.getCurrentProfile() != null) {
+                        //    Toast.makeText(getApplicationContext(), Profile.getCurrentProfile().getName(), Toast.LENGTH_LONG).show();
+                        //}
+                        //else {
+                        //    Toast.makeText(getApplicationContext(), "IS NULL AFTER LOGIN", Toast.LENGTH_LONG).show();
+                        //}
                         //handlePendingAction();
                         //updateUI();
-                        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(i);
-                        finish();
+                        //Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                        //startActivity(i);
+                        //finish();
+
+                        // <NEW>
+                        Toast.makeText(getApplicationContext(), "LOGGED", Toast.LENGTH_LONG).show();
+                        //handlePendingAction();
+                        //updateUI();
+                        profileTracker = new ProfileTracker() {
+                            @Override
+                            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                                //updateUI();
+                                // It's possible that we were waiting for Profile to be populated in order to
+                                // post a status update.
+                                //handlePendingAction();
+                                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                                startActivity(i);
+                            }
+                        };
+                        profileTracker.startTracking();
+                        // </NEW>
                     }
 
                     @Override

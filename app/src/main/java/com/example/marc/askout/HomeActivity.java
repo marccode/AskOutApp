@@ -51,6 +51,8 @@ public class HomeActivity extends ActionBarActivity
         // update the main content by replacing fragments
         switch (position) {
             case 0:
+                // EVENTS LIST:
+                new RequestTask().execute("http://jediantic.upc.es/api/events");
                 break;
             case 1:
                 break;
