@@ -1,6 +1,7 @@
 package com.example.marc.askout;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -47,6 +48,9 @@ class RequestTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
+        //Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+        Log.d("RESULT", result);
+
         //Do anything with response..
     }
 }
