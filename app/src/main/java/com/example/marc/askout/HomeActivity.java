@@ -15,12 +15,14 @@ import com.facebook.login.LoginManager;
 
 
 public class HomeActivity extends ActionBarActivity
+//public class HomeActivity extends FragmentActivity
         implements NavigationDrawerCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private EventsListFragment mEventsListFragment;
     private Toolbar mToolbar;
 
     @Override
@@ -35,14 +37,15 @@ public class HomeActivity extends ActionBarActivity
         // Set up the drawer.
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
-        // Profile.getCurrentProfile().getName()
-        //mNavigationDrawerFragment.setUserData("My Name", false);
         if (Profile.getCurrentProfile() != null) {
             mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
         }
         else {
             Toast.makeText(this, "IS NUL ON HOME ACTIVITY", Toast.LENGTH_LONG).show();
         }
+
+        mEventsListFragment = (EventsListFragment) getFragmentManager().findFragmentById(R.id.fragment_events_list);
+        //mEventsListFragment.setup();
 
     }
 
