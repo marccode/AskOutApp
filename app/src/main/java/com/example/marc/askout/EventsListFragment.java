@@ -82,8 +82,6 @@ public class EventsListFragment extends ListFragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            //Toast.makeText(EventsListFragment, result, Toast.LENGTH_SHORT).show();
-            Log.d("RESULT", result);
             try {
                 aux(result);
             } catch (JSONException e) {
@@ -96,15 +94,10 @@ public class EventsListFragment extends ListFragment {
 
     private String aux(String s) throws JSONException {
 
-        Toast.makeText(this.getActivity(), s, Toast.LENGTH_SHORT).show();
         //String[] titles = new String[] {"title1", "title2", "title3"};
         List<String> titles = new ArrayList<String>();
-
         //Handle
-        Toast.makeText(this.getActivity(), "zxzxxz", Toast.LENGTH_SHORT).show();
         JSONArray jArray = new JSONArray(s);
-        Toast.makeText(this.getActivity(), "cvb", Toast.LENGTH_SHORT).show();
-        Toast.makeText(this.getActivity(), "uiui", Toast.LENGTH_SHORT).show();
         for (int i=0; i < jArray.length(); i++) {
             JSONObject obj = jArray.getJSONObject(i);
             Toast.makeText(this.getActivity(), obj.getString("titol"), Toast.LENGTH_SHORT).show();
@@ -113,7 +106,6 @@ public class EventsListFragment extends ListFragment {
 
         Toast.makeText(this.getActivity(), titles.get(0), Toast.LENGTH_SHORT).show();
         //String[] titles2 = new String[] {"title1", "title2", "title3"};
-
         //MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getConte, titles, dates_init);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, titles);

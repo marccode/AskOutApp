@@ -20,18 +20,33 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10pt"
+            android:layout_marginTop="-10pt"
             android:id="@+id/imageView"
-            android:src="@drawable/logo"
-            android:layout_gravity="center_horizontal" />
+            android:src="@drawable/logo" />
 
         <com.facebook.login.widget.LoginButton
+            android:layout_marginTop="-10pt"
             android:layout_width="140pt"
             android:layout_height="30pt"
             android:layout_gravity="center_horizontal"
             facebook:confirm_logout="false"
             facebook:tooltip_mode="never_display"
+            facebook:login_text="@string/loginFacebook"
             android:id="@+id/view" />
+
+        <Button
+            android:layout_marginTop="10pt"
+            android:layout_width="140pt"
+            android:layout_height="12pt"
+            android:textColor="#f5f5f5"
+            android:textSize="6pt"
+            android:text="Més tard"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="#f26b25"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/mestard" />
+
+
     </LinearLayout>
 
 

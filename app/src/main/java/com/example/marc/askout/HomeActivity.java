@@ -37,6 +37,7 @@ public class HomeActivity extends ActionBarActivity
         // Set up the drawer.
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
+
         if (Profile.getCurrentProfile() != null) {
             mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
         }
@@ -80,7 +81,6 @@ public class HomeActivity extends ActionBarActivity
                                 LoginManager.getInstance().logOut();
                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(i);
-                                finish();
                             }
                         }).show();
         break;
