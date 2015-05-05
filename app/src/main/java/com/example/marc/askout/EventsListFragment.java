@@ -87,7 +87,7 @@ public class EventsListFragment extends ListFragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //Do anything with response..
+            //Do anything with response...
         }
     }
 
