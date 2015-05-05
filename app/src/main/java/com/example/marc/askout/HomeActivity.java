@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.facebook.AccessToken;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 
@@ -69,7 +70,7 @@ public class HomeActivity extends ActionBarActivity
             case 5:
                 new MaterialDialog.Builder(this)
                         .title("Warning")
-                        .content("Do you want to log out from your Facebook account?")
+                        .content("Do you want to go the first screen and log in again?")
                         .positiveText("LOG OUT")
                         .negativeText("CANCEL")
                         .positiveColorRes(R.color.material_blue_grey_900)

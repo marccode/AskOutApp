@@ -41,6 +41,7 @@
             android:textColor="#f5f5f5"
             android:textSize="6pt"
             android:text="Més tard"
+            android:textStyle="bold"
             style="?android:attr/borderlessButtonStyle"
             android:background="#f26b25"
             android:layout_gravity="center_horizontal"
