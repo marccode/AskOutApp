@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.facebook.AccessToken;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 
@@ -24,6 +23,7 @@ public class HomeActivity extends ActionBarActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private EventsListFragment mEventsListFragment;
+    private MyEventsListFragment mMyEventsListFragment;
     private Toolbar mToolbar;
 
     @Override
@@ -38,6 +38,11 @@ public class HomeActivity extends ActionBarActivity
         // Set up the drawer.
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
+
+        //FragmentManager fm = getFragmentManager();
+        //FragmentTransaction ft = fm.beginTransaction();
+        //ft.add(R.id.container, new EventsListFragment());
+        //ft.commit();
 
         if (Profile.getCurrentProfile() != null) {
             mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
@@ -60,6 +65,30 @@ public class HomeActivity extends ActionBarActivity
                 //new RequestTask().execute("http://jediantic.upc.es/api/events");
                 break;
             case 1:
+
+                // ------
+                // get fragment manager
+                //FragmentManager fm = getFragmentManager();
+
+                // REMOVE
+                //Fragment events_list_fragment = fm.findFragmentById(R.id.fragment_events_list);
+                //FragmentTransaction ft = fm.beginTransaction();
+                //ft.remove(events_list_fragment);
+                //ft.commit();
+
+                // ADD
+                //ft = fm.beginTransaction();
+                //ft.add(R.id.container, new MyEventsListFragment());
+                //ft.commit();
+
+                // REPLACE
+                //FragmentTransaction ft = fm.beginTransaction();
+                //ft.replace(R.id.container, new YourFragment());
+                //ft.commit();
+
+
+                // ------
+
                 break;
             case 2:
                 break;

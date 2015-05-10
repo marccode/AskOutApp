@@ -17,9 +17,6 @@
         android:layout_width="match_parent" android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_actionbar">
 
-        <FrameLayout android:id="@+id/container" android:layout_width="match_parent"
-            android:clickable="true" android:layout_height="match_parent" />
-
         <!-- android:layout_marginTop="?android:attr/actionBarSize"-->
         <fragment android:id="@+id/fragment_drawer"
             android:name="com.example.marc.askout.NavigationDrawerFragment"
@@ -29,6 +26,7 @@
 
     </android.support.v4.widget.DrawerLayout>
 
-
+    <FrameLayout android:id="@+id/container" android:layout_width="match_parent"
+        android:clickable="true" android:layout_height="match_parent" />
 
 </RelativeLayout>

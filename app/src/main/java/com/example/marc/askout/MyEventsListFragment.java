@@ -26,9 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by marc on 5/4/15.
+ * Created by marc on 5/8/15.
  */
-public class EventsListFragment extends ListFragment {
+public class MyEventsListFragment extends ListFragment {
     private List<ListViewItem> mItems;
 
     @Override
@@ -38,7 +38,7 @@ public class EventsListFragment extends ListFragment {
         // initialize the items list
         mItems = new ArrayList<ListViewItem>();
         //Resources resources = getResources();
-        new RequestTask().execute("http://jediantic.upc.es/api/events");
+        new RequestTask().execute("http://jediantic.upc.es/api/myevents=" + "USER_ID");
 
 
         //mItems.add(new ListViewItem(resources.getDrawable(R.drawable.aim), getString(R.string.aim), getString(R.string.aim_description)));
