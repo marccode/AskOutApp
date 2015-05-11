@@ -31,6 +31,9 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
 
@@ -51,10 +54,6 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         else {
             Toast.makeText(this, "IS NUL ON HOME ACTIVITY", Toast.LENGTH_LONG).show();
         }
-
-        //mEventsListFragment = (EventsListFragment) getFragmentManager().findFragmentById(R.id.fragment_events_list);
-        //mEventsListFragment.setup();
-
     }
 
     @Override
