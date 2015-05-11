@@ -154,6 +154,7 @@ public class EventsListFragment extends ListFragment {
             */
             Resources resources = getResources();
             mItems.add(new ListViewItem(resources.getDrawable(R.drawable.ic_pinzell), obj.getString("nom"), obj.getString("nomLloc")));
+
         }
 
         setListAdapter(new ListViewDemoAdapter(getActivity(), mItems));

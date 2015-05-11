@@ -120,12 +120,21 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     public List<NavigationItem> getMenu() {
         List<NavigationItem> items = new ArrayList<NavigationItem>();
-        items.add(new NavigationItem("Home", getResources().getDrawable(R.drawable.home)));
-        items.add(new NavigationItem("My Events", getResources().getDrawable(R.drawable.agenda)));
-        items.add(new NavigationItem("Interests", getResources().getDrawable(R.drawable.heart)));
-        items.add(new NavigationItem("Profile", getResources().getDrawable(R.drawable.account)));
-        items.add(new NavigationItem("Settings", getResources().getDrawable(R.drawable.settings)));
-        items.add(new NavigationItem("Logout", getResources().getDrawable(R.drawable.logout)));
+        if (Profile.getCurrentProfile() == null) {
+            items.add(new NavigationItem("Home", getResources().getDrawable(R.drawable.home)));
+            items.add(new NavigationItem("Interests", getResources().getDrawable(R.drawable.heart)));
+            items.add(new NavigationItem("Settings", getResources().getDrawable(R.drawable.settings)));
+            items.add(new NavigationItem("Logout", getResources().getDrawable(R.drawable.logout)));
+        }
+        else {
+            items.add(new NavigationItem("Home", getResources().getDrawable(R.drawable.home)));
+            items.add(new NavigationItem("My Events", getResources().getDrawable(R.drawable.agenda)));
+            items.add(new NavigationItem("Interests", getResources().getDrawable(R.drawable.heart)));
+            items.add(new NavigationItem("Profile", getResources().getDrawable(R.drawable.account)));
+            items.add(new NavigationItem("Settings", getResources().getDrawable(R.drawable.settings)));
+            items.add(new NavigationItem("Logout", getResources().getDrawable(R.drawable.logout)));
+        }
+
 
         return items;
     }

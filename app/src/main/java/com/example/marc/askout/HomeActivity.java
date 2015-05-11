@@ -1,7 +1,6 @@
 package com.example.marc.askout;
 
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -24,8 +23,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Toolbar mToolbar;
-    private FragmentManager fm;
-    private FragmentTransaction ft;
+    private EventsListFragment mEventsListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +41,9 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
 
-        fm = getFragmentManager();
-        ft = fm.beginTransaction();
-        ft.add(R.id.container, new EventsListFragment());
-        ft.commit();
 
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.container, new EventsListFragment()).commit();
 
         if (Profile.getCurrentProfile() != null) {
             mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
@@ -64,9 +60,18 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         switch (position) {
             case 0:
                 // EVENTS LIST:
-                //new RequestTask().execute("http://jediantic.upc.es/api/events");
+                //ft = fm.beginTransaction();
+                //ft.add(R.id.container, new EventsListFragment());
+                //ft.commit();
                 break;
+
             case 1:
+                //ft = fm.beginTransaction();
+
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.container, new EventsListFragment()).commit();
+
+                //ft.replace(R.id.container, new EventsListFragment()).commit();
                 break;
             case 2:
                 break;
