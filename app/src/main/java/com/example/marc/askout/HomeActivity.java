@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -41,9 +43,9 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
 
-
+        mEventsListFragment = new EventsListFragment();
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.container, new EventsListFragment()).commit();
+        fragmentManager.beginTransaction().add(R.id.container, mEventsListFragment).commit();
 
         if (Profile.getCurrentProfile() != null) {
             mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
@@ -51,6 +53,8 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         else {
             //Toast.makeText(this, "IS NUL ON HOME ACTIVITY", Toast.LENGTH_LONG).show();
         }
+
+
     }
 
     @Override
@@ -60,17 +64,11 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         switch (position) {
             case 0:
                 // EVENTS LIST:
-                //ft = fm.beginTransaction();
-                //ft.add(R.id.container, new EventsListFragment());
-                //ft.commit();
-                break;
-
-            case 1:
-                //ft = fm.beginTransaction();
-
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.container, new EventsListFragment()).commit();
-
+                break;
+            case 1:
+                //ft = fm.beginTransaction();
                 //ft.replace(R.id.container, new EventsListFragment()).commit();
                 break;
             case 2:
@@ -107,8 +105,8 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         if (mNavigationDrawerFragment.isDrawerOpen())
             mNavigationDrawerFragment.closeDrawer();
         else {
-            super.onBackPressed();
-            mNavigationDrawerFragment.openDrawer();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.container, new EventsListFragment()).commit();
         }
     }
 

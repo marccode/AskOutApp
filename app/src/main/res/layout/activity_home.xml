@@ -11,8 +11,10 @@
         android:layout_below="@+id/toolbar_actionbar">
 
         <FrameLayout android:id="@+id/container" android:layout_width="match_parent"
+            android:clickable="true"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar_actionbar"/>
+
 
         <fragment android:id="@+id/fragment_drawer"
             android:name="com.example.marc.askout.NavigationDrawerFragment"
