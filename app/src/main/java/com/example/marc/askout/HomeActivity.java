@@ -1,5 +1,7 @@
 package com.example.marc.askout;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -14,9 +16,8 @@ import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 
 
-public class HomeActivity extends ActionBarActivity
+public class HomeActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
 //public class HomeActivity extends FragmentActivity
-        implements NavigationDrawerCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -39,10 +40,10 @@ public class HomeActivity extends ActionBarActivity
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
 
-        //FragmentManager fm = getFragmentManager();
-        //FragmentTransaction ft = fm.beginTransaction();
-        //ft.add(R.id.container, new EventsListFragment());
-        //ft.commit();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.container, new EventsListFragment());
+        ft.commit();
 
         if (Profile.getCurrentProfile() != null) {
             mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
@@ -51,7 +52,7 @@ public class HomeActivity extends ActionBarActivity
             Toast.makeText(this, "IS NUL ON HOME ACTIVITY", Toast.LENGTH_LONG).show();
         }
 
-        mEventsListFragment = (EventsListFragment) getFragmentManager().findFragmentById(R.id.fragment_events_list);
+        //mEventsListFragment = (EventsListFragment) getFragmentManager().findFragmentById(R.id.fragment_events_list);
         //mEventsListFragment.setup();
 
     }
@@ -121,15 +122,17 @@ public class HomeActivity extends ActionBarActivity
 
     @Override
     public void onBackPressed() {
-        if (mNavigationDrawerFragment.isDrawerOpen())
+        /*if (mNavigationDrawerFragment.isDrawerOpen())
             mNavigationDrawerFragment.closeDrawer();
         else
             super.onBackPressed();
+        */
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        /*
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
@@ -137,6 +140,7 @@ public class HomeActivity extends ActionBarActivity
             getMenuInflater().inflate(R.menu.home, menu);
             return true;
         }
+        */
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -148,12 +148,14 @@ public class MainActivity extends FragmentActivity {
         profileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                Toast.makeText(getApplicationContext(), currentProfile.getName(), Toast.LENGTH_LONG).show();
                 //updateUI();
                 // It's possible that we were waiting for Profile to be populated in order to
                 // post a status update.
                 //handlePendingAction();
             }
         };
+        profileTracker.startTracking();
 
         if (checkLogin()) {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);

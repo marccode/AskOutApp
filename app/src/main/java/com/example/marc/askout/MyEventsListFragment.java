@@ -151,7 +151,7 @@ public class MyEventsListFragment extends ListFragment {
             }
             */
             Resources resources = getResources();
-            mItems.add(new ListViewItem(resources.getDrawable(R.drawable.ic_pinzell), obj.getString("titol"), obj.getString("descripcio")));
+            //mItems.add(new ListViewItem(resources.getDrawable(R.drawable.ic_pinzell), obj.getString("titol"), obj.getString("descripcio")));
 
         }
 

@@ -131,12 +131,14 @@ public class EventsListFragment extends ListFragment {
     }
 
     private String aux(String s) throws JSONException {
+        Toast.makeText(getActivity(), "aux", Toast.LENGTH_LONG).show();
 
         //String[] titles = new String[] {"title1", "title2", "title3"};
         List<String> titles = new ArrayList<String>();
         //Handle
         JSONArray jArray = new JSONArray(s);
-        for (int i=0; i < jArray.length(); i++) {
+        //for (int i=0; i < jArray.length(); i++) {
+        for (int i=0; i < 10; i++) {
             JSONObject obj = jArray.getJSONObject(i);
             //Toast.makeText(this.getActivity(), obj.getString("titol"), Toast.LENGTH_SHORT).show();
             //titles.add(obj.getString("titol"));
