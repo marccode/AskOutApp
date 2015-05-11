@@ -41,7 +41,6 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                 getFragmentManager().findFragmentById(R.id.fragment_drawer);
         // Set up the drawer.
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
-        mNavigationDrawerFragment.openDrawer();
         // populate the navigation drawer
 
         fm = getFragmentManager();
@@ -54,13 +53,14 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
             mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
         }
         else {
-            Toast.makeText(this, "IS NUL ON HOME ACTIVITY", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "IS NUL ON HOME ACTIVITY", Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
+        Toast.makeText(this, "asdasd" + Integer.toString(position) , Toast.LENGTH_LONG).show();
         switch (position) {
             case 0:
                 // EVENTS LIST:
