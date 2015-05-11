@@ -23,9 +23,9 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private EventsListFragment mEventsListFragment;
-    private MyEventsListFragment mMyEventsListFragment;
     private Toolbar mToolbar;
+    private FragmentManager fm;
+    private FragmentTransaction ft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +41,14 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                 getFragmentManager().findFragmentById(R.id.fragment_drawer);
         // Set up the drawer.
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
+        mNavigationDrawerFragment.openDrawer();
         // populate the navigation drawer
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
+        fm = getFragmentManager();
+        ft = fm.beginTransaction();
         ft.add(R.id.container, new EventsListFragment());
         ft.commit();
+
 
         if (Profile.getCurrentProfile() != null) {
             mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
@@ -65,30 +67,6 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                 //new RequestTask().execute("http://jediantic.upc.es/api/events");
                 break;
             case 1:
-
-                // ------
-                // get fragment manager
-                //FragmentManager fm = getFragmentManager();
-
-                // REMOVE
-                //Fragment events_list_fragment = fm.findFragmentById(R.id.fragment_events_list);
-                //FragmentTransaction ft = fm.beginTransaction();
-                //ft.remove(events_list_fragment);
-                //ft.commit();
-
-                // ADD
-                //ft = fm.beginTransaction();
-                //ft.add(R.id.container, new MyEventsListFragment());
-                //ft.commit();
-
-                // REPLACE
-                //FragmentTransaction ft = fm.beginTransaction();
-                //ft.replace(R.id.container, new YourFragment());
-                //ft.commit();
-
-
-                // ------
-
                 break;
             case 2:
                 break;
@@ -121,17 +99,17 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
 
     @Override
     public void onBackPressed() {
-        /*if (mNavigationDrawerFragment.isDrawerOpen())
+        if (mNavigationDrawerFragment.isDrawerOpen())
             mNavigationDrawerFragment.closeDrawer();
-        else
+        else {
             super.onBackPressed();
-        */
+            mNavigationDrawerFragment.openDrawer();
+        }
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /*
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
@@ -139,7 +117,6 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
             getMenuInflater().inflate(R.menu.home, menu);
             return true;
         }
-        */
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -150,14 +127,10 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
 }
