@@ -1,30 +1,119 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.marc.askout.DetailsEventFragment">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|bottom">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="adadadadsadas"
-            android:id="@+id/titolEsd" />
+            android:id="@+id/nomEsd" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="123123123"
-            android:id="@+id/descripcioEsd"
-            android:layout_marginTop="40pt"/>
+            android:layout_below="@+id/nomEsd"
+            android:id="@+id/nomLlocEsd"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="carrer esdeveniment"
+            android:id="@+id/carrerEsd"
+            android:layout_below="@+id/nomLlocEsd"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="districte esdeveniment"
+            android:id="@+id/districteEsd"
+            android:layout_below="@+id/carrerEsd"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="data esdeveniment"
+            android:id="@+id/dataEsd"
+            android:layout_below="@+id/districteEsd"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="coords esdeveniment"
+            android:id="@+id/coordsEsd"
+            android:layout_below="@+id/dataEsd"
+            />
 
 
-    </LinearLayout>
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/floatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            fab:fab_addButtonColorNormal="@color/myPrimaryColor"
+            fab:fab_addButtonColorPressed="@color/white_pressed"
+            fab:fab_addButtonPlusIconColor="@color/white"
+            fab:fab_labelStyle="@style/menu_labels_style"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingButtonSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_addButtonSize="mini"
+                fab:fab_icon="@drawable/calendar"
+                fab:fab_size="mini"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_title="Guardar"
+                fab:fab_colorPressed="@color/white_pressed"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingButtonShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_addButtonSize="mini"
+                fab:fab_icon="@drawable/facebook"
+                fab:fab_size="mini"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_title="Compartir"
+                fab:fab_colorPressed="@color/white_pressed"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingButtonMaps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_addButtonSize="mini"
+                fab:fab_icon="@drawable/google_maps"
+                fab:fab_size="mini"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_title="Mapa"
+                fab:fab_colorPressed="@color/white_pressed"/>
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    </RelativeLayout>
 
 
 </FrameLayout>

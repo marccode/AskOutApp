@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.marc.askout"
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -26,5 +26,6 @@ dependencies {
     compile 'com.android.support:support-v4:22.1.1'
     compile 'com.android.support:recyclerview-v7:22.1.1'
     compile 'com.afollestad:material-dialogs:0.7.2.8'
+    compile 'com.getbase:floatingactionbutton:1.9.0'
     compile 'com.google.android.gms:play-services:6.5.87'
 }

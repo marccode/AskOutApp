@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 
 public class HomeActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
@@ -53,14 +54,12 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         else {
             //Toast.makeText(this, "IS NUL ON HOME ACTIVITY", Toast.LENGTH_LONG).show();
         }
-
-
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        Toast.makeText(this, "asdasd" + Integer.toString(position) , Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "menu option " + Integer.toString(position) , Toast.LENGTH_LONG).show();
         switch (position) {
             case 0:
                 // EVENTS LIST:

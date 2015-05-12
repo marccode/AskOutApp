@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -35,8 +37,19 @@ public class DetailsEventFragment extends Fragment {
     private String latitude;
     private String longitude;
 
-    private TextView titolEsd;
-    private TextView descripcioEsd;
+    private TextView nomText;
+    private TextView nomLlocText;
+
+    private TextView dataText;
+    private TextView carrerText;
+    private TextView districteText;
+    private TextView coordsText;
+
+    FloatingActionButton botoDesplegable;
+    FloatingActionButton botoGuardar;
+    FloatingActionButton botoCompartir;
+    FloatingActionButton botoMapa;
+
 
     public DetailsEventFragment() {
         // Required empty public constructor
@@ -45,6 +58,8 @@ public class DetailsEventFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
     }
 
@@ -65,9 +80,46 @@ public class DetailsEventFragment extends Fragment {
             municipi = getArguments().getString("municipi");
             latitude = getArguments().getString("latitude");
             longitude  = getArguments().getString("longitude");
+
             //assignem les dades al contingut XML
-            titolEsd = (TextView) rootView.findViewById(R.id.titolEsd);
-            titolEsd.setText(nom);
+            nomText = (TextView) rootView.findViewById(R.id.nomEsd);
+            nomText.setText("nom: " + nom);
+            nomLlocText = (TextView) rootView.findViewById(R.id.nomLlocEsd);
+            nomLlocText.setText("nomLloc: " + nomLloc);
+            carrerText = (TextView) rootView.findViewById(R.id.carrerEsd);
+            carrerText.setText("carrer i numero: " + carrer + " " + numero);
+            districteText = (TextView) rootView.findViewById(R.id.districteEsd);
+            districteText.setText("districte i municipi: " + districte + " " + municipi);
+            dataText = (TextView) rootView.findViewById(R.id.dataEsd);
+            dataText.setText("dataI i dataF: " + data_inici + " " + data_final);
+            coordsText = (TextView) rootView.findViewById(R.id.coordsEsd);
+            coordsText.setText("latitude i longitude: " + latitude + " " + longitude);
+
+            //CODI PER ELS FLOATING BUTTON
+            botoCompartir = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonShare);
+            botoGuardar = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonSave);
+            botoMapa = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonMaps);
+
+            botoGuardar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //GUARDAR ELEMENT - MATERIAL DIALOG COM LOG OUT a homeactivity
+                }
+            });
+
+            botoMapa.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //OBRIR MAPS - MATERIAL DIALOG COM LOG OUT a homeactivity
+                }
+            });
+
+            botoMapa.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //OBRIR MAPS - MATERIAL DIALOG COM LOG OUT a homeactivity
+                }
+            });
         }
         rootView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {

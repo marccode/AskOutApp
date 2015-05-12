@@ -68,8 +68,8 @@ public class EventsListFragment extends ListFragment {
             args.putString("data_final", obj.getString("data_final"));
             args.putString("nom", obj.getString("nom"));
             args.putString("nomLloc", obj.getString("nomLloc"));
-            args.putString("data_inici", obj.getString("carrer"));
-            args.putString("carrer", obj.getString("numero"));
+            args.putString("carrer", obj.getString("carrer"));
+            args.putString("numero", obj.getString("numero"));
             args.putString("districte", obj.getString("districte"));
             args.putString("municipi", obj.getString("municipi"));
             args.putString("latitude", obj.getString("latitude"));
@@ -78,12 +78,9 @@ public class EventsListFragment extends ListFragment {
             //args.putStringArray("categories_generals", categories_generals);
             detailsEventFragment.setArguments(args);
             FragmentManager fm = getFragmentManager();
-            //fm.beginTransaction().hide(this).commit();
-            //detailsEventFragment.onCreate(args);
-            //detailsEventFragment.onCreateView(LayoutInflater inflater,);
 
+            fm.beginTransaction().hide(this).commit();
             fm.beginTransaction().replace(R.id.container, detailsEventFragment).commit();
-            fm.beginTransaction().remove(this).commit();
         } catch (JSONException e) {
             e.printStackTrace();
         }
