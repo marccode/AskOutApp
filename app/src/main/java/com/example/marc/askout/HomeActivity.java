@@ -1,21 +1,22 @@
 package com.example.marc.askout;
 
 import android.app.FragmentManager;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
-import com.getbase.floatingactionbutton.FloatingActionButton;
+
+import java.util.Locale;
 
 
 public class HomeActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
@@ -44,9 +45,9 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
 
-        mEventsListFragment = new EventsListFragment();
+
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.container, mEventsListFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.container, new EventsListFragment()).commit();
 
         if (Profile.getCurrentProfile() != null) {
             mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
@@ -60,44 +61,140 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         Toast.makeText(this, "menu option " + Integer.toString(position) , Toast.LENGTH_LONG).show();
+        FragmentManager fragmentManager;
         switch (position) {
             case 0:
-                // EVENTS LIST:
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.container, new EventsListFragment()).commit();
+                // EVENTS LIST
+                fragmentManager = getFragmentManager();
+                //fragmentManager.beginTransaction().replace(R.id.container, new EventsListFragment()).commit();
                 break;
+
             case 1:
-                //ft = fm.beginTransaction();
-                //ft.replace(R.id.container, new EventsListFragment()).commit();
+                if (Profile.getCurrentProfile() != null) {
+                    // MY EVENTS
+                    fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.container, new MyEventsListFragment()).commit();
+                }
+                else {
+                    // INTERESTS
+                    fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.container, new InterestsFragment()).commit();
+
+                    /*
+                    if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("notification_preference", true)) {
+                        Toast.makeText(this, "IF", Toast.LENGTH_LONG).show();
+
+                        Intent myIntent = new Intent(this , SettingsFragment.class);
+                        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                        PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.HOUR_OF_DAY, 13);
+                        calendar.set(Calendar.MINUTE, 40);
+                        calendar.set(Calendar.SECOND, 00);
+
+                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , pendingIntent);  //set repeating every 24 hours
+
+
+
+                        /*
+                        Intent intent = new Intent(this, SettingsFragment.class);
+                        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+                        // build notification
+                        // the addAction re-use the same intent to keep the example short
+                        Notification n  = new Notification.Builder(this)
+                                .setContentTitle("New mail from " + "test@gmail.com")
+                                .setContentText("Subject")
+                                .setSmallIcon(R.drawable.icon)
+                                .setContentIntent(pIntent)
+                                .setAutoCancel(true)
+                                .addAction(R.drawable.icon, "Call", pIntent)
+                                .addAction(R.drawable.icon, "More", pIntent)
+                                .addAction(R.drawable.icon, "And more", pIntent).build();
+
+
+                        NotificationManager notificationManager =
+                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                        notificationManager.notify(0, n);
+                        */
+                    /*
+                    }
+                    else {
+                        Toast.makeText(this, "ELSE", Toast.LENGTH_LONG).show();
+                    }
+                    */
+
+                }
                 break;
             case 2:
+                if (Profile.getCurrentProfile() != null) {
+                    // INTERESTS-
+                    String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?&daddr=%f,%f (%s)", 12f, 2f, "Where the party is at");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                    try
+                    {
+                        startActivity(intent);
+                    }
+                    catch(ActivityNotFoundException ex)
+                    {
+                        try
+                        {
+                            Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                            startActivity(unrestrictedIntent);
+                        }
+                        catch(ActivityNotFoundException innerEx)
+                        {
+                            Toast.makeText(this, "Please install a maps application", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+                else {
+                    // SETTINGS
+                    fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
+                }
                 break;
             case 3:
+                if (Profile.getCurrentProfile() != null) {
+                    // SETTINGS
+                    fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
+                    //fragmentManager = getFragmentManager();
+                    //fragmentManager.beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
+                }
+                else {
+                    // LOG OUT
+                    logOut();
+                }
                 break;
-            case 4:
-                break;
-            case 5:
-                new MaterialDialog.Builder(this)
-                        .title("Warning")
-                        .content("Do you want to go the first screen and log in again?")
-                        .positiveText("LOG OUT")
-                        .negativeText("CANCEL")
-                        .positiveColorRes(R.color.material_blue_grey_900)
-                        .neutralColorRes(R.color.material_blue_grey_900)
-                        .callback(new MaterialDialog.ButtonCallback() {
-                            @Override
-                            public void onPositive(MaterialDialog dialog) {
-                                //LOG OUT FROM FACEBOOK
-                                LoginManager.getInstance().logOut();
-                                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(i);
-                            }
-                        }).show();
-        break;
 
+            case 4:
+                // LOG OUT
+                logOut();
+                break;
     }
 }
-
+    private void logOut() {
+        new MaterialDialog.Builder(this)
+                .title("Warning")
+                .content("Do you want to go the first screen and log in again?")
+                .positiveText("LOG OUT")
+                .negativeText("CANCEL")
+                .positiveColorRes(R.color.material_blue_grey_900)
+                .neutralColorRes(R.color.material_blue_grey_900)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        //LOG OUT FROM FACEBOOK
+                        LoginManager.getInstance().logOut();
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(i);
+                    }
+                }).show();
+    }
 
     @Override
     public void onBackPressed() {

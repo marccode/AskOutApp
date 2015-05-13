@@ -4,7 +4,6 @@ import android.app.ListFragment;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -26,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by marc on 5/8/15.
+ * Created by marc on 5/4/15.
  */
 public class MyEventsListFragment extends ListFragment {
     private List<ListViewItem> mItems;
@@ -38,7 +37,7 @@ public class MyEventsListFragment extends ListFragment {
         // initialize the items list
         mItems = new ArrayList<ListViewItem>();
         //Resources resources = getResources();
-        new RequestTask().execute("http://jediantic.upc.es/api/myevents=" + "USER_ID");
+        new RequestTask().execute("http://jediantic.upc.es/api/events");
 
 
         //mItems.add(new ListViewItem(resources.getDrawable(R.drawable.aim), getString(R.string.aim), getString(R.string.aim_description)));
@@ -92,8 +91,6 @@ public class MyEventsListFragment extends ListFragment {
 
         @Override
         protected String doInBackground(String... uri) {
-            Log.d("RESULT", "asasd");
-            //Toast.makeText(getActivity(), "asdasd", Toast.LENGTH_SHORT).show();
             HttpClient httpclient = new DefaultHttpClient();
             HttpResponse response;
             String responseString = null;
@@ -131,12 +128,14 @@ public class MyEventsListFragment extends ListFragment {
     }
 
     private String aux(String s) throws JSONException {
+        Toast.makeText(getActivity(), "aux", Toast.LENGTH_LONG).show();
 
         //String[] titles = new String[] {"title1", "title2", "title3"};
         List<String> titles = new ArrayList<String>();
         //Handle
         JSONArray jArray = new JSONArray(s);
-        for (int i=0; i < jArray.length(); i++) {
+        //for (int i=0; i < jArray.length(); i++) {
+        for (int i=0; i < 5; i++) {
             JSONObject obj = jArray.getJSONObject(i);
             //Toast.makeText(this.getActivity(), obj.getString("titol"), Toast.LENGTH_SHORT).show();
             //titles.add(obj.getString("titol"));
@@ -151,7 +150,7 @@ public class MyEventsListFragment extends ListFragment {
             }
             */
             Resources resources = getResources();
-            //mItems.add(new ListViewItem(resources.getDrawable(R.drawable.ic_pinzell), obj.getString("titol"), obj.getString("descripcio")));
+            mItems.add(new ListViewItem(resources.getDrawable(R.drawable.ic_pinzell), obj.getString("nom"), obj.getString("nomLloc")));
 
         }
 
