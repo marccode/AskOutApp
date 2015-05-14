@@ -7,10 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -118,14 +115,4 @@ public class InterestsFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    public class Holder
-    {
-        TextView tv;
-        ImageView img;
-    }
-    public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-    {
-        ImageView imageView = ((Holder) v.getTag()).img;
-        imageView.setImageResource(InterestGridAdapter.imageSelId[position]);
-    }
 }

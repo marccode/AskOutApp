@@ -112,7 +112,9 @@ public class MainActivity extends FragmentActivity {
                                 // It's possible that we were waiting for Profile to be populated in order to
                                 // post a status update.
                                 //handlePendingAction();
-                                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+
+                                //Toast.makeText(getApplicationContext(), "blahblahbah", Toast.LENGTH_LONG).show();
+                                Intent i = new Intent(getApplicationContext(), TestActivity.class);
                                 startActivity(i);
                             }
                         };
@@ -145,6 +147,7 @@ public class MainActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_main);
 
+        /*
         profileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
@@ -155,12 +158,13 @@ public class MainActivity extends FragmentActivity {
                 //handlePendingAction();
             }
         };
-        profileTracker.startTracking();
+        */
+        //profileTracker.startTracking();
 
         if (checkLogin()) {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(i);
-            finish();
+            //finish();
         }
         /*
         profilePictureView = (ProfilePictureView) findViewById(R.id.profilePicture);

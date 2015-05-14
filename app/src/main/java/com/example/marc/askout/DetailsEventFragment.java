@@ -1,9 +1,10 @@
 package com.example.marc.askout;
 
-import android.app.Activity;
+import android.app.Fragment;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -12,12 +13,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
+import com.facebook.share.ShareApi;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
+import java.util.Locale;
 
 
 public class DetailsEventFragment extends Fragment {
@@ -111,13 +120,35 @@ public class DetailsEventFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //OBRIR MAPS - MATERIAL DIALOG COM LOG OUT a homeactivity
+                    String uri = String.format(Locale.ENGLISH, "http://www.google.es/maps/place/" + carrer + ",+" + numero + ",+" + "+" + municipi);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                    try
+                    {
+                        startActivity(intent);
+                    }
+                    catch(ActivityNotFoundException ex)
+                    {
+                        try
+                        {
+                            Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                            startActivity(unrestrictedIntent);
+                        }
+                        catch(ActivityNotFoundException innerEx)
+                        {
+                            Toast.makeText(getActivity(), "Please install a maps application", Toast.LENGTH_LONG).show();
+                        }
+                    }
                 }
             });
 
-            botoMapa.setOnClickListener(new View.OnClickListener() {
+            botoCompartir.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //OBRIR MAPS - MATERIAL DIALOG COM LOG OUT a homeactivity
+                    //COMPARTIR
+                    performPublish();
+
+
                 }
             });
         }
@@ -158,6 +189,87 @@ public class DetailsEventFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    // SHARE WITH FACEBOOK
+
+    private FacebookCallback<Sharer.Result> shareCallback = new FacebookCallback<Sharer.Result>() {
+        @Override
+        public void onCancel() {
+            Log.d("HelloFacebook", "Canceled");
+        }
+
+        @Override
+        public void onError(FacebookException error) {
+            Log.d("HelloFacebook", String.format("Error: %s", error.toString()));
+            String title = getString(R.string.error);
+            String alertMessage = error.getMessage();
+            showResult(title, alertMessage);
+        }
+
+        @Override
+        public void onSuccess(Sharer.Result result) {
+            Log.d("HelloFacebook", "Success!");
+            if (result.getPostId() != null) {
+                String title = getString(R.string.success);
+                String id = result.getPostId();
+                String alertMessage = getString(R.string.successfully_posted_post, id);
+                showResult(title, alertMessage);
+            }
+        }
+
+        private void showResult(String title, String alertMessage) {
+            /*
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(title)
+                    .setMessage(alertMessage)
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+            */
+        }
+    };
+
+
+
+    private void postStatusUpdate() {
+        Profile profile = Profile.getCurrentProfile();
+        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                .setContentTitle("AskOut!")
+                .setContentDescription(
+                        "Blah Blah Blah, have a look at this shitty event")
+                .setContentUrl(Uri.parse("http://jediantic.upc.es"))
+                .build();
+
+        Boolean canPresentShareDialog = ShareDialog.canShow(
+                ShareLinkContent.class);
+        if (canPresentShareDialog) {
+            ShareDialog shareDialog = new ShareDialog(getActivity());
+            CallbackManager callbackManager = CallbackManager.Factory.create();
+            shareDialog.registerCallback(callbackManager, shareCallback);
+            shareDialog.show(linkContent);
+        } else if (profile != null && hasPublishPermission()) {
+            ShareApi.share(linkContent, shareCallback);
+        }
+    }
+
+    private boolean hasPublishPermission() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null && accessToken.getPermissions().contains("publish_actions");
+    }
+
+    private void performPublish() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken != null) {
+            if (hasPublishPermission()) {
+                // We can do the action right away.
+                postStatusUpdate();
+                return;
+            } else {
+                // We need to get new permissions, then complete the action when we get called back.
+                LoginManager.getInstance().logInWithPublishPermissions(getActivity(), Arrays.asList("publish_actions"));
+                return;
+            }
+        }
     }
 
 }
