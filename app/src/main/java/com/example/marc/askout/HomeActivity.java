@@ -1,8 +1,11 @@
 package com.example.marc.askout;
 
+import android.app.AlarmManager;
 import android.app.FragmentManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +15,8 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.Profile;
-import com.facebook.login.LoginManager;
+
+import java.util.Calendar;
 
 
 public class HomeActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
@@ -77,45 +81,6 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                     fragmentManager.beginTransaction().replace(R.id.container, new InterestsFragment()).commit();
 
                     /*
-                    if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("notification_preference", true)) {
-                        Toast.makeText(this, "IF", Toast.LENGTH_LONG).show();
-
-                        Intent myIntent = new Intent(this , SettingsFragment.class);
-                        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-                        PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
-
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(Calendar.HOUR_OF_DAY, 13);
-                        calendar.set(Calendar.MINUTE, 40);
-                        calendar.set(Calendar.SECOND, 00);
-
-                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , pendingIntent);  //set repeating every 24 hours
-
-
-
-                        /*
-                        Intent intent = new Intent(this, SettingsFragment.class);
-                        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-                        // build notification
-                        // the addAction re-use the same intent to keep the example short
-                        Notification n  = new Notification.Builder(this)
-                                .setContentTitle("New mail from " + "test@gmail.com")
-                                .setContentText("Subject")
-                                .setSmallIcon(R.drawable.icon)
-                                .setContentIntent(pIntent)
-                                .setAutoCancel(true)
-                                .addAction(R.drawable.icon, "Call", pIntent)
-                                .addAction(R.drawable.icon, "More", pIntent)
-                                .addAction(R.drawable.icon, "And more", pIntent).build();
-
-
-                        NotificationManager notificationManager =
-                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-                        notificationManager.notify(0, n);
-                        */
-                    /*
                     }
                     else {
                         Toast.makeText(this, "ELSE", Toast.LENGTH_LONG).show();
@@ -146,6 +111,46 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                 else {
                     // LOG OUT
                     logOut();
+
+                    if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("notification_preference", true)) {
+                        Toast.makeText(this, "IF", Toast.LENGTH_LONG).show();
+
+                        Intent myIntent = new Intent(this, SettingsFragment.class);
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                        PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.HOUR_OF_DAY, 13);
+                        calendar.set(Calendar.MINUTE, 40);
+                        calendar.set(Calendar.SECOND, 00);
+
+                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, pendingIntent);  //set repeating every 24 hours
+
+
+
+                        /*
+                        Intent intent = new Intent(this, SettingsFragment.class);
+                        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+                        // build notification
+                        // the addAction re-use the same intent to keep the example short
+                        Notification n  = new Notification.Builder(this)
+                                .setContentTitle("New mail from " + "test@gmail.com")
+                                .setContentText("Subject")
+                                .setSmallIcon(R.drawable.icon)
+                                .setContentIntent(pIntent)
+                                .setAutoCancel(true)
+                                .addAction(R.drawable.icon, "Call", pIntent)
+                                .addAction(R.drawable.icon, "More", pIntent)
+                                .addAction(R.drawable.icon, "And more", pIntent).build();
+
+
+                        NotificationManager notificationManager =
+                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                        notificationManager.notify(0, n);
+                        */
+                    }
                 }
                 break;
 
@@ -167,7 +172,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         //LOG OUT FROM FACEBOOK
-                        LoginManager.getInstance().logOut();
+                        //LoginManager.getInstance().logOut();
                         Intent i = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(i);
                     }

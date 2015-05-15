@@ -3,6 +3,7 @@ package com.example.marc.askout;
 import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -162,11 +163,15 @@ public class EventsListFragment extends ListFragment {
             }
             */
             Resources resources = getResources();
-            mItems.add(new ListViewItem(resources.getDrawable(R.drawable.ic_pinzell), obj.getString("nom"), obj.getString("nomLloc")));
+            mItems.add(new ListViewItem(resources.getDrawable(R.drawable.ic_art_sel), obj.getString("nom"), obj.getString("nomLloc")));
 
         }
 
         setListAdapter(new ListViewDemoAdapter(getActivity(), mItems));
+        ListView listView = getListView();
+        ColorDrawable myColor = new ColorDrawable(0xFFCFBEBE);
+        listView.setDivider(myColor);
+        listView.setDividerHeight(2);
 
         //Toast.makeText(this.getActivity(), titles.get(0), Toast.LENGTH_SHORT).show();
         //String[] titles2 = new String[] {"title1", "title2", "title3"};

@@ -42,7 +42,6 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.ProfilePictureView;
 import com.facebook.share.widget.ShareDialog;
 
-//package com.facebook.samples.hellofacebook;
 
 public class MainActivity extends FragmentActivity {
 
@@ -69,10 +68,13 @@ public class MainActivity extends FragmentActivity {
     private ShareDialog shareDialog;
 
     private Boolean checkLogin() {
+
         if (Profile.getCurrentProfile() != null) {
+            Toast.makeText(getApplicationContext(), Profile.getCurrentProfile().getName(), Toast.LENGTH_LONG).show();
             return true;
         }
         else {
+            Toast.makeText(getApplicationContext(), "NOT LOGGED", Toast.LENGTH_LONG).show();
             return false;
         }
     }
@@ -95,16 +97,14 @@ public class MainActivity extends FragmentActivity {
                         //else {
                         //    Toast.makeText(getApplicationContext(), "IS NULL AFTER LOGIN", Toast.LENGTH_LONG).show();
                         //}
-                        //handlePendingAction();
-                        //updateUI();
+
                         //Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                         //startActivity(i);
                         //finish();
 
                         // <NEW>
-                        Toast.makeText(getApplicationContext(), "LOGGED", Toast.LENGTH_LONG).show();
-                        //handlePendingAction();
-                        //updateUI();
+                        //Toast.makeText(getApplicationContext(), "LOGGED", Toast.LENGTH_LONG).show();
+
                         profileTracker = new ProfileTracker() {
                             @Override
                             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
@@ -113,17 +113,19 @@ public class MainActivity extends FragmentActivity {
                                 // post a status update.
                                 //handlePendingAction();
 
-                                //Toast.makeText(getApplicationContext(), "blahblahbah", Toast.LENGTH_LONG).show();
-                                Intent i = new Intent(getApplicationContext(), TestActivity.class);
-                                startActivity(i);
+                                Toast.makeText(getApplicationContext(), "blahblahbah", Toast.LENGTH_LONG).show();
+                                //Intent i = new Intent(getApplicationContext(), TestActivity.class);
+                                //startActivity(i);
                             }
                         };
                         profileTracker.startTracking();
                         // </NEW>
+                        //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onCancel() {
+                        Toast.makeText(getApplicationContext(), "onCancel", Toast.LENGTH_LONG).show();
                     }
 
                     @Override

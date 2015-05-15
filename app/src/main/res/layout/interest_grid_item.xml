@@ -11,8 +11,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:src="@drawable/ic_action" />
+        android:layout_marginBottom="5dp" />
 
     <TextView
         android:id="@+id/textView1"
@@ -22,6 +21,6 @@
         android:textSize="15dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:text="TextView" />
+        android:textAppearance="@android:style/TextAppearance.Medium" />
 
 </LinearLayout>

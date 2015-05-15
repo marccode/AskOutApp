@@ -31,7 +31,7 @@ public class InterestGridAdapter extends BaseAdapter {
 
     String[] result = {"Espectacles", "Música", "Cinema", "Museu", "Infantil", "Esport", "Exposició", "Art", "Ciència", "Oci i Cultura"};
     public int[] imageId = {R.drawable.icon, R.drawable.ic_musica_no_sel, R.drawable.ic_cinema_no_sel, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon};
-    public int[] imageSelId = {R.drawable.ic_action, R.drawable.ic_musica_sel, R.drawable.ic_cinema_sel, R.drawable.ic_action, R.drawable.ic_action, R.drawable.ic_action, R.drawable.ic_action, R.drawable.ic_action, R.drawable.ic_action, R.drawable.ic_action};
+    public int[] imageSelId = {R.drawable.icon, R.drawable.ic_musica_sel, R.drawable.ic_cinema_sel, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon};
     public boolean[] selected = {false, false, false, false, false, false, false, false, false, false};
 
     private static LayoutInflater inflater = null;
@@ -93,9 +93,7 @@ public class InterestGridAdapter extends BaseAdapter {
                 // TODO Auto-generated method stub
                 Toast.makeText(context, "You Clicked " + result[position], Toast.LENGTH_LONG).show();
 
-                // DIRLI A LA API QUE ARA M'INTERESSA TAL
-
-
+                // SI L'USUARI NO HA INICIAT SESSIÓ NO S'ENVIA RES A LA API.
                 // CANVIAR LA ICONA
                 ImageView img = (ImageView) v.findViewById(R.id.imageView1);
 

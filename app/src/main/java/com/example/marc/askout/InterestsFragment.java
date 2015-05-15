@@ -68,17 +68,9 @@ public class InterestsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //setContentView(R.layout.activity_main);
-
-        //String [] prgmNameList={"Espectacles","Música","Cinema","Museu","Infantil","Esport","Exposició","Art","Ciència", "Oci i Cultura"};
-        //int [] prgmImages={R.drawable.icon,R.drawable.icon,R.drawable.icon,R.drawable.icon,R.drawable.icon,R.drawable.icon,R.drawable.icon, R.drawable.icon,R.drawable.icon,R.drawable.icon};
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view =  inflater.inflate(R.layout.fragment_interests, container, false);
-
-        //prgmNameList,prgmImages
         InterestGridAdapter adapter = new InterestGridAdapter(getActivity());
 
         gv = (GridView) view.findViewById(R.id.gridView1);
