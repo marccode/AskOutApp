@@ -47,7 +47,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
 
 
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.container, new EventsListFragment()).commit();
+        //fragmentManager.beginTransaction().add(R.id.container, new EventsListFragment()).commit();
 
         if (Profile.getCurrentProfile() != null) {
             mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
@@ -66,7 +66,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
             case 0:
                 // EVENTS LIST
                 fragmentManager = getFragmentManager();
-                //fragmentManager.beginTransaction().replace(R.id.container, new EventsListFragment()).commit();
+                fragmentManager.beginTransaction().replace(R.id.container, new EventsListFragment()).commit();
                 break;
 
             case 1:
