@@ -333,5 +333,4 @@ public class DetailsEventFragment extends Fragment {
     private void guardarEsdeveniment(String userId, String eventId) {
         new RequestTask().execute("http://jediantic.upc.es/api/anarEvent/" + userId + "/" + eventId);
     }
-
 }
