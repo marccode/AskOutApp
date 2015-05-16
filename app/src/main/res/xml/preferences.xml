@@ -10,6 +10,7 @@
             android:title="Activar notificacions"
             android:summary="Rebre notificacions abans dels teus esdeveniments" />
 
+
         <CheckBoxPreference
             android:key="notification_sound_preference"
             android:title="Activar el so"
