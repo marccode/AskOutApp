@@ -8,7 +8,12 @@
         <CheckBoxPreference
             android:key="notification_preference"
             android:title="Activar notificacions"
-            android:summary="Rebre notificacions una hora avans dels teus events" />
+            android:summary="Rebre notificacions abans dels teus esdeveniments" />
+
+        <CheckBoxPreference
+            android:key="notification_sound_preference"
+            android:title="Activar el so"
+            android:summary="Fer sonar les notificacions dels esdeveniments" />
 
     </PreferenceCategory>
 

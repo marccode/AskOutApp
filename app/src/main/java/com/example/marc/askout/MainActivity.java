@@ -90,37 +90,14 @@ public class MainActivity extends FragmentActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        //Profile.fetchProfileForCurrentAccessToken();
-                        //if (Profile.getCurrentProfile() != null) {
-                        //    Toast.makeText(getApplicationContext(), Profile.getCurrentProfile().getName(), Toast.LENGTH_LONG).show();
-                        //}
-                        //else {
-                        //    Toast.makeText(getApplicationContext(), "IS NULL AFTER LOGIN", Toast.LENGTH_LONG).show();
-                        //}
-
-                        //Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-                        //startActivity(i);
-                        //finish();
-
-                        // <NEW>
-                        //Toast.makeText(getApplicationContext(), "LOGGED", Toast.LENGTH_LONG).show();
-
                         profileTracker = new ProfileTracker() {
                             @Override
                             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                                //updateUI();
-                                // It's possible that we were waiting for Profile to be populated in order to
-                                // post a status update.
-                                //handlePendingAction();
-
-                                Toast.makeText(getApplicationContext(), "blahblahbah", Toast.LENGTH_LONG).show();
-                                //Intent i = new Intent(getApplicationContext(), TestActivity.class);
-                                //startActivity(i);
+                                Intent i = new Intent(getApplicationContext(), TestActivity.class);
+                                startActivity(i);
                             }
                         };
                         profileTracker.startTracking();
-                        // </NEW>
-                        //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -149,30 +126,10 @@ public class MainActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_main);
 
-        /*
-        profileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                Toast.makeText(getApplicationContext(), currentProfile.getName(), Toast.LENGTH_LONG).show();
-                //updateUI();
-                // It's possible that we were waiting for Profile to be populated in order to
-                // post a status update.
-                //handlePendingAction();
-            }
-        };
-        */
-        //profileTracker.startTracking();
-
         if (checkLogin()) {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(i);
-            //finish();
         }
-        /*
-        profilePictureView = (ProfilePictureView) findViewById(R.id.profilePicture);
-        greeting = (TextView) findViewById(R.id.greeting);
-        */
-
         final Button button = (Button) findViewById(R.id.mestard);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

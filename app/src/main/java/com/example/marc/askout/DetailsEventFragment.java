@@ -3,13 +3,17 @@ package com.example.marc.askout;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +29,21 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -35,6 +53,7 @@ public class DetailsEventFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private String id;
     private String data_inici;
     private String data_final;
     private String nom;
@@ -52,12 +71,12 @@ public class DetailsEventFragment extends Fragment {
     private TextView dataText;
     private TextView carrerText;
     private TextView districteText;
-    private TextView coordsText;
 
     FloatingActionButton botoDesplegable;
     FloatingActionButton botoGuardar;
     FloatingActionButton botoCompartir;
     FloatingActionButton botoMapa;
+    FloatingActionButton botoRecordatori;
 
 
     public DetailsEventFragment() {
@@ -68,8 +87,6 @@ public class DetailsEventFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
     }
 
     @Override
@@ -79,6 +96,7 @@ public class DetailsEventFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_details_event, container, false);
         if (getArguments() != null) {
             //obtenim les dades a traves del Bundle
+            id = getArguments().getString("id");
             data_inici = getArguments().getString("data_inici");
             data_final = getArguments().getString("data_inici");
             nom = getArguments().getString("nom");
@@ -92,27 +110,34 @@ public class DetailsEventFragment extends Fragment {
 
             //assignem les dades al contingut XML
             nomText = (TextView) rootView.findViewById(R.id.nomEsd);
-            nomText.setText("nom: " + nom);
+            nomText.setText(nom);
             nomLlocText = (TextView) rootView.findViewById(R.id.nomLlocEsd);
-            nomLlocText.setText("nomLloc: " + nomLloc);
+            nomLlocText.setText(nomLloc + "\n" + carrer + " " + numero + "\n" + districte + " " + municipi);
+            /*
             carrerText = (TextView) rootView.findViewById(R.id.carrerEsd);
-            carrerText.setText("carrer i numero: " + carrer + " " + numero);
-            districteText = (TextView) rootView.findViewById(R.id.districteEsd);
-            districteText.setText("districte i municipi: " + districte + " " + municipi);
+            carrerText.setText(carrer + " " + numero + " " + districte + " " + municipi);
+
             dataText = (TextView) rootView.findViewById(R.id.dataEsd);
             dataText.setText("dataI i dataF: " + data_inici + " " + data_final);
-            coordsText = (TextView) rootView.findViewById(R.id.coordsEsd);
-            coordsText.setText("latitude i longitude: " + latitude + " " + longitude);
-
+            */
             //CODI PER ELS FLOATING BUTTON
             botoCompartir = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonShare);
             botoGuardar = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonSave);
             botoMapa = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonMaps);
+            botoRecordatori = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonReminder);
 
             botoGuardar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //GUARDAR ELEMENT - MATERIAL DIALOG COM LOG OUT a homeactivity
+                    String userId = Profile.getCurrentProfile().getId();
+                    guardarEsdeveniment(userId, id);
+                }
+            });
+
+            botoRecordatori.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //RECORDATORI ELEMENT - MATERIAL DIALOG COM LOG OUT a homeactivity
                 }
             });
 
@@ -147,8 +172,6 @@ public class DetailsEventFragment extends Fragment {
                 public void onClick(View v) {
                     //COMPARTIR
                     performPublish();
-
-
                 }
             });
         }
@@ -270,6 +293,45 @@ public class DetailsEventFragment extends Fragment {
                 return;
             }
         }
+    }
+
+    class RequestTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... uri) {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse response;
+            String responseString = null;
+            try {
+                response = httpclient.execute(new HttpGet(uri[0]));
+                StatusLine statusLine = response.getStatusLine();
+                if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    response.getEntity().writeTo(out);
+                    responseString = out.toString();
+                    out.close();
+                } else{
+                    //Closes the connection.
+                    response.getEntity().getContent().close();
+                    throw new IOException(statusLine.getReasonPhrase());
+                }
+            } catch (ClientProtocolException e) {
+                //TODO Handle problems..
+            } catch (IOException e) {
+                //TODO Handle problems..
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            //Do anything with response...
+        }
+    }
+
+    private void guardarEsdeveniment(String userId, String eventId) {
+        new RequestTask().execute("http://jediantic.upc.es/api/anarEvent/" + userId + "/" + eventId);
     }
 
 }

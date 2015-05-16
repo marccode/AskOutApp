@@ -69,6 +69,7 @@ public class EventsListFragment extends ListFragment {
             ArrayList<String> categories = new ArrayList<String>();
             ArrayList<String> categories_generals = new ArrayList<String>();
             Bundle args = new Bundle();
+            args.putString("id", obj.getString("_id"));
             args.putString("data_inici", obj.getString("data_inici"));
             args.putString("data_final", obj.getString("data_final"));
             args.putString("nom", obj.getString("nom"));

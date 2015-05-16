@@ -31,6 +31,16 @@
     <color name="white">#fafafa</color>
     <color name="white_pressed">#f1f1f1</color>
     <color name="pink">#e91e63</color>
+    <color name="lightgreen">#C8F7C5</color>
+    <color name="green">#66CC99</color>
+    <color name="yellow">#F9BF3B</color>
+    <color name="lightblue">#5C97BF</color>
+    <color name="lightviolet">#BE90D4</color>
+
+
+
+
+
     <color name="pink_pressed">#ec407a</color>
     <color name="blue_semi_transparent">#805677fc</color>
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
