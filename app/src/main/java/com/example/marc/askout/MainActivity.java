@@ -113,9 +113,9 @@ public class MainActivity extends FragmentActivity {
                                 // post a status update.
                                 //handlePendingAction();
 
-                                Toast.makeText(getApplicationContext(), "blahblahbah", Toast.LENGTH_LONG).show();
-                                //Intent i = new Intent(getApplicationContext(), TestActivity.class);
-                                //startActivity(i);
+                                //Toast.makeText(getApplicationContext(), "blahblahbah", Toast.LENGTH_LONG).show();
+                                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                                startActivity(i);
                             }
                         };
                         profileTracker.startTracking();
@@ -149,7 +149,6 @@ public class MainActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_main);
 
-        /*
         profileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
@@ -160,8 +159,7 @@ public class MainActivity extends FragmentActivity {
                 //handlePendingAction();
             }
         };
-        */
-        //profileTracker.startTracking();
+        profileTracker.startTracking();
 
         if (checkLogin()) {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);

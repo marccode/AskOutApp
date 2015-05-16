@@ -1,10 +1,13 @@
 package com.example.marc.askout;
 
+import android.app.AlarmManager;
 import android.app.Fragment;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -26,6 +29,7 @@ import com.facebook.share.widget.ShareDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Locale;
 
 
@@ -58,6 +62,7 @@ public class DetailsEventFragment extends Fragment {
     FloatingActionButton botoGuardar;
     FloatingActionButton botoCompartir;
     FloatingActionButton botoMapa;
+    FloatingActionButton botoNotificacio;
 
 
     public DetailsEventFragment() {
@@ -108,6 +113,54 @@ public class DetailsEventFragment extends Fragment {
             botoCompartir = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonShare);
             botoGuardar = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonSave);
             botoMapa = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonMaps);
+            if (Profile.getCurrentProfile() == null) {
+                botoNotificacio = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonNotificacio);
+                botoNotificacio.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("notification_preference", true)) {
+                            Toast.makeText(getActivity(), "IF", Toast.LENGTH_LONG).show();
+
+                            Intent myIntent = new Intent(getActivity(), SettingsFragment.class);
+                            //AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+                            PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, myIntent, 0);
+
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(Calendar.HOUR_OF_DAY, 13);
+                            calendar.set(Calendar.MINUTE, 40);
+                            calendar.set(Calendar.SECOND, 00);
+
+                            //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, pendingIntent);  //set repeating every 24 hours
+
+
+
+                        /*
+                        Intent intent = new Intent(this, SettingsFragment.class);
+                        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+                        // build notification
+                        // the addAction re-use the same intent to keep the example short
+                        Notification n  = new Notification.Builder(this)
+                                .setContentTitle("New mail from " + "test@gmail.com")
+                                .setContentText("Subject")
+                                .setSmallIcon(R.drawable.icon)
+                                .setContentIntent(pIntent)
+                                .setAutoCancel(true)
+                                .addAction(R.drawable.icon, "Call", pIntent)
+                                .addAction(R.drawable.icon, "More", pIntent)
+                                .addAction(R.drawable.icon, "And more", pIntent).build();
+
+
+                        NotificationManager notificationManager =
+                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                        notificationManager.notify(0, n);
+                        */
+                        }
+
+                    }
+                });
+            }
 
             botoGuardar.setOnClickListener(new View.OnClickListener() {
                 @Override

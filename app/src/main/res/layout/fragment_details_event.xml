@@ -111,6 +111,17 @@
                 fab:fab_title="Mapa"
                 fab:fab_colorPressed="@color/white_pressed"/>
 
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingButtonNotificacio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_addButtonSize="mini"
+                fab:fab_icon="@drawable/notificacio"
+                fab:fab_size="mini"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_title="Programar recordatori"
+                fab:fab_colorPressed="@color/white_pressed"/>
+
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     </RelativeLayout>

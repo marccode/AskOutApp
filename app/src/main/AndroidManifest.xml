@@ -53,9 +53,8 @@
             android:exported="true" />
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-            android:noHistory="true" >
+            android:name="MainActivity"
+            android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
