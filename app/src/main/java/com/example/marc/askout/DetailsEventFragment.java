@@ -71,8 +71,7 @@ public class DetailsEventFragment extends Fragment {
     private TextView nomLlocText;
 
     private TextView dataText;
-    private TextView carrerText;
-    private TextView districteText;
+    private TextView categoriesText;
 
     FloatingActionButton botoDesplegable;
     FloatingActionButton botoGuardar;
@@ -115,10 +114,13 @@ public class DetailsEventFragment extends Fragment {
             nomText.setText(nom);
             nomLlocText = (TextView) rootView.findViewById(R.id.nomLlocEsd);
             nomLlocText.setText(nomLloc + "\n" + carrer + " " + numero + "\n" + districte + " " + municipi);
-
-
             dataText = (TextView) rootView.findViewById(R.id.dataEsd);
             dataText.setText("\n" + data_inici);
+
+            categoriesText = (TextView) rootView.findViewById(R.id.categoriesEsd);
+
+
+            int numeroLinies = nomText.getLineCount() + nomLlocText.getLineCount() + dataText.getLineCount() + categoriesText.getLineCount();
 
             //CODI PER ELS FLOATING BUTTON
             botoCompartir = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonShare);

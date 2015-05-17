@@ -152,7 +152,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="\nCategories"
                 android:lines="3"
-                android:id="@+id/interestEsd" />
+                android:id="@+id/categoriesEsd" />
 
         </RelativeLayout>
 
