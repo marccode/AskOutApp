@@ -3,8 +3,7 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f5f5f5"
-
+    android:background="@drawable/bcn"
     tools:context="com.example.marc.askout.DetailsEventFragment">
 
 
@@ -47,7 +46,7 @@
         android:layout_below="@+id/nomEsdBox"
         android:layout_centerHorizontal="true"
         android:background="#9E9E9E"
-        android:padding="5dp"
+        android:padding="25dp"
 
         >
 
@@ -82,10 +81,11 @@
 
     <RelativeLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/timeEsd"
         android:layout_below="@+id/locationEsdBox"
         android:layout_centerHorizontal="true"
         android:background="#B6B6B6"
-        android:padding="5dp"
+        android:padding="25dp"
 
         >
 
@@ -111,12 +111,53 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="hora"
+                android:text="\nHora"
+                android:lines="3"
                 android:id="@+id/dataEsd" />
 
         </RelativeLayout>
 
     </RelativeLayout>
+
+    <RelativeLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timeEsd"
+        android:layout_centerHorizontal="true"
+        android:background="#B2EBF2"
+        android:padding="25dp"
+
+        >
+
+        <!-- the icon view -->
+        <ImageView android:id="@+id/ivIcon4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:contentDescription="icon_content_descrition"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/heart"/>
+
+        <!-- the container view for the title and description -->
+        <RelativeLayout android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ivIcon4">
+
+            <!-- the title view -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="\nCategories"
+                android:lines="3"
+                android:id="@+id/interestEsd" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
     <!--
     <RelativeLayout
         android:layout_width="match_parent"
@@ -180,7 +221,6 @@
                 fab:fab_icon="@drawable/calendar"
                 fab:fab_size="mini"
                 fab:fab_colorNormal="@color/yellow"
-                fab:fab_title="Guardar"
                 fab:fab_colorPressed="@color/white_pressed"/>
 
             <com.getbase.floatingactionbutton.FloatingActionButton
@@ -191,7 +231,6 @@
                 fab:fab_icon="@drawable/bell"
                 fab:fab_size="mini"
                 fab:fab_colorNormal="@color/lightviolet"
-                fab:fab_title="Recordatori"
                 fab:fab_colorPressed="@color/white_pressed"/>
 
             <com.getbase.floatingactionbutton.FloatingActionButton
@@ -202,7 +241,6 @@
                 fab:fab_icon="@drawable/facebook"
                 fab:fab_size="mini"
                 fab:fab_colorNormal="@color/blue"
-                fab:fab_title="Compartir"
                 fab:fab_colorPressed="@color/white_pressed"/>
 
             <com.getbase.floatingactionbutton.FloatingActionButton
@@ -213,7 +251,6 @@
                 fab:fab_icon="@drawable/map"
                 fab:fab_size="mini"
                 fab:fab_colorNormal="@color/lightgreen"
-                fab:fab_title="Mapa"
                 fab:fab_colorPressed="@color/white_pressed"/>
 
 

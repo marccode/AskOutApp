@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -43,6 +44,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -113,13 +115,11 @@ public class DetailsEventFragment extends Fragment {
             nomText.setText(nom);
             nomLlocText = (TextView) rootView.findViewById(R.id.nomLlocEsd);
             nomLlocText.setText(nomLloc + "\n" + carrer + " " + numero + "\n" + districte + " " + municipi);
-            /*
-            carrerText = (TextView) rootView.findViewById(R.id.carrerEsd);
-            carrerText.setText(carrer + " " + numero + " " + districte + " " + municipi);
+
 
             dataText = (TextView) rootView.findViewById(R.id.dataEsd);
-            dataText.setText("dataI i dataF: " + data_inici + " " + data_final);
-            */
+            dataText.setText("\n" + data_inici);
+
             //CODI PER ELS FLOATING BUTTON
             botoCompartir = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonShare);
             botoGuardar = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonSave);
@@ -129,6 +129,19 @@ public class DetailsEventFragment extends Fragment {
             botoGuardar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    new MaterialDialog.Builder(getActivity())
+                            .title("Atenció")
+                            .content("Vols guardar l'esdeveniment a la llista dels teus esdeveniments?")
+                            .positiveText("GUARDAR")
+                            .negativeText("CANCEL·LAR")
+                            .positiveColorRes(R.color.material_blue_grey_900)
+                            .neutralColorRes(R.color.material_blue_grey_900)
+                            .callback(new MaterialDialog.ButtonCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog dialog) {
+                                    createReminder();
+                                }
+                            }).show();
                     String userId = Profile.getCurrentProfile().getId();
                     guardarEsdeveniment(userId, id);
                 }
@@ -137,33 +150,40 @@ public class DetailsEventFragment extends Fragment {
             botoRecordatori.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //RECORDATORI ELEMENT - MATERIAL DIALOG COM LOG OUT a homeactivity
+                    //RECORDATORI ELEMENT - MATERIAL DIALOG per confirmar
+                    new MaterialDialog.Builder(getActivity())
+                            .title("Atenció")
+                            .content("Vols ser avisat dues hores abans de l'esdeveniment?")
+                            .positiveText("AVISA'M")
+                            .negativeText("CANCEL·LAR")
+                            .positiveColorRes(R.color.material_blue_grey_900)
+                            .neutralColorRes(R.color.material_blue_grey_900)
+                            .callback(new MaterialDialog.ButtonCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog dialog) {
+                                    createReminder();
+                                }
+                            }).show();
                 }
             });
 
             botoMapa.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //OBRIR MAPS - MATERIAL DIALOG COM LOG OUT a homeactivity
-                    String uri = String.format(Locale.ENGLISH, "http://www.google.es/maps/place/" + carrer + ",+" + numero + ",+" + "+" + municipi);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                    intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-                    try
-                    {
-                        startActivity(intent);
-                    }
-                    catch(ActivityNotFoundException ex)
-                    {
-                        try
-                        {
-                            Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                            startActivity(unrestrictedIntent);
-                        }
-                        catch(ActivityNotFoundException innerEx)
-                        {
-                            Toast.makeText(getActivity(), "Please install a maps application", Toast.LENGTH_LONG).show();
-                        }
-                    }
+                    //OBRIR MAPS - MATERIAL DIALOG per confirmar
+                    new MaterialDialog.Builder(getActivity())
+                            .title("Atenció")
+                            .content("Vols obrir Google Maps a la localització de l'esdeveniment?")
+                            .positiveText("OBRIR")
+                            .negativeText("CANCEL·LAR")
+                            .positiveColorRes(R.color.material_blue_grey_900)
+                            .neutralColorRes(R.color.material_blue_grey_900)
+                            .callback(new MaterialDialog.ButtonCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog dialog) {
+                                    openGoogleMaps();
+                                }
+                            }).show();
                 }
             });
 
@@ -332,5 +352,31 @@ public class DetailsEventFragment extends Fragment {
 
     private void guardarEsdeveniment(String userId, String eventId) {
         new RequestTask().execute("http://jediantic.upc.es/api/anarEvent/" + userId + "/" + eventId);
+    }
+
+    private void createReminder() {
+
+    }
+
+    private void openGoogleMaps() {
+        String uri = String.format(Locale.ENGLISH, "http://www.google.es/maps/place/" + carrer + ",+" + numero + ",+" + "+" + municipi);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+        try
+        {
+            startActivity(intent);
+        }
+        catch(ActivityNotFoundException ex)
+        {
+            try
+            {
+                Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                startActivity(unrestrictedIntent);
+            }
+            catch(ActivityNotFoundException innerEx)
+            {
+                Toast.makeText(getActivity(), "Please install a maps application", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

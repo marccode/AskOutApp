@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 
 import java.util.Calendar;
 
@@ -132,7 +133,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         //LOG OUT FROM FACEBOOK
-                        //LoginManager.getInstance().logOut();
+                        LoginManager.getInstance().logOut();
                         Intent i = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(i);
                     }
