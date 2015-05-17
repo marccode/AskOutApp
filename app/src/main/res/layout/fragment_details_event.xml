@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bcn"
@@ -59,7 +60,7 @@
             android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_place_black_24dp"/>
+            android:src="@drawable/location"/>
 
         <!-- the container view for the title and description -->
         <RelativeLayout android:layout_width="wrap_content"
@@ -99,7 +100,7 @@
             android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_alarm_black_24dp"/>
+            android:src="@drawable/clock"/>
 
         <!-- the container view for the title and description -->
         <RelativeLayout android:layout_width="wrap_content"
@@ -158,46 +159,6 @@
 
     </RelativeLayout>
 
-    <!--
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal|bottom">
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="nomLloc"
-            android:layout_below="@+id/nomEsd"
-
-            android:id="@+id/nomLlocEsd"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="carrer esdeveniment"
-
-            android:id="@+id/carrerEsd"
-            android:layout_below="@+id/nomLlocEsd"
-            />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="data esdeveniment"
-
-            android:id="@+id/dataEsd"
-            android:layout_below="@+id/carrerEsd"
-            />-->
-
-
-
         <com.getbase.floatingactionbutton.FloatingActionsMenu
             android:id="@+id/floatingButton"
             android:layout_width="wrap_content"
@@ -211,7 +172,8 @@
             fab:fab_labelStyle="@style/menu_labels_style"
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp">
+            android:layout_marginEnd="16dp"
+            >
 
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floatingButtonSave"
@@ -219,16 +181,20 @@
                 android:layout_height="wrap_content"
                 fab:fab_addButtonSize="mini"
                 fab:fab_icon="@drawable/calendar"
+                fab:fab_title="Guardar"
                 fab:fab_size="mini"
                 fab:fab_colorNormal="@color/yellow"
-                fab:fab_colorPressed="@color/white_pressed"/>
+                fab:fab_colorPressed="@color/white_pressed"
+                style="@style/menu_labels_style"
+                />
 
             <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingButtonNotificacio"
+                android:id="@+id/floatingButtonReminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 fab:fab_addButtonSize="mini"
-                fab:fab_icon="@drawable/notificacio"
+                fab:fab_icon="@drawable/bell"
+                fab:fab_title="Recordatori"
                 fab:fab_size="mini"
                 fab:fab_colorNormal="@color/lightviolet"
                 fab:fab_colorPressed="@color/white_pressed"/>
@@ -239,6 +205,7 @@
                 android:layout_height="wrap_content"
                 fab:fab_addButtonSize="mini"
                 fab:fab_icon="@drawable/facebook"
+                fab:fab_title="Compartir"
                 fab:fab_size="mini"
                 fab:fab_colorNormal="@color/blue"
                 fab:fab_colorPressed="@color/white_pressed"/>
@@ -248,7 +215,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 fab:fab_addButtonSize="mini"
-                fab:fab_icon="@drawable/google_maps"
+                fab:fab_icon="@drawable/map"
+                fab:fab_title="Mapa"
                 fab:fab_size="mini"
                 fab:fab_colorNormal="@color/lightgreen"
                 fab:fab_colorPressed="@color/white_pressed"/>
@@ -257,8 +225,6 @@
 
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
-
-
-    </RelativeLayout>
+</RelativeLayout>
 
 

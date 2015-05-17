@@ -80,6 +80,7 @@ public class EventsListFragment extends ListFragment {
             args.putString("municipi", obj.getString("municipi"));
             args.putString("latitude", obj.getString("latitude"));
             args.putString("longitude", obj.getString("longitude"));
+            args.putString("categories", obj.getString("categories_generals"));
             //args.putStringArray("categories", categories);
             //args.putStringArray("categories_generals", categories_generals);
             detailsEventFragment.setArguments(args);
