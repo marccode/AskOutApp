@@ -70,11 +70,9 @@ public class MainActivity extends FragmentActivity {
     private Boolean checkLogin() {
 
         if (Profile.getCurrentProfile() != null) {
-            Toast.makeText(getApplicationContext(), Profile.getCurrentProfile().getName(), Toast.LENGTH_LONG).show();
             return true;
         }
         else {
-            Toast.makeText(getApplicationContext(), "NOT LOGGED", Toast.LENGTH_LONG).show();
             return false;
         }
     }
@@ -93,7 +91,7 @@ public class MainActivity extends FragmentActivity {
                         profileTracker = new ProfileTracker() {
                             @Override
                             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                                Intent i = new Intent(getApplicationContext(), TestActivity.class);
+                                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                                 startActivity(i);
                             }
                         };
@@ -102,7 +100,6 @@ public class MainActivity extends FragmentActivity {
 
                     @Override
                     public void onCancel() {
-                        Toast.makeText(getApplicationContext(), "onCancel", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -121,15 +118,22 @@ public class MainActivity extends FragmentActivity {
 
         if (savedInstanceState != null) {
             String name = savedInstanceState.getString(PENDING_ACTION_BUNDLE_KEY);
-            //pendingAction = PendingAction.valueOf(name);
         }
 
         setContentView(R.layout.activity_main);
+
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+            }
+        };
+        profileTracker.startTracking();
 
         if (checkLogin()) {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(i);
         }
+
         final Button button = (Button) findViewById(R.id.mestard);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -148,8 +152,6 @@ public class MainActivity extends FragmentActivity {
         // reporting.  Do so in the onResume methods of the primary Activities that an app may be
         // launched into.
         AppEventsLogger.activateApp(this);
-
-        //updateUI();
     }
 
     @Override
@@ -177,22 +179,5 @@ public class MainActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         profileTracker.stopTracking();
-    }
-
-
-    private void updateUI() {
-        boolean enableButtons = AccessToken.getCurrentAccessToken() != null;
-
-        postStatusUpdateButton.setEnabled(enableButtons || canPresentShareDialog);
-        postPhotoButton.setEnabled(enableButtons || canPresentShareDialogWithPhotos);
-
-        Profile profile = Profile.getCurrentProfile();
-        if (enableButtons && profile != null) {
-            profilePictureView.setProfileId(profile.getId());
-            greeting.setText(getString(R.string.hello_user, profile.getFirstName()));
-        } else {
-            profilePictureView.setProfileId(null);
-            greeting.setText(null);
-        }
     }
 }

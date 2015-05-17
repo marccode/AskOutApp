@@ -35,8 +35,6 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
 
@@ -46,9 +44,6 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
 
-
-        FragmentManager fragmentManager = getFragmentManager();
-        //fragmentManager.beginTransaction().add(R.id.container, new EventsListFragment()).commit();
 
         if (Profile.getCurrentProfile() != null) {
             mNavigationDrawerFragment.setUserData(Profile.getCurrentProfile().getName());
@@ -61,7 +56,6 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        Toast.makeText(this, "menu option " + Integer.toString(position) , Toast.LENGTH_LONG).show();
         FragmentManager fragmentManager;
         switch (position) {
             case 0:
@@ -80,20 +74,14 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                     // INTERESTS
                     fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.container, new InterestsFragment()).commit();
-
-                    /*
-                    }
-                    else {
-                        Toast.makeText(this, "ELSE", Toast.LENGTH_LONG).show();
-                    }
-                    */
-
                 }
                 break;
+
             case 2:
                 if (Profile.getCurrentProfile() != null) {
-                    // INTERESTS-
-
+                    // INTERESTS
+                    fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.container, new InterestsFragment()).commit();
                 }
                 else {
                     // SETTINGS
@@ -101,13 +89,15 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                     fragmentManager.beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
                 }
                 break;
+
             case 3:
                 if (Profile.getCurrentProfile() != null) {
                     // SETTINGS
                     fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
-                    //fragmentManager = getFragmentManager();
-                    //fragmentManager.beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
+
+                    //Intent i = new Intent(this, NotificationService.class);
+                    //startActivity(i);
                 }
                 else {
                     // LOG OUT

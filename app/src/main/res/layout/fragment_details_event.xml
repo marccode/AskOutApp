@@ -59,7 +59,7 @@
             android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/location"/>
+            android:src="@drawable/ic_place_black_24dp"/>
 
         <!-- the container view for the title and description -->
         <RelativeLayout android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
             android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/clock"/>
+            android:src="@drawable/ic_alarm_black_24dp"/>
 
         <!-- the container view for the title and description -->
         <RelativeLayout android:layout_width="wrap_content"
@@ -224,11 +224,11 @@
                 fab:fab_colorPressed="@color/white_pressed"/>
 
             <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingButtonReminder"
+                android:id="@+id/floatingButtonNotificacio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 fab:fab_addButtonSize="mini"
-                fab:fab_icon="@drawable/bell"
+                fab:fab_icon="@drawable/notificacio"
                 fab:fab_size="mini"
                 fab:fab_colorNormal="@color/lightviolet"
                 fab:fab_colorPressed="@color/white_pressed"/>
@@ -248,7 +248,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 fab:fab_addButtonSize="mini"
-                fab:fab_icon="@drawable/map"
+                fab:fab_icon="@drawable/google_maps"
                 fab:fab_size="mini"
                 fab:fab_colorNormal="@color/lightgreen"
                 fab:fab_colorPressed="@color/white_pressed"/>
