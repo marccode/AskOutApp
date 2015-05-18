@@ -1,14 +1,24 @@
 package com.example.marc.askout;
 
-import android.app.FragmentManager;
-import android.app.ListFragment;
+import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.Fragment;
+import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -26,89 +36,44 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by marc on 5/4/15.
- */
-public class EventsListFragment extends ListFragment {
+public class EventsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    ListView mListView;
     private List<ListViewItem> mItems;
-    JSONArray jArray;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // initialize the items list
+        // Inflate the layout for this fragment
+        inflater.inflate(R.layout.fragment_interests, container, false);
+        View view = inflater.inflate(R.layout.fragment_events_list, container, false);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.activity_main_swipe_refresh_layout);
+        mListView =  (ListView) view.findViewById(R.id.activity_main_listview);
+
         mItems = new ArrayList<ListViewItem>();
-        //Resources resources = getResources();
-        new RequestTask().execute("http://jediantic.upc.es/api/events");
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorScheme(android.R.color.holo_green_dark,
+                android.R.color.holo_red_dark,
+                android.R.color.holo_blue_dark,
+                android.R.color.holo_orange_dark);
 
-        //mItems.add(new ListViewItem(resources.getDrawable(R.drawable.aim), getString(R.string.aim), getString(R.string.aim_description)));
-        //mItems.add(new ListViewItem(resources.getDrawable(R.drawable.bebo), getString(R.string.bebo), getString(R.string.bebo_description)));
-        //mItems.add(new ListViewItem(resources.getDrawable(R.drawable.youtube), getString(R.string.youtube), getString(R.string.youtube_description)));
-
-        // initialize and set the list adapter
+        return view;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        // remove the dividers from the ListView of the ListFragment
-        getListView().setDivider(null);
-    }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        // retrieve theListView item
-        ListViewItem item = mItems.get(position);
-
-        // do something
-        try {
-            DetailsEventFragment detailsEventFragment = new DetailsEventFragment();
-            JSONObject obj = jArray.getJSONObject(position);
-            ArrayList<String> categories = new ArrayList<String>();
-            ArrayList<String> categories_generals = new ArrayList<String>();
-            Bundle args = new Bundle();
-            args.putString("id", obj.getString("_id"));
-            args.putString("data_inici", obj.getString("data_inici"));
-            args.putString("data_final", obj.getString("data_final"));
-            args.putString("nom", obj.getString("nom"));
-            args.putString("nomLloc", obj.getString("nomLloc"));
-            args.putString("carrer", obj.getString("carrer"));
-            args.putString("numero", obj.getString("numero"));
-            args.putString("districte", obj.getString("districte"));
-            args.putString("municipi", obj.getString("municipi"));
-            args.putString("latitude", obj.getString("latitude"));
-            args.putString("longitude", obj.getString("longitude"));
-            args.putString("categories", obj.getString("categories_generals"));
-            //args.putStringArray("categories", categories);
-            //args.putStringArray("categories_generals", categories_generals);
-            detailsEventFragment.setArguments(args);
-            FragmentManager fm = getFragmentManager();
-
-            fm.beginTransaction().hide(this).commit();
-            fm.beginTransaction().replace(R.id.container, detailsEventFragment).commit();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /*
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.d("RESULT", "qwer");
-        Toast.makeText(this.getActivity(), "asdasd", Toast.LENGTH_SHORT).show();
+    public void onRefresh() {
+        //new myTask().execute();
+        Toast.makeText(getActivity(), "refresh", Toast.LENGTH_LONG).show();
         new RequestTask().execute("http://jediantic.upc.es/api/events");
-        Toast.makeText(this.getActivity(), "qweqw", Toast.LENGTH_SHORT).show();
     }
-    */
 
     class RequestTask extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... uri) {
-            Log.d("RESULT", "asasd");
-            //Toast.makeText(getActivity(), "asdasd", Toast.LENGTH_SHORT).show();
+            Log.d("REFRESH", "1");
             HttpClient httpclient = new DefaultHttpClient();
             HttpResponse response;
             String responseString = null;
@@ -138,6 +103,7 @@ public class EventsListFragment extends ListFragment {
             super.onPostExecute(result);
             try {
                 aux(result);
+                mSwipeRefreshLayout.setRefreshing(false);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -146,12 +112,16 @@ public class EventsListFragment extends ListFragment {
     }
 
     private String aux(String s) throws JSONException {
-        //Toast.makeText(getActivity(), "aux", Toast.LENGTH_LONG).show();
-        List<String> titles = new ArrayList<String>();
+        Log.d("REFRESH", "2");
         //Handle
-        jArray = new JSONArray(s);
-        for (int i=0; i < 10; i++) {
+        Log.d("REFRESH", "3");
+        Log.d("REFRESH", s);
+        JSONArray jArray = new JSONArray(s);
+        Log.d("REFRESH", "4");
+        for (int i=0; i < 15; i++) {
+            Log.d("REFRESH", Integer.toString(i));
             JSONObject obj = jArray.getJSONObject(i);
+            Log.d("REFRESH", Integer.toString(i));
             //Toast.makeText(this.getActivity(), obj.getString("titol"), Toast.LENGTH_SHORT).show();
             //titles.add(obj.getString("titol"));
 
@@ -166,14 +136,14 @@ public class EventsListFragment extends ListFragment {
             */
             Resources resources = getResources();
             mItems.add(new ListViewItem(resources.getDrawable(R.drawable.ic_art_sel), obj.getString("nom"), obj.getString("nomLloc")));
-
         }
 
-        setListAdapter(new ListViewDemoAdapter(getActivity(), mItems));
-        ListView listView = getListView();
+        mListView.setAdapter(new ListViewDemoAdapter(getActivity(), mItems));
         ColorDrawable myColor = new ColorDrawable(0xFFCFBEBE);
-        listView.setDivider(myColor);
-        listView.setDividerHeight(2);
+        mListView.setDivider(myColor);
+        mListView.setDividerHeight(2);
+
+
 
         //Toast.makeText(this.getActivity(), titles.get(0), Toast.LENGTH_SHORT).show();
         //String[] titles2 = new String[] {"title1", "title2", "title3"};
@@ -183,4 +153,5 @@ public class EventsListFragment extends ListFragment {
         //setListAdapter(adapter);
         return s;
     }
+
 }

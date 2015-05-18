@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -15,9 +16,11 @@ import java.util.List;
  * Created by marc on 5/7/15.
  */
 public class ListViewDemoAdapter extends ArrayAdapter<ListViewItem> {
+    Context context;
 
     public ListViewDemoAdapter(Context context, List<ListViewItem> items) {
         super(context, R.layout.listview_item, items);
+        this.context = context;
     }
 
     @Override
@@ -41,6 +44,15 @@ public class ListViewDemoAdapter extends ArrayAdapter<ListViewItem> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Toast.makeText(context, "You Clicked", Toast.LENGTH_LONG).show();
+                //v.
+            }
+        });
         // update the item view
         ListViewItem item = getItem(position);
         viewHolder.ivIcon.setImageDrawable(item.icon);

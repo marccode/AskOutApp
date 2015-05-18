@@ -4,6 +4,8 @@ package com.example.marc.askout;
  * Created by marc on 5/5/15.
  */
 
+// ARA NO ES FA SERVIR
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

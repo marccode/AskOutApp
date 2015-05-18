@@ -87,7 +87,7 @@ public class PlusOneFragment extends Fragment {
                 // Perform action on click
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
-                ft.add(R.id.container, new EventsListFragment());
+                //ft.add(R.id.container, new EventsListFragment());
                 ft.commit();
             }
         });

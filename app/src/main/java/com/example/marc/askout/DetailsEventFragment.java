@@ -1,6 +1,8 @@
 package com.example.marc.askout;
 
+import android.app.AlarmManager;
 import android.app.Fragment;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -8,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -44,6 +47,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -95,6 +99,7 @@ public class DetailsEventFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_details_event, container, false);
+
         if (getArguments() != null) {
             //obtenim les dades a traves del Bundle
             id = getArguments().getString("id");
@@ -117,6 +122,7 @@ public class DetailsEventFragment extends Fragment {
             dataText = (TextView) rootView.findViewById(R.id.dataEsd);
             dataText.setText("\n" + data_inici);
 
+
             categoriesText = (TextView) rootView.findViewById(R.id.categoriesEsd);
             categoriesText.setText(getArguments().getString("categories"));
 
@@ -135,7 +141,6 @@ public class DetailsEventFragment extends Fragment {
 
                 }
             });
-
 
 
             //CODI PER ELS FLOATING BUTTON
@@ -157,7 +162,7 @@ public class DetailsEventFragment extends Fragment {
                             .callback(new MaterialDialog.ButtonCallback() {
                                 @Override
                                 public void onPositive(MaterialDialog dialog) {
-                                    createReminder();
+
                                 }
                             }).show();
                     String userId = Profile.getCurrentProfile().getId();
@@ -168,21 +173,26 @@ public class DetailsEventFragment extends Fragment {
             botoRecordatori.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //RECORDATORI ELEMENT - MATERIAL DIALOG per confirmar
-                    String[] hora = {"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","00"};
-                    new MaterialDialog.Builder(getActivity())
-                            .title("Atenció")
-                            .content("Vols ser avisat dues hores abans de l'esdeveniment?")
-                            .positiveText("AVISA'M")
-                            .negativeText("CANCEL·LAR")
-                            .positiveColorRes(R.color.material_blue_grey_900)
-                            .neutralColorRes(R.color.material_blue_grey_900)
-                            .callback(new MaterialDialog.ButtonCallback() {
-                                @Override
-                                public void onPositive(MaterialDialog dialog) {
-                                    createReminder();
-                                }
-                            }).show();
+                    Toast.makeText(getActivity(), "niet", Toast.LENGTH_LONG).show();
+                    if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("notification_preference", true)) {
+                        showTimePicker(data_inici);
+                    } else {
+                        new MaterialDialog.Builder(getActivity())
+                                .title("Atenció")
+                                .content("Activa les notificacions per poder programara un avís!")
+                                .positiveText("Activa")
+                                .negativeText("Cancela")
+                                .positiveColorRes(R.color.material_blue_grey_900)
+                                .neutralColorRes(R.color.material_blue_grey_900)
+                                .callback(new MaterialDialog.ButtonCallback() {
+                                    @Override
+                                    public void onPositive(MaterialDialog dialog) {
+                                        //LOG OUT FROM FACEBOOK
+                                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean("notification_preference", true).commit();
+                                        showTimePicker(data_inici);
+                                    }
+                                }).show();
+                    }
                 }
             });
 
@@ -213,13 +223,13 @@ public class DetailsEventFragment extends Fragment {
                     performPublish();
                 }
             });
+
         }
         rootView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
         });
-
         return rootView;
     }
 
@@ -373,10 +383,49 @@ public class DetailsEventFragment extends Fragment {
         new RequestTask().execute("http://jediantic.upc.es/api/anarEvent/" + userId + "/" + eventId);
     }
 
-    private void createReminder() {
+    // NOTIFICACIONS
+    private void showTimePicker(String data) {
+        // SELECT TIME
+        boolean wrapInScrollView = true;
+        new MaterialDialog.Builder(getActivity())
+                .title("Tria l'hora de l'avís")
+                .customView(R.layout.timepicker_layout, wrapInScrollView)
+                .positiveText("Guardar")
+                .negativeText("Cancelar")
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        // GET TIME AND CALL SETALARM WITH THE TIME
 
+                        setAlarm(10, 10, 10);
+                    }
+                }).show();
     }
 
+    private void setAlarm(int hour, int minute, int second) {
+        // SET ALARM
+
+        Intent myIntent = new Intent(getActivity(), NotificationService.class);
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, myIntent, 0);
+
+        /*
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 50);
+        calendar.set(Calendar.SECOND, 00);
+        */
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.add(Calendar.SECOND, 30);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);  //set repeating every 24 hours
+        Toast.makeText(getActivity(), "ALARMSERVICE", Toast.LENGTH_LONG).show();
+    }
+
+
+    // OPEN GOOGLE MAPS
     private void openGoogleMaps() {
         String uri = String.format(Locale.ENGLISH, "http://www.google.es/maps/place/" + carrer + ",+" + numero + ",+" + "+" + municipi);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
