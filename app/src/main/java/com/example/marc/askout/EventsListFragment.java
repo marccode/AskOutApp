@@ -36,6 +36,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
     ListView mListView;
     private List<ListViewItem> mItems;
     JSONArray jArray;
+    PENENENENNE
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
