@@ -143,8 +143,7 @@ public class MainActivity extends FragmentActivity {
         profileTracker.startTracking();
 
         if (checkLogin()) {
-            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-            startActivity(i);
+            getMyIdFromServer(Profile.getCurrentProfile());
         }
 
         final Button button = (Button) findViewById(R.id.mestard);
@@ -230,6 +229,7 @@ public class MainActivity extends FragmentActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             try {
+                result = result.replace("\"", "");
                 aux(result);
             } catch (JSONException e) {
                 e.printStackTrace();

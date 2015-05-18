@@ -36,16 +36,30 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
     ListView mListView;
     private List<ListViewItem> mItems;
     JSONArray jArray;
-    PENENENENNE
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("data", jArray.toString());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         View view = inflater.inflate(R.layout.fragment_events_list, container, false);
 
         if (savedInstanceState != null) {
             super.onCreate(savedInstanceState);
-        }
+            try {
+                String jsonString = savedInstanceState.getString("data");
+                //jArray = new JSONArray(jsonString);
+                aux(jsonString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
+        }
         else {
             // Inflate the layout for this fragment
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
@@ -59,6 +73,8 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                     android.R.color.holo_red_dark,
                     android.R.color.holo_blue_dark,
                     android.R.color.holo_orange_dark);
+
+            new RequestTask().execute("http://jediantic.upc.es/api/events");
         }
 
         return view;

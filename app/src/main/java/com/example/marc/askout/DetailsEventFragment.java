@@ -141,6 +141,13 @@ public class DetailsEventFragment extends Fragment {
             botoMapa = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonMaps);
             botoRecordatori = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonReminder);
 
+            if (Profile.getCurrentProfile() == null) {
+                // MOSTRAR GUARDAR EVENTS, NOTIFICACIO, COMPARTIR
+                botoCompartir.setVisibility(View.INVISIBLE);
+                botoGuardar.setVisibility(View.INVISIBLE);
+                botoRecordatori.setVisibility(View.INVISIBLE);
+            }
+
             botoGuardar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
