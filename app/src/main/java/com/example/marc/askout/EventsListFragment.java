@@ -36,6 +36,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
     ListView mListView;
     private List<ListViewItem> mItems;
     JSONArray jArray;
+    ADASDASD
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
