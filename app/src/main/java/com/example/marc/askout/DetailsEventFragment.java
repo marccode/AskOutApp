@@ -157,7 +157,7 @@ public class DetailsEventFragment extends Fragment {
 
                                 }
                             }).show();
-                    String userId = Profile.getCurrentProfile().getId();
+                    String userId = Profile.getCurrentProfile().getId(); // NO ES AQUEST ID
                     guardarEsdeveniment(userId, id);
                 }
             });
@@ -372,7 +372,7 @@ public class DetailsEventFragment extends Fragment {
     }
 
     private void guardarEsdeveniment(String userId, String eventId) {
-        new RequestTask().execute("http://jediantic.upc.es/api/anarEvent/" + userId + "/" + eventId);
+        new RequestTask().execute("http://jediantic.upc.es/api/anarEvent/55536e7e0e1bbbb5b3b85bec/" + eventId);
     }
 
     // NOTIFICACIONS

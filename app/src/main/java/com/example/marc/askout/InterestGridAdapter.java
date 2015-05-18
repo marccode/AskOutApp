@@ -101,7 +101,7 @@ public class InterestGridAdapter extends BaseAdapter {
 
                 if (selected[position]) {
                     if (result[position].equals("Oci i Cultura")) {
-                        new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/OciCultura/false");
+                        new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/Oci&Cultura/false");
                     }
                     else {
                         new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/" + result[position] + "/false");
@@ -111,7 +111,7 @@ public class InterestGridAdapter extends BaseAdapter {
                 }
                 else {
                     if (result[position].equals("Oci i Cultura")) {
-                        new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/OciCultura/true");
+                        new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/Oci&Cultura/true");
                     }
                     else {
                         new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/" + result[position] + "/true");

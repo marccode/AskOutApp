@@ -22,6 +22,7 @@ package com.example.marc.askout;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -41,6 +42,18 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.ProfilePictureView;
 import com.facebook.share.widget.ShareDialog;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 
 public class MainActivity extends FragmentActivity {
@@ -66,6 +79,7 @@ public class MainActivity extends FragmentActivity {
     private CallbackManager callbackManager;
     private ProfileTracker profileTracker;
     private ShareDialog shareDialog;
+    private int myID = -1;
 
     private Boolean checkLogin() {
 
@@ -91,8 +105,7 @@ public class MainActivity extends FragmentActivity {
                         profileTracker = new ProfileTracker() {
                             @Override
                             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-                                startActivity(i);
+                                getMyIdFromServer(currentProfile);
                             }
                         };
                         profileTracker.startTracking();
@@ -179,5 +192,62 @@ public class MainActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         profileTracker.stopTracking();
+    }
+    public void getMyIdFromServer(Profile p) {
+        String token = AccessToken.getCurrentAccessToken().getToken();
+        new RequestTask().execute("http://jediantic.upc.es/api/desarUser/" + token);
+    }
+
+    class RequestTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... uri) {
+            String responseString = null;
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpResponse response;
+                response = httpclient.execute(new HttpGet(uri[0]));
+                StatusLine statusLine = response.getStatusLine();
+                if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    response.getEntity().writeTo(out);
+                    responseString = out.toString();
+                    out.close();
+                } else{
+                    //Closes the connection.
+                    response.getEntity().getContent().close();
+                    throw new IOException(statusLine.getReasonPhrase());
+                }
+            } catch (ClientProtocolException e) {
+                //TODO Handle problems..
+            } catch (IOException e) {
+                //TODO Handle problems..
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            try {
+                aux(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            //Do anything with response...
+        }
+    }
+
+    private String aux(String s) throws JSONException {
+
+        if (s != null) {
+            myID = Integer.parseInt(s);
+            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(i);
+        }
+        else {
+            Toast.makeText(this, "Connecta't a internet per obtenir els esdeveniments!", Toast.LENGTH_SHORT).show();
+        }
+        return s;
     }
 }
