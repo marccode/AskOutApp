@@ -32,6 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@android:style/TextAppearance.Medium"
+                android:maxLines="1"
+                android:text="asdasdasdasasdasdasdasdasdasdasdasdasdadsasasdas"
                 android:textSize="15dp"/>
 
             <!-- the description view -->
@@ -40,8 +42,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@android:style/TextAppearance.Small"
+                android:maxLines="1"
+                android:text="asdasdasdas123123123123"
                 android:textSize="12dp"/>
+
+
         </RelativeLayout>
+
+        <ImageButton
+            android:background="@null"
+            android:id="@+id/starIcon"
+            android:src="@drawable/ic_star_outline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:contentDescription="icon_content_descrition"
+            android:scaleType="fitXY"
+            android:layout_alignTop="@+id/layout_title_description"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
 
     </RelativeLayout>
 
