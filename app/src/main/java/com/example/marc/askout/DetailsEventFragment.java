@@ -372,7 +372,7 @@ public class DetailsEventFragment extends Fragment {
     }
 
     private void guardarEsdeveniment(String userId, String eventId) {
-        new RequestTask().execute("http://jediantic.upc.es/api/anarEvent/55536e7e0e1bbbb5b3b85bec/" + eventId);
+        new RequestTask().execute("http://jediantic.upc.es/api/anarEvent/" + HomeActivity.myID + "/" + eventId);
     }
 
     // NOTIFICACIONS

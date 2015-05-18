@@ -1,11 +1,8 @@
 package com.example.marc.askout;
 
-import android.app.AlarmManager;
 import android.app.FragmentManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,8 +14,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 
-import java.util.Calendar;
-
 
 public class HomeActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
 //public class HomeActivity extends FragmentActivity
@@ -29,11 +24,20 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Toolbar mToolbar;
     private EventsListFragment mEventsListFragment;
+    public static String myID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            myID = extras.getString("id");
+            Toast.makeText(this, myID, Toast.LENGTH_SHORT).show();
+        }
+
+
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);

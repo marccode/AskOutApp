@@ -3,6 +3,7 @@ package com.example.marc.askout;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,32 +90,35 @@ public class InterestGridAdapter extends BaseAdapter {
 
 
         rowView.setOnClickListener(new View.OnClickListener() {
+            // SI L'USUARI NO HA INICIAT SESSIÓ NO S'ENVIA RES A LA API.
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Toast.makeText(context, "You Clicked " + result[position], Toast.LENGTH_LONG).show();
 
-                // SI L'USUARI NO HA INICIAT SESSIÓ NO S'ENVIA RES A LA API.
                 // CANVIAR LA ICONA
                 ImageView img = (ImageView) v.findViewById(R.id.imageView1);
 
+                //Toast.makeText(context, "http://jediantic.upc.es/api/users/" + HomeActivity.myID + "/Oci&Cultura/false", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "http://jediantic.upc.es/api/users/" + HomeActivity.myID + "/" + result[position] + "/true", Toast.LENGTH_SHORT).show();
+
                 if (selected[position]) {
                     if (result[position].equals("Oci i Cultura")) {
-                        new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/Oci&Cultura/false");
+                        new RequestTask().execute("http://jediantic.upc.es/api/users/" + HomeActivity.myID + "/Oci&Cultura/false");
                     }
                     else {
-                        new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/" + result[position] + "/false");
+                        new RequestTask().execute("http://jediantic.upc.es/api/users/" + HomeActivity.myID + "/" + result[position] + "/false");
                     }
                     selected[position] = false;
                     img.setImageResource(imageId[position]);
                 }
                 else {
                     if (result[position].equals("Oci i Cultura")) {
-                        new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/Oci&Cultura/true");
+                        new RequestTask().execute("http://jediantic.upc.es/api/users/" + HomeActivity.myID + "/Oci&Cultura/true");
                     }
                     else {
-                        new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/" + result[position] + "/true");
+                        new RequestTask().execute("http://jediantic.upc.es/api/users/" + HomeActivity.myID + "/" + result[position] + "/true");
                     }
                     selected[position] = true;
                     img.setImageResource(imageSelId[position]);
@@ -132,6 +136,7 @@ public class InterestGridAdapter extends BaseAdapter {
             HttpResponse response;
             String responseString = null;
             try {
+                Log.d("URL", uri[0]);
                 response = httpclient.execute(new HttpGet(uri[0]));
                 StatusLine statusLine = response.getStatusLine();
                 if(statusLine.getStatusCode() == HttpStatus.SC_OK){

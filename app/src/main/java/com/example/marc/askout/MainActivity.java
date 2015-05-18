@@ -79,7 +79,7 @@ public class MainActivity extends FragmentActivity {
     private CallbackManager callbackManager;
     private ProfileTracker profileTracker;
     private ShareDialog shareDialog;
-    private int myID = -1;
+    private String myID = "-1";
 
     private Boolean checkLogin() {
 
@@ -241,8 +241,9 @@ public class MainActivity extends FragmentActivity {
     private String aux(String s) throws JSONException {
 
         if (s != null) {
-            myID = Integer.parseInt(s);
-            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+            //Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, HomeActivity.class);
+            i.putExtra("id", s);
             startActivity(i);
         }
         else {
