@@ -36,7 +36,6 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
     SwipeRefreshLayout mSwipeRefreshLayout;
     ListView mListView;
     private List<ListViewItem> mItems;
-    public static int [] imageSelId = {R.drawable.icon,R.drawable.ic_headphones_black_24dp,R.drawable.ic_theaters_black_24dp,R.drawable.ic_account_balance_black_24dp,R.drawable.ic_duck_black_24dp,R.drawable.ic_dribbble_black_24dp,R.drawable.icon, R.drawable.ic_palette_black_24dp,R.drawable.ic_beaker_outline_black_24dp,R.drawable.icon};
 
     JSONArray jArray;
 
