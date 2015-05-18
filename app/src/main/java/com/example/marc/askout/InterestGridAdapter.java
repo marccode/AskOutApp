@@ -29,10 +29,12 @@ public class InterestGridAdapter extends BaseAdapter {
 
     Context context;
 
-    String[] result = {"Espectacles", "Música", "Cinema", "Museu", "Infantil", "Esport", "Exposició", "Art", "Ciència", "Oci i Cultura"};
-    public int[] imageId = {R.drawable.icon, R.drawable.ic_musica_no_sel, R.drawable.ic_cinema_no_sel, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon};
-    public int[] imageSelId = {R.drawable.icon, R.drawable.ic_musica_sel, R.drawable.ic_cinema_sel, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon, R.drawable.icon};
+    //String[] result = {"Espectacles", "Música", "Cinema", "Museu", "Infantil", "Esport", "Exposició", "Art", "Ciència", "Oci i Cultura"};
     public boolean[] selected = {false, false, false, false, false, false, false, false, false, false};
+    public static String [] result={"Espectacles","Música","Cinema","Museu","Infantil","Esport","Exposició","Art","Ciència", "Oci i Cultura"};
+    public static int [] imageSelId={R.drawable.icon,R.drawable.ic_headphones_black_24dp,R.drawable.ic_theaters_black_24dp,R.drawable.ic_account_balance_black_24dp,R.drawable.ic_duck_black_24dp,R.drawable.ic_dribbble_black_24dp,R.drawable.icon, R.drawable.ic_palette_black_24dp,R.drawable.ic_beaker_outline_black_24dp,R.drawable.icon};
+    public int[] imageId = {R.drawable.icon, R.drawable.ic_headphones_grey600_24dp, R.drawable.ic_theaters_grey600_24dp, R.drawable.ic_account_balance_grey600_24dp, R.drawable.ic_duck_grey600_24dp, R.drawable.ic_dribbble_grey600_24dp, R.drawable.icon, R.drawable.ic_palette_grey600_24dp, R.drawable.ic_beaker_outline_grey600_24dp, R.drawable.icon};
+
 
     private static LayoutInflater inflater = null;
 
@@ -98,12 +100,22 @@ public class InterestGridAdapter extends BaseAdapter {
                 ImageView img = (ImageView) v.findViewById(R.id.imageView1);
 
                 if (selected[position]) {
-                    new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/" + result[position] + "/false");
+                    if (result[position].equals("Oci i Cultura")) {
+                        new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/OciCultura/false");
+                    }
+                    else {
+                        new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/" + result[position] + "/false");
+                    }
                     selected[position] = false;
                     img.setImageResource(imageId[position]);
                 }
                 else {
-                    new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/" + result[position] + "/true");
+                    if (result[position].equals("Oci i Cultura")) {
+                        new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/OciCultura/true");
+                    }
+                    else {
+                        new RequestTask().execute("http://jediantic.upc.es/api/users/55536e7e0e1bbbb5b3b85bec/" + result[position] + "/true");
+                    }
                     selected[position] = true;
                     img.setImageResource(imageSelId[position]);
                 }

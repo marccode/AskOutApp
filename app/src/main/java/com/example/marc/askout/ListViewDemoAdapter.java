@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,13 +23,15 @@ public class ListViewDemoAdapter extends ArrayAdapter<ListViewItem> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
 
         if(convertView == null) {
             // inflate the GridView item layout
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.listview_item, parent, false);
+            //convertView.setMinimumHeight(80);
+
 
             // initialize the view holder
             viewHolder = new ViewHolder();
@@ -44,15 +45,7 @@ public class ListViewDemoAdapter extends ArrayAdapter<ListViewItem> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        convertView.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Toast.makeText(context, "You Clicked", Toast.LENGTH_LONG).show();
-                //v.
-            }
-        });
         // update the item view
         ListViewItem item = getItem(position);
         viewHolder.ivIcon.setImageDrawable(item.icon);

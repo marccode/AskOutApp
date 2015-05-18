@@ -31,8 +31,7 @@ public class InterestsFragment extends Fragment {
     GridView gv;
     Context context;
     ArrayList prgmName;
-    public static String [] prgmNameList={"Espectacles","Música","Cinema","Museu","Infantil","Esport","Exposició","Art","Ciència", "Oci i Cultura"};
-    public static int [] prgmImages={R.drawable.icon,R.drawable.icon,R.drawable.icon,R.drawable.icon,R.drawable.icon,R.drawable.icon,R.drawable.icon, R.drawable.icon,R.drawable.icon,R.drawable.icon};
+
 
 
     private OnFragmentInteractionListener mListener;
