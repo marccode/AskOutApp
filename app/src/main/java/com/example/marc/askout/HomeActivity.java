@@ -3,12 +3,12 @@ package com.example.marc.askout;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.Profile;
@@ -34,7 +34,10 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             myID = extras.getString("id");
-            Toast.makeText(this, myID, Toast.LENGTH_SHORT).show();
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putString("myID", "-1").commit();
+        }
+        else {
+            PreferenceManager.getDefaultSharedPreferences(this).getString("myID", "-1");
         }
 
 

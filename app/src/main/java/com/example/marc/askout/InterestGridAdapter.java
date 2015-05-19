@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -95,13 +94,8 @@ public class InterestGridAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Toast.makeText(context, "You Clicked " + result[position], Toast.LENGTH_LONG).show();
-
                 // CANVIAR LA ICONA
                 ImageView img = (ImageView) v.findViewById(R.id.imageView1);
-
-                //Toast.makeText(context, "http://jediantic.upc.es/api/users/" + HomeActivity.myID + "/Oci&Cultura/false", Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "http://jediantic.upc.es/api/users/" + HomeActivity.myID + "/" + result[position] + "/true", Toast.LENGTH_SHORT).show();
 
                 if (selected[position]) {
                     if (result[position].equals("Oci i Cultura")) {

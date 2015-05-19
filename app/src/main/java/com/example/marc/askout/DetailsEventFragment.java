@@ -129,8 +129,6 @@ public class DetailsEventFragment extends Fragment {
                         dataText.setText(data_inici);
                         dataText.setLines(1);
                     }
-                    Toast.makeText(getActivity(), "numero linees" + numeroLinies, Toast.LENGTH_LONG).show();
-
                 }
             });
 
@@ -172,7 +170,6 @@ public class DetailsEventFragment extends Fragment {
             botoRecordatori.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getActivity(), "niet", Toast.LENGTH_LONG).show();
                     if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("notification_preference", true)) {
                         showTimePicker(data_inici);
                     } else {
@@ -420,7 +417,6 @@ public class DetailsEventFragment extends Fragment {
         calendar.add(Calendar.SECOND, 30);
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);  //set repeating every 24 hours
-        Toast.makeText(getActivity(), "ALARMSERVICE", Toast.LENGTH_LONG).show();
     }
 
 

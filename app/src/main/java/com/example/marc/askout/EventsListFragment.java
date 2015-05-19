@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -89,8 +88,6 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh() {
-        //new myTask().execute();
-        Toast.makeText(getActivity(), "refresh", Toast.LENGTH_SHORT).show();
         mItems = new ArrayList<ListViewItem>();
         new RequestTask().execute("http://jediantic.upc.es/api/events");
     }
@@ -101,7 +98,6 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
         protected String doInBackground(String... uri) {
             String responseString = null;
             try {
-                //Toast.makeText(getActivity(), "INTERNET", Toast.LENGTH_SHORT).show();
                 Log.d("INTERNET", "1");
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpResponse response;
@@ -208,7 +204,6 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     // When clicked, show a toast with the TextView text
-                    Toast.makeText(getActivity(), "You clicked " + Integer.toString(position), Toast.LENGTH_SHORT).show();
                     try {
                         DetailsEventFragment detailsEventFragment = new DetailsEventFragment();
                         JSONObject obj = jArray.getJSONObject(position);

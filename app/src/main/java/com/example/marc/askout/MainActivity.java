@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
@@ -143,7 +144,14 @@ public class MainActivity extends FragmentActivity {
         profileTracker.startTracking();
 
         if (checkLogin()) {
-            getMyIdFromServer(Profile.getCurrentProfile());
+            if (PreferenceManager.getDefaultSharedPreferences(this).getString("myID", null) != null) {
+                // DON'T GET ID FROM SERVER
+                Intent i = new Intent(this, HomeActivity.class);
+                startActivity(i);
+            }
+            else {
+                getMyIdFromServer(Profile.getCurrentProfile());
+            }
         }
 
         final Button button = (Button) findViewById(R.id.mestard);
