@@ -156,5 +156,4 @@ public class InterestGridAdapter extends BaseAdapter {
             super.onPostExecute(result);
         }
     }
-
 }
