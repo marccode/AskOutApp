@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,14 +41,18 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+        Log.d("INTERNET", "CALLED");
+        Log.d("INTERNET", jArray.toString());
         outState.putString("data", jArray.toString());
+        super.onSaveInstanceState(outState);
+        //outState.putParcelableArrayList("items", mItems);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        super.onCreate(savedInstanceState);
+
         View view = inflater.inflate(R.layout.fragment_events_list, container, false);
 
         if (savedInstanceState != null) {
@@ -62,6 +67,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
 
         }
         else {
+            Log.d("INTERNET", "ELSE");
             // Inflate the layout for this fragment
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             mListView =  (ListView) view.findViewById(R.id.activity_main_listview);
@@ -84,7 +90,8 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
     @Override
     public void onRefresh() {
         //new myTask().execute();
-        Toast.makeText(getActivity(), "refresh", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "refresh", Toast.LENGTH_SHORT).show();
+        mItems = new ArrayList<ListViewItem>();
         new RequestTask().execute("http://jediantic.upc.es/api/events");
     }
 
@@ -94,6 +101,8 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
         protected String doInBackground(String... uri) {
             String responseString = null;
             try {
+                //Toast.makeText(getActivity(), "INTERNET", Toast.LENGTH_SHORT).show();
+                Log.d("INTERNET", "1");
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpResponse response;
                 response = httpclient.execute(new HttpGet(uri[0]));
@@ -136,11 +145,9 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
             for (int i = 0; i < 15; i++) {
                 JSONObject obj = jArray.getJSONObject(i);
                 JSONArray pony = obj.getJSONArray("categories_generals");
-                Toast.makeText(getActivity(), pony.get(0).toString(), Toast.LENGTH_SHORT).show();
 
                 Resources resources = getResources();
                 Drawable icon = resources.getDrawable(R.drawable.icon);
-
 
                 switch (pony.get(0).toString()) {
                     case "Espectacles":
@@ -189,6 +196,13 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                 mItems.add(new ListViewItem(icon, obj.getString("nom"), obj.getString("nomLloc")));
             }
 
+            setUpList();
+        }
+        return s;
+    }
+
+    private void setUpList() {
+
             mListView.setAdapter(new ListViewDemoAdapter(getActivity(), mItems));
 
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -227,11 +241,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
             ColorDrawable myColor = new ColorDrawable(0xFFCFBEBE);
             mListView.setDivider(myColor);
             mListView.setDividerHeight(2);
-        }
-        else {
-            Toast.makeText(getActivity(), "Connecta't a internet per obtenir els esdeveniments!", Toast.LENGTH_SHORT).show();
-        }
-        return s;
+            //Toast.makeText(getActivity(), "Connecta't a internet per obtenir els esdeveniments!", Toast.LENGTH_SHORT).show();
     }
 
 }
