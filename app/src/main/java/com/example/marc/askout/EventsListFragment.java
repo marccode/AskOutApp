@@ -124,7 +124,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
 
                 switch (pony.get(0).toString()) {
                     case "Espectacles":
-                        icon = resources.getDrawable(R.drawable.icon);
+                        icon = resources.getDrawable(R.drawable.ic_theater_black_24dp);
                         break;
 
                     case "Música":
@@ -148,7 +148,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                         break;
 
                     case "Exposició":
-                        icon = resources.getDrawable(R.drawable.icon);
+                        icon = resources.getDrawable(R.drawable.ic_crop_original_black_24dp);
                         break;
 
                     case "Art":
@@ -160,7 +160,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                         break;
 
                     case "Oci&Cultura":
-                        icon = resources.getDrawable(R.drawable.icon);
+                        icon = resources.getDrawable(R.drawable.ic_book_open_black_24dp);
                         break;
 
                     default:

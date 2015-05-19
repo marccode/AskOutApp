@@ -3,7 +3,6 @@ package com.example.marc.askout;
 import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -320,7 +319,7 @@ public class DetailsEventFragment extends Fragment {
                 .setContentTitle("AskOut!")
                 .setContentDescription(
                         "Blah Blah Blah, have a look at this shitty event")
-                .setContentUrl(Uri.parse("http://jediantic.upc.es"))
+                .setContentUrl(Uri.parse("http://jediantic.upc.es/"))
                 .build();
 
         Boolean canPresentShareDialog = ShareDialog.canShow(
@@ -411,7 +410,7 @@ public class DetailsEventFragment extends Fragment {
                         TimePicker timePicker = ((TimePicker) rootView.findViewById(R.id.timePicker));
                         int hora =  timePicker.getCurrentHour();
                         //String hora = timePicker.getCurrentHour().toString();
-                        Toast.makeText(getActivity(), "HORA I MINUT ", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getActivity(), "HORA I MINUT ", Toast.LENGTH_LONG).show();
                         //setAlarm(10, 10, 10);
                     }
                 }).show();

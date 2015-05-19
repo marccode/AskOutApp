@@ -32,21 +32,19 @@ public class InterestGridAdapter extends BaseAdapter {
     //String[] result = {"Espectacles", "Música", "Cinema", "Museu", "Infantil", "Esport", "Exposició", "Art", "Ciència", "Oci i Cultura"};
     public boolean[] selected = {false, false, false, false, false, false, false, false, false, false};
     public static String [] result={"Espectacles","Música","Cinema","Museu","Infantil","Esport","Exposició","Art","Ciència", "Oci i Cultura"};
-    public static int [] imageSelId={R.drawable.icon,R.drawable.ic_headphones_black_24dp,R.drawable.ic_theaters_black_24dp,R.drawable.ic_account_balance_black_24dp,R.drawable.ic_duck_black_24dp,R.drawable.ic_dribbble_black_24dp,R.drawable.icon, R.drawable.ic_palette_black_24dp,R.drawable.ic_beaker_outline_black_24dp,R.drawable.icon};
-    public int[] imageId = {R.drawable.icon, R.drawable.ic_headphones_grey600_24dp, R.drawable.ic_theaters_grey600_24dp, R.drawable.ic_account_balance_grey600_24dp, R.drawable.ic_duck_grey600_24dp, R.drawable.ic_dribbble_grey600_24dp, R.drawable.icon, R.drawable.ic_palette_grey600_24dp, R.drawable.ic_beaker_outline_grey600_24dp, R.drawable.icon};
+    public static int [] imageSelId={R.drawable.ic_theater_black_24dp,R.drawable.ic_headphones_black_24dp,R.drawable.ic_theaters_black_24dp,R.drawable.ic_account_balance_black_24dp,R.drawable.ic_duck_black_24dp,R.drawable.ic_dribbble_black_24dp,R.drawable.ic_crop_original_black_24dp, R.drawable.ic_palette_black_24dp,R.drawable.ic_beaker_outline_black_24dp,R.drawable.ic_book_open_black_24dp};
+    public int[] imageId = {R.drawable.ic_theater_grey600_24dp, R.drawable.ic_headphones_grey600_24dp, R.drawable.ic_theaters_grey600_24dp, R.drawable.ic_account_balance_grey600_24dp, R.drawable.ic_duck_grey600_24dp, R.drawable.ic_dribbble_grey600_24dp, R.drawable.ic_crop_original_grey600_24dp, R.drawable.ic_palette_grey600_24dp, R.drawable.ic_beaker_outline_grey600_24dp, R.drawable.ic_book_open_grey600_24dp};
 
 
     private static LayoutInflater inflater = null;
 
     //public InterestGridAdapter(MainActivity mainActivity, String[] prgmNameList, int[] prgmImages) {
-    public InterestGridAdapter(Activity mainActivity) {
+    public InterestGridAdapter(Activity mainActivity, boolean[] interests) {
 
         // TODO Auto-generated constructor stub
-        //result=prgmNameList;
         context = mainActivity;
-        //imageId=prgmImages;
-        inflater = (LayoutInflater) context.
-                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        selected = interests;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 

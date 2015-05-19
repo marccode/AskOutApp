@@ -46,6 +46,7 @@ public class InterestsFragment extends Fragment {
     GridView gv;
     Context context;
     ArrayList prgmName;
+    View view;
 
 
 
@@ -76,17 +77,12 @@ public class InterestsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            new RequestTask().execute("http://jediantic.upc.es/api/userInterests/" + HomeActivity.myID);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_interests, container, false);
-        InterestGridAdapter adapter = new InterestGridAdapter(getActivity());
-
-        gv = (GridView) view.findViewById(R.id.gridView1);
-        gv.setAdapter(adapter);
-
+        view =  inflater.inflate(R.layout.fragment_interests, container, false);
+        new RequestTask().execute("http://jediantic.upc.es/api/userInterests/" + HomeActivity.myID);
         return view;
     }
 
@@ -150,26 +146,81 @@ public class InterestsFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            if (!result.equals("Done")) {
-                try {
-                    setInterests(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            try {
+                setInterests(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
     }
 
     public String setInterests(String result) throws JSONException {
+        boolean[] selected = {false, false, false, false, false, false, false, false, false, false};
         if (result != null) {
-
-            JSONArray jArray = new JSONArray(result);
+            JSONArray ja = new JSONArray(result);
+            JSONObject o = ja.getJSONObject(0);
+            JSONArray jArray = o.getJSONArray("interessos");
             for (int i = 0; i < jArray.length(); i++) {
                 JSONObject obj = jArray.getJSONObject(i);
-                Boolean interes = obj.getBoolean("interes");
+                boolean interes = obj.getBoolean("interes");
                 String nom_interes = obj.getString("titol");
+                switch (nom_interes) {
+                    case "Espectacles":
+                        selected[0] = interes;
+                        Log.d("sad", "espectacles: " + interes);
+                        break;
+
+                    case "Música":
+                        Log.d("sad", "musica: " + interes);
+                        selected[1] = interes;
+                        break;
+
+                    case "Cinema":
+                        selected[2] = interes;
+                        break;
+
+                    case "Museu":
+                        selected[3] = interes;
+                        break;
+
+                    case "Infantil":
+                        selected[4] = interes;
+                        break;
+
+                    case "Esport":
+                        selected[5] = interes;
+                        break;
+
+                    case "Exposició":
+                        selected[6] = interes;
+                        break;
+
+                    case "Art":
+                        selected[7] = interes;
+                        break;
+
+                    case "Ciència":
+                        selected[8] = interes;
+                        break;
+
+                    case "Oci&Cultura":
+                        selected[9] = interes;
+                        break;
+
+                    default:
+                        Log.d("sad", "default");
+                        break;
+                }
             }
         }
+        else {
+            Log.d("sad", "else");
+        }
+        Log.d("sad", "1");
+        InterestGridAdapter adapter = new InterestGridAdapter(getActivity(), selected);
+
+        gv = (GridView) view.findViewById(R.id.gridView1);
+        gv.setAdapter(adapter);
         return result;
     }
 

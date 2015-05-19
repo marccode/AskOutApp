@@ -2,7 +2,6 @@ package com.example.marc.askout;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.ListFragment;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -132,7 +131,7 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             try {
-                Log.d("INTERNET", result);
+                //Log.d("INTERNET", HomeActivity.myID);
                 aux(result);
                 mSwipeRefreshLayout.setRefreshing(false);
             } catch (JSONException e) {
