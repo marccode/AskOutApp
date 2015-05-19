@@ -3,6 +3,7 @@ package com.example.marc.askout;
 import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -90,7 +92,7 @@ public class DetailsEventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_details_event, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_details_event, container, false);
 
         if (getArguments() != null) {
             //obtenim les dades a traves del Bundle
@@ -105,22 +107,28 @@ public class DetailsEventFragment extends Fragment {
             municipi = getArguments().getString("municipi");
             latitude = getArguments().getString("latitude");
             longitude  = getArguments().getString("longitude");
-
             //assignem les dades al contingut XML
             nomText = (TextView) rootView.findViewById(R.id.nomEsd);
             nomText.setText(nom);
             nomLlocText = (TextView) rootView.findViewById(R.id.nomLlocEsd);
             nomLlocText.setText(nomLloc + "\n" + carrer + " " + numero + "\n" + districte + " " + municipi);
             dataText = (TextView) rootView.findViewById(R.id.dataEsd);
-            dataText.setText("\n" + data_inici);
 
-
+            String any =  data_inici.substring(0,4);
+            String mes = data_inici.substring(5,7);
+            String dia = data_inici.substring(8,10);
+            String hora = data_inici.substring(11, 16);
+            dataText.setText("\n" + dia + "/" + mes + "/" + any + " " + hora);
             categoriesText = (TextView) rootView.findViewById(R.id.categoriesEsd);
-            categoriesText.setText(getArguments().getString("categories"));
-
+            String categoria = getArguments().getString("categories");
+            categoria = categoria.replace("[", "");
+            categoria = categoria.replace("]", "");
+            categoria = categoria.replace("&", " i ");
+            categoria = categoria.substring(1,categoria.length()-1);
+            categoriesText.setText("\n" + categoria);
             categoriesText.post(new Runnable() {
                 @Override
-                public void run() {
+            public void run() {                                                              //una vegada els textview estan llestos, comptem les linees per donar tamany al layout amb les linees
                     int numeroLinies = nomText.getLineCount() + nomLlocText.getLineCount() + dataText.getLineCount() + categoriesText.getLineCount();
                     if (numeroLinies == 10) {
                         dataText.setText(data_inici);
@@ -129,23 +137,14 @@ public class DetailsEventFragment extends Fragment {
                         dataText.setText(data_inici);
                         dataText.setLines(1);
                     }
+                    Toast.makeText(getActivity(), "numero linees" + numeroLinies, Toast.LENGTH_LONG).show();
                 }
             });
-
-
             //CODI PER ELS FLOATING BUTTON
             botoCompartir = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonShare);
             botoGuardar = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonSave);
             botoMapa = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonMaps);
             botoRecordatori = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonReminder);
-
-            if (Profile.getCurrentProfile() == null) {
-                // MOSTRAR GUARDAR EVENTS, NOTIFICACIO, COMPARTIR
-                botoCompartir.setVisibility(View.INVISIBLE);
-                botoGuardar.setVisibility(View.INVISIBLE);
-                botoRecordatori.setVisibility(View.INVISIBLE);
-            }
-
             botoGuardar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -170,8 +169,25 @@ public class DetailsEventFragment extends Fragment {
             botoRecordatori.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Toast.makeText(getActivity(), "niet", Toast.LENGTH_LONG).show();
                     if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("notification_preference", true)) {
-                        showTimePicker(data_inici);
+                        boolean wrapInScrollView = true;
+                        new MaterialDialog.Builder(getActivity())
+                                .title("Tria l'hora de l'avís")
+                                .customView(R.layout.timepicker_layout, wrapInScrollView)
+                                .positiveText("Guardar")
+                                .negativeText("Cancelar")
+                                .callback(new MaterialDialog.ButtonCallback() {
+                                    @Override
+                                    public void onPositive(MaterialDialog dialog) {
+                                        // GET TIME AND CALL SETALARM WITH THE TIME
+                                        TimePicker timePicker = (TimePicker) rootView.findViewById(R.id.timePicker);
+                                        //int hora =  timePicker.getCurrentHour();
+                                        //String hora = timePicker.getCurrentHour().toString();
+                                        Toast.makeText(getActivity(), "HORA I MINUT ", Toast.LENGTH_LONG).show();
+                                        //setAlarm(10, 10, 10);
+                                    }
+                                }).show();
                     } else {
                         new MaterialDialog.Builder(getActivity())
                                 .title("Atenció")
@@ -183,9 +199,8 @@ public class DetailsEventFragment extends Fragment {
                                 .callback(new MaterialDialog.ButtonCallback() {
                                     @Override
                                     public void onPositive(MaterialDialog dialog) {
-                                        //LOG OUT FROM FACEBOOK
                                         PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean("notification_preference", true).commit();
-                                        showTimePicker(data_inici);
+                                        //showTimePicker(data_inici);
                                     }
                                 }).show();
                     }
@@ -391,9 +406,13 @@ public class DetailsEventFragment extends Fragment {
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
+                        View rootView = getView();
                         // GET TIME AND CALL SETALARM WITH THE TIME
-
-                        setAlarm(10, 10, 10);
+                        TimePicker timePicker = ((TimePicker) rootView.findViewById(R.id.timePicker));
+                        int hora =  timePicker.getCurrentHour();
+                        //String hora = timePicker.getCurrentHour().toString();
+                        Toast.makeText(getActivity(), "HORA I MINUT ", Toast.LENGTH_LONG).show();
+                        //setAlarm(10, 10, 10);
                     }
                 }).show();
     }
