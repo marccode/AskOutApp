@@ -26,6 +26,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -144,20 +145,20 @@ public class MainActivity extends FragmentActivity {
         profileTracker.startTracking();
 
         if (checkLogin()) {
-            if (PreferenceManager.getDefaultSharedPreferences(this).getString("myID", null) != null) {
-                // DON'T GET ID FROM SERVER
-                Intent i = new Intent(this, HomeActivity.class);
-                startActivity(i);
-            }
-            else {
+            //if (PreferenceManager.getDefaultSharedPreferences(this).getString("myID", null) != null) {
                 getMyIdFromServer(Profile.getCurrentProfile());
-            }
+            //}
+            //else {
+                //getMyIdFromServer(Profile.getCurrentProfile());
+            //}
         }
 
         final Button button = (Button) findViewById(R.id.mestard);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                //Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                //startActivity(i);
+                Intent i = new Intent(getApplicationContext(), TestActivity.class);
                 startActivity(i);
             }
         });
@@ -202,6 +203,7 @@ public class MainActivity extends FragmentActivity {
     }
     public void getMyIdFromServer(Profile p) {
         String token = AccessToken.getCurrentAccessToken().getToken();
+        Log.d("token", token);
         new RequestTask().execute("http://jediantic.upc.es/api/desarUser/" + token);
     }
 
@@ -250,8 +252,10 @@ public class MainActivity extends FragmentActivity {
 
         if (s != null) {
             //Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putString("myID", s).commit();
+
             Intent i = new Intent(this, HomeActivity.class);
-            i.putExtra("id", s);
+            //i.putExtra("id", s);
             startActivity(i);
         }
         else {

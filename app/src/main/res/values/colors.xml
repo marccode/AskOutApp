@@ -36,9 +36,7 @@
     <color name="yellow">#F9BF3B</color>
     <color name="lightblue">#5C97BF</color>
     <color name="lightviolet">#BE90D4</color>
-
-
-
+    <color name="transparent">#00FFFFFF</color>
 
 
     <color name="pink_pressed">#ec407a</color>

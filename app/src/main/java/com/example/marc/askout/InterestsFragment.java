@@ -81,8 +81,9 @@ public class InterestsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("sad", "MYID: " + HomeActivity.myID);
         view =  inflater.inflate(R.layout.fragment_interests, container, false);
-        new RequestTask().execute("http://jediantic.upc.es/api/userInterests/" + HomeActivity.myID);
+        new RequestTask().execute("http://jediantic.upc.es/api/userInterest/" + HomeActivity.myID);
         return view;
     }
 
@@ -156,11 +157,14 @@ public class InterestsFragment extends Fragment {
 
     public String setInterests(String result) throws JSONException {
         boolean[] selected = {false, false, false, false, false, false, false, false, false, false};
+        Log.d("sad", "setInterests");
         if (result != null) {
-            JSONArray ja = new JSONArray(result);
-            JSONObject o = ja.getJSONObject(0);
-            JSONArray jArray = o.getJSONArray("interessos");
+            Log.d("sad", result);
+            JSONArray jArray = new JSONArray(result);
+            Log.d("sad", jArray.toString());
+            Log.d("sad","after" );
             for (int i = 0; i < jArray.length(); i++) {
+                Log.d("sad", Integer.toString(i));
                 JSONObject obj = jArray.getJSONObject(i);
                 boolean interes = obj.getBoolean("interes");
                 String nom_interes = obj.getString("titol");
@@ -223,6 +227,4 @@ public class InterestsFragment extends Fragment {
         gv.setAdapter(adapter);
         return result;
     }
-
-
 }

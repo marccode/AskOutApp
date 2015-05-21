@@ -30,7 +30,7 @@ public class InterestGridAdapter extends BaseAdapter {
     Context context;
 
     //String[] result = {"Espectacles", "Música", "Cinema", "Museu", "Infantil", "Esport", "Exposició", "Art", "Ciència", "Oci i Cultura"};
-    public boolean[] selected = {false, false, false, false, false, false, false, false, false, false};
+    public boolean[] selected;// = {false, false, false, false, false, false, false, false, false, false};
     public static String [] result={"Espectacles","Música","Cinema","Museu","Infantil","Esport","Exposició","Art","Ciència", "Oci i Cultura"};
     public static int [] imageSelId={R.drawable.ic_theater_black_24dp,R.drawable.ic_headphones_black_24dp,R.drawable.ic_theaters_black_24dp,R.drawable.ic_account_balance_black_24dp,R.drawable.ic_duck_black_24dp,R.drawable.ic_dribbble_black_24dp,R.drawable.ic_crop_original_black_24dp, R.drawable.ic_palette_black_24dp,R.drawable.ic_beaker_outline_black_24dp,R.drawable.ic_book_open_black_24dp};
     public int[] imageId = {R.drawable.ic_theater_grey600_24dp, R.drawable.ic_headphones_grey600_24dp, R.drawable.ic_theaters_grey600_24dp, R.drawable.ic_account_balance_grey600_24dp, R.drawable.ic_duck_grey600_24dp, R.drawable.ic_dribbble_grey600_24dp, R.drawable.ic_crop_original_grey600_24dp, R.drawable.ic_palette_grey600_24dp, R.drawable.ic_beaker_outline_grey600_24dp, R.drawable.ic_book_open_grey600_24dp};
@@ -83,7 +83,10 @@ public class InterestGridAdapter extends BaseAdapter {
         holder.img = (ImageView) rowView.findViewById(R.id.imageView1);
 
         holder.tv.setText(result[position]);
-        holder.img.setImageResource(imageId[position]);
+        if (selected[position])
+            holder.img.setImageResource(imageSelId[position]);
+        else
+            holder.img.setImageResource(imageId[position]);
 
 
         rowView.setOnClickListener(new View.OnClickListener() {

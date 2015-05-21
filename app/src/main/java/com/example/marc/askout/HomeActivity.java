@@ -31,16 +31,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            myID = extras.getString("id");
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putString("myID", "-1").commit();
-        }
-        else {
-            PreferenceManager.getDefaultSharedPreferences(this).getString("myID", "-1");
-        }
-
-
+        myID = PreferenceManager.getDefaultSharedPreferences(this).getString("myID", "-1");
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
