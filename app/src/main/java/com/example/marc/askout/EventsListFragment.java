@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class EventsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -36,15 +37,34 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
     ListView mListView;
     private List<ListViewItem> mItems;
     JSONArray jArray;
+    Date date;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_events_list, container, false);
-        onRefresh();
         if (savedInstanceState != null) {
             super.onCreate(savedInstanceState);
         }
         else {
+            if (getArguments() != null) {
+                int year = getArguments().getInt("year");
+                int month = getArguments().getInt("month");
+                int day = getArguments().getInt("day");
+                date = new Date(year, month, day);
+            }
+            else {
+                date = new Date();
+            }
+
+
+            /*
+            Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+            calendar.get(Calendar.YEAR)
+            */
+
+
+            Toast.makeText(getActivity(), date.toString(), Toast.LENGTH_SHORT).show();
+
             // Inflate the layout for this fragment
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             mListView =  (ListView) view.findViewById(R.id.activity_main_listview);
@@ -58,7 +78,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                     android.R.color.holo_blue_dark,
                     android.R.color.holo_orange_dark);
         }
-
+        onRefresh();
         return view;
     }
 
@@ -66,7 +86,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
     public void onRefresh() {
         //new myTask().execute();
         Toast.makeText(getActivity(), "refresh", Toast.LENGTH_LONG).show();
-        new RequestTask().execute("http://jediantic.upc.es/api/events");
+        new RequestTask().execute("http://jediantic.upc.es/api/events/");// + date.toString());
     }
 
     class RequestTask extends AsyncTask<String, String, String> {

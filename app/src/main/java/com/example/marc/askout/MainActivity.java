@@ -156,10 +156,10 @@ public class MainActivity extends FragmentActivity {
         final Button button = (Button) findViewById(R.id.mestard);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-                //startActivity(i);
-                Intent i = new Intent(getApplicationContext(), TestActivity.class);
+                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(i);
+                //Intent i = new Intent(getApplicationContext(), TestActivity.class);
+                //startActivity(i);
             }
         });
 

@@ -235,6 +235,11 @@ public class DetailsEventFragment extends Fragment {
             });
 
         }
+        if (Profile.getCurrentProfile() == null) {
+            botoCompartir.setVisibility(View.INVISIBLE);
+            botoGuardar.setVisibility(View.INVISIBLE);
+            botoRecordatori.setVisibility(View.INVISIBLE);
+        }
         rootView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
