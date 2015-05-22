@@ -8,12 +8,18 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckedTextView;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.marc.askout.InfoSingleEvent;
+import com.example.marc.askout.dummy.MyExpandableListAdapter;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -34,10 +40,13 @@ import java.util.List;
 
 public class EventsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     SwipeRefreshLayout mSwipeRefreshLayout;
-    ListView mListView;
     private List<ListViewItem> mItems;
-    JSONArray jArray;
     Date date;
+    ExpandableListView mListView;
+    SparseArray<Group> groups = new SparseArray<Group>();
+
+    public static JSONArray jArray;
+    private static int numEsdCat[];
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,13 +72,14 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
             */
 
 
-            Toast.makeText(getActivity(), date.toString(), Toast.LENGTH_SHORT).show();
+
+            //Toast.makeText(getActivity(), date.toString(), Toast.LENGTH_SHORT).show();
 
             // Inflate the layout for this fragment
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-            mListView =  (ListView) view.findViewById(R.id.activity_main_listview);
+            mListView =  (ExpandableListView) view.findViewById(R.id.activity_main_listview);
 
-            mItems = new ArrayList<ListViewItem>();
+            groups = new SparseArray<Group>();
 
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -79,6 +89,9 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                     android.R.color.holo_orange_dark);
         }
         onRefresh();
+        MyExpandableListAdapter adapter = new MyExpandableListAdapter(getActivity(), groups);
+        numEsdCat = new int[10];
+        mListView.setAdapter(adapter);
         return view;
     }
 
@@ -87,6 +100,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
         //new myTask().execute();
         Toast.makeText(getActivity(), "refresh", Toast.LENGTH_LONG).show();
         new RequestTask().execute("http://jediantic.upc.es/api/events/");// + date.toString());
+        new RequestTask().execute("http://jediantic.upc.es/api/events");
     }
 
     class RequestTask extends AsyncTask<String, String, String> {
@@ -134,60 +148,25 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
 
         if (s != null) {
             jArray = new JSONArray(s);
-            for (int i = 0; i < 15; i++) {
+            Group espectacles = new Group("Espectacles");
+            Group musica = new Group("Música");
+            Group cinema = new Group("Cinema");
+            Group museu = new Group("Museu");
+            Group infantil = new Group("Infantil");
+            Group esport = new Group("Esport");
+            Group exposicio = new Group("Exposició");
+            Group art = new Group("Art");
+            Group ciencia = new Group("Ciència");
+            Group ocicultura = new Group("Oci i Cultura");
+            for (int i = 0; i < 50; i++) {
                 JSONObject obj = jArray.getJSONObject(i);
                 JSONArray pony = obj.getJSONArray("categories_generals");
-
                 Resources resources = getResources();
                 Drawable icon = resources.getDrawable(R.drawable.icon);
 
-
-                switch (pony.get(0).toString()) {
-                    case "Espectacles":
-                        icon = resources.getDrawable(R.drawable.ic_theater_black_24dp);
-                        break;
-
-                    case "Música":
-                        icon = resources.getDrawable(R.drawable.ic_headphones_black_24dp);
-                        break;
-
-                    case "Cinema":
-                        icon = resources.getDrawable(R.drawable.ic_theaters_black_24dp);
-                        break;
-
-                    case "Museu":
-                        icon = resources.getDrawable(R.drawable.ic_account_balance_black_24dp);
-                        break;
-
-                    case "Infantil":
-                        icon = resources.getDrawable(R.drawable.ic_duck_black_24dp);
-                        break;
-
-                    case "Esport":
-                        icon = resources.getDrawable(R.drawable.ic_dribbble_black_24dp);
-                        break;
-
-                    case "Exposició":
-                        icon = resources.getDrawable(R.drawable.ic_crop_original_black_24dp);
-                        break;
-
-                    case "Art":
-                        icon = resources.getDrawable(R.drawable.ic_palette_black_24dp);
-                        break;
-
-                    case "Ciència":
-                        icon = resources.getDrawable(R.drawable.ic_beaker_outline_black_24dp);
-                        break;
-
-                    case "Oci&Cultura":
-                        icon = resources.getDrawable(R.drawable.ic_book_open_black_24dp);
-                        break;
-
-                    default:
-                        break;
-                }
                 String nom = obj.getString("nom");
-                String nomLloc = obj.getString("nom");
+                String nomLloc = obj.getString("nomLloc");
+                /*
                 if (nom.length() > 40) {
                     nom = nom.substring(0,40);
                     nom = nom + "...";
@@ -196,45 +175,95 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                     nomLloc = nomLloc.substring(0,45);
                     nomLloc = nomLloc + "...";
                 }
-                mItems.add(new ListViewItem(icon, nom, nomLloc));
-            }
+                */
+                InfoSingleEvent info;
+                switch (pony.get(0).toString()) {
+                    case "Espectacles":
+                        info = new InfoSingleEvent(nom, nomLloc);
+                        espectacles.children.add(info);
+                        numEsdCat[0]++;
+                        icon = resources.getDrawable(R.drawable.ic_headphones_black_24dp);
+                        break;
 
-            mListView.setAdapter(new ListViewDemoAdapter(getActivity(), mItems));
+                    case "Música":
+                        info = new InfoSingleEvent(nom, nomLloc);
+                        musica.children.add(info);
+                        numEsdCat[1]++;
+                        icon = resources.getDrawable(R.drawable.ic_headphones_black_24dp);
+                        break;
 
-            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // When clicked, show a toast with the TextView text
-                    Toast.makeText(getActivity(), "You clicked " + Integer.toString(position), Toast.LENGTH_SHORT).show();
-                    try {
-                        DetailsEventFragment detailsEventFragment = new DetailsEventFragment();
-                        JSONObject obj = jArray.getJSONObject(position);
-                        ArrayList<String> categories = new ArrayList<String>();
-                        ArrayList<String> categories_generals = new ArrayList<String>();
-                        Bundle args = new Bundle();
-                        args.putString("id", obj.getString("_id"));
-                        args.putString("data_inici", obj.getString("data_inici"));
-                        args.putString("data_final", obj.getString("data_final"));
-                        args.putString("nom", obj.getString("nom"));
-                        args.putString("nomLloc", obj.getString("nomLloc"));
-                        args.putString("carrer", obj.getString("carrer"));
-                        args.putString("numero", obj.getString("numero"));
-                        args.putString("districte", obj.getString("districte"));
-                        args.putString("municipi", obj.getString("municipi"));
-                        args.putString("categories", obj.getString("categories_generals"));
-                        //args.putStringArray("categories", categories);
-                        //args.putStringArray("categories_generals", categories_generals);
-                        detailsEventFragment.setArguments(args);
-                        FragmentManager fm = getFragmentManager();
+                    case "Cinema":
+                        info = new InfoSingleEvent(nom, nomLloc);
+                        cinema.children.add(info);
+                        numEsdCat[2]++;
+                        icon = resources.getDrawable(R.drawable.ic_theaters_black_24dp);
+                        break;
 
-                        //fm.beginTransaction().hide(getCurrentFragment()).commit();
-                        fm.beginTransaction()
-                                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                                .replace(R.id.container, detailsEventFragment).commit();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    case "Museu":
+                        info = new InfoSingleEvent(nom, nomLloc);
+                        museu.children.add(info);
+                        numEsdCat[3]++;
+                        icon = resources.getDrawable(R.drawable.ic_account_balance_black_24dp);
+                        break;
+
+                    case "Infantil":
+                        info = new InfoSingleEvent(nom, nomLloc);
+                        infantil.children.add(info);
+                        numEsdCat[4]++;
+                        icon = resources.getDrawable(R.drawable.ic_duck_black_24dp);
+                        break;
+
+                    case "Esport":
+                        info = new InfoSingleEvent(nom, nomLloc);
+                        esport.children.add(info);
+                        numEsdCat[5]++;
+                        icon = resources.getDrawable(R.drawable.ic_dribbble_black_24dp);
+                        break;
+
+                    case "Exposició":
+                        info = new InfoSingleEvent(nom, nomLloc);
+                        exposicio.children.add(info);
+                        numEsdCat[6]++;
+                        icon = resources.getDrawable(R.drawable.ic_headphones_black_24dp);
+                        break;
+
+                    case "Art":
+                        info = new InfoSingleEvent(nom, nomLloc);
+                        art.children.add(info);
+                        numEsdCat[7]++;
+                        icon = resources.getDrawable(R.drawable.ic_palette_black_24dp);
+                        break;
+
+                    case "Ciència":
+                        info = new InfoSingleEvent(nom, nomLloc);
+                        ciencia.children.add(info);
+                        numEsdCat[8]++;
+                        icon = resources.getDrawable(R.drawable.ic_beaker_outline_black_24dp);
+                        break;
+
+                    case "Oci&Cultura":
+                        info = new InfoSingleEvent(nom, nomLloc);
+                        ocicultura.children.add(info);
+                        numEsdCat[9]++;
+                        icon = resources.getDrawable(R.drawable.ic_headphones_black_24dp);
+                        break;
+
+                    default:
+                        break;
                 }
-            });
+                //mItems.add(new ListViewItem(icon, nom, nomLloc));
+            }
+            if(! espectacles.isEmpty()) groups.append(0, espectacles);
+            if(! musica.isEmpty()) groups.append(0, musica);
+            if(! cinema.isEmpty()) groups.append(0, cinema);
+            if(! museu.isEmpty()) groups.append(0, museu);
+            if(! infantil.isEmpty()) groups.append(0, infantil);
+            if(! esport.isEmpty()) groups.append(0, esport);
+            if(! exposicio.isEmpty()) groups.append(0, exposicio);
+            if(! art.isEmpty()) groups.append(0, art);
+            if(! ciencia.isEmpty()) groups.append(0, ciencia);
+            if(! ocicultura.isEmpty()) groups.append(0, ocicultura);
+
 
             ColorDrawable myColor = new ColorDrawable(0xFFCFBEBE);
             mListView.setDivider(myColor);
@@ -246,4 +275,12 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
         return s;
     }
 
+    public static int getEventPosition(int groupPosition) {
+        int pos = 0;
+        for (int i = 0; i < groupPosition; i++) {
+            pos += numEsdCat[i];
+            if (numEsdCat[i] == 0 ) i = i - 1;
+        }
+        return pos;
+    }
 }
