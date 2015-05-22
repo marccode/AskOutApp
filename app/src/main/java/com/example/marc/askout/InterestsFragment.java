@@ -81,9 +81,14 @@ public class InterestsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("sad", "MYID: " + HomeActivity.myID);
         view =  inflater.inflate(R.layout.fragment_interests, container, false);
-        new RequestTask().execute("http://jediantic.upc.es/api/userInterest/" + HomeActivity.myID);
+        if (Global.getInstance().interests == null) {
+            Global.getInstance().interests = new boolean[]{false, false, false, false, false, false, false, false, false, false};
+            new RequestTask().execute("http://jediantic.upc.es/api/userInterest/" + HomeActivity.myID);
+        }
+        else {
+            setUpInterests();
+        }
         return view;
     }
 
@@ -148,83 +153,73 @@ public class InterestsFragment extends Fragment {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             try {
-                setInterests(result);
+                aux(result);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public String setInterests(String result) throws JSONException {
-        boolean[] selected = {false, false, false, false, false, false, false, false, false, false};
-        Log.d("sad", "setInterests");
+    public String aux(String result) throws JSONException {
         if (result != null) {
-            Log.d("sad", result);
             JSONArray jArray = new JSONArray(result);
-            Log.d("sad", jArray.toString());
-            Log.d("sad","after" );
             for (int i = 0; i < jArray.length(); i++) {
-                Log.d("sad", Integer.toString(i));
                 JSONObject obj = jArray.getJSONObject(i);
                 boolean interes = obj.getBoolean("interes");
                 String nom_interes = obj.getString("titol");
                 switch (nom_interes) {
                     case "Espectacles":
-                        selected[0] = interes;
-                        Log.d("sad", "espectacles: " + interes);
+                        Global.getInstance().interests[0] = interes;
                         break;
 
                     case "Música":
-                        Log.d("sad", "musica: " + interes);
-                        selected[1] = interes;
+                        Global.getInstance().interests[1] = interes;
                         break;
 
                     case "Cinema":
-                        selected[2] = interes;
+                        Global.getInstance().interests[2] = interes;
                         break;
 
                     case "Museu":
-                        selected[3] = interes;
+                        Global.getInstance().interests[3] = interes;
                         break;
 
                     case "Infantil":
-                        selected[4] = interes;
+                        Global.getInstance().interests[4] = interes;
                         break;
 
                     case "Esport":
-                        selected[5] = interes;
+                        Global.getInstance().interests[5] = interes;
                         break;
 
                     case "Exposició":
-                        selected[6] = interes;
+                        Global.getInstance().interests[6] = interes;
                         break;
 
                     case "Art":
-                        selected[7] = interes;
+                        Global.getInstance().interests[7] = interes;
                         break;
 
                     case "Ciència":
-                        selected[8] = interes;
+                        Global.getInstance().interests[8] = interes;
                         break;
 
                     case "Oci&Cultura":
-                        selected[9] = interes;
+                        Global.getInstance().interests[9] = interes;
                         break;
 
                     default:
-                        Log.d("sad", "default");
                         break;
                 }
             }
         }
-        else {
-            Log.d("sad", "else");
-        }
-        Log.d("sad", "1");
-        InterestGridAdapter adapter = new InterestGridAdapter(getActivity(), selected);
-
-        gv = (GridView) view.findViewById(R.id.gridView1);
-        gv.setAdapter(adapter);
+        setUpInterests();
         return result;
+    }
+
+    public void setUpInterests() {
+        gv = (GridView) view.findViewById(R.id.gridView1);
+        InterestGridAdapter adapter = new InterestGridAdapter(getActivity(), Global.getInstance().interests);
+        gv.setAdapter(adapter);
     }
 }

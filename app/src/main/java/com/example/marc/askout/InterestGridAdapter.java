@@ -94,18 +94,17 @@ public class InterestGridAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 // CANVIAR LA ICONA
                 ImageView img = (ImageView) v.findViewById(R.id.imageView1);
 
-                if (selected[position]) {
+                if (Global.getInstance().interests[position]) {
                     if (result[position].equals("Oci i Cultura")) {
                         new RequestTask().execute("http://jediantic.upc.es/api/users/" + HomeActivity.myID + "/Oci&Cultura/false");
                     }
                     else {
                         new RequestTask().execute("http://jediantic.upc.es/api/users/" + HomeActivity.myID + "/" + result[position] + "/false");
                     }
-                    selected[position] = false;
+                    Global.getInstance().interests[position] = false;
                     img.setImageResource(imageId[position]);
                 }
                 else {
@@ -115,7 +114,7 @@ public class InterestGridAdapter extends BaseAdapter {
                     else {
                         new RequestTask().execute("http://jediantic.upc.es/api/users/" + HomeActivity.myID + "/" + result[position] + "/true");
                     }
-                    selected[position] = true;
+                    Global.getInstance().interests[position] = true;
                     img.setImageResource(imageSelId[position]);
                 }
             }

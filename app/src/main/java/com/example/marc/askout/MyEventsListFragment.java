@@ -38,43 +38,27 @@ import java.util.List;
 public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     SwipeRefreshLayout mSwipeRefreshLayout;
     ListView mListView;
-    private List<ListViewItem> mItems;
     JSONArray jArray;
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        Log.d("INTERNET", "CALLED");
-        Log.d("INTERNET", jArray.toString());
-        outState.putString("data", jArray.toString());
-        super.onSaveInstanceState(outState);
-        //outState.putParcelableArrayList("items", mItems);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setRetainInstance(true);
-        super.onCreate(savedInstanceState);
-
         View view = inflater.inflate(R.layout.fragment_events_list, container, false);
-
         if (savedInstanceState != null) {
             super.onCreate(savedInstanceState);
-            try {
-                String jsonString = savedInstanceState.getString("data");
-                //jArray = new JSONArray(jsonString);
-                aux(jsonString);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
         }
         else {
-            Log.d("INTERNET", "ELSE");
+
+            /*
+            Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+            calendar.get(Calendar.YEAR)
+            */
+
             // Inflate the layout for this fragment
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             mListView =  (ListView) view.findViewById(R.id.activity_main_listview);
 
-            mItems = new ArrayList<ListViewItem>();
+            //Global.getInstance().mItems = new ArrayList<ListViewItem>();
 
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -82,19 +66,22 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
                     android.R.color.holo_red_dark,
                     android.R.color.holo_blue_dark,
                     android.R.color.holo_orange_dark);
-
-            new RequestTask().execute("http://jediantic.upc.es/api/userEvents/" + HomeActivity.myID);
         }
 
+        if (Global.getInstance().mItemsSaved == null) {
+            onRefresh();
+        }
+        else {
+            Toast.makeText(getActivity(), "NOT NULL", Toast.LENGTH_SHORT).show();
+            setUpList();
+        }
         return view;
     }
 
     @Override
     public void onRefresh() {
-        //new myTask().execute();
-        Toast.makeText(getActivity(), "refresh", Toast.LENGTH_SHORT).show();
-        mItems = new ArrayList<ListViewItem>();
-        new RequestTask().execute("http://jediantic.upc.es/api/userEvents/" + HomeActivity.myID);
+        Global.getInstance().mItemsSaved = new ArrayList<ListViewItem>();
+        new RequestTask().execute("http://jediantic.upc.es/api/userEvents/" + HomeActivity.myID);// + date.toString());
     }
 
     class RequestTask extends AsyncTask<String, String, String> {
@@ -103,8 +90,6 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
         protected String doInBackground(String... uri) {
             String responseString = null;
             try {
-                //Toast.makeText(getActivity(), "INTERNET", Toast.LENGTH_SHORT).show();
-                Log.d("INTERNET", "1");
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpResponse response;
                 response = httpclient.execute(new HttpGet(uri[0]));
@@ -131,8 +116,10 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             try {
-                //Log.d("INTERNET", HomeActivity.myID);
-                aux(result);
+                if (result != null) aux(result);
+                else
+                    Toast.makeText(getActivity(), "Connecta't a internet per obtenir els esdeveniments!", Toast.LENGTH_SHORT).show();
+
                 mSwipeRefreshLayout.setRefreshing(false);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -142,108 +129,112 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
     }
 
     private String aux(String s) throws JSONException {
+        jArray = new JSONArray(s);
 
-        if (s != null) {
-            jArray = new JSONArray(s);
-            for (int i = 0; i < jArray.length(); i++) {
-                JSONObject obj = jArray.getJSONObject(i);
-                JSONArray pony = obj.getJSONArray("categories_generals");
+        for (int i = 0; i < 8; i++) { // POT DONAR PROBLEMES SI EL jArray es més petit de 15!!!
+            Log.d("FOR", Integer.toString(i));
+            JSONObject obj = jArray.getJSONObject(i);
+            JSONArray pony = obj.getJSONArray("categories_generals");
 
-                Resources resources = getResources();
-                Drawable icon = resources.getDrawable(R.drawable.icon);
+            Resources resources = getResources();
+            Drawable icon = resources.getDrawable(R.drawable.icon);
 
-                switch (pony.get(0).toString()) {
-                    case "Espectacles":
-                        icon = resources.getDrawable(R.drawable.icon);
-                        break;
 
-                    case "Música":
-                        icon = resources.getDrawable(R.drawable.ic_headphones_black_24dp);
-                        break;
+            switch (pony.get(0).toString()) {
+                case "Espectacles":
+                    icon = resources.getDrawable(R.drawable.ic_theater_black_24dp);
+                    break;
 
-                    case "Cinema":
-                        icon = resources.getDrawable(R.drawable.ic_theaters_black_24dp);
-                        break;
+                case "Música":
+                    icon = resources.getDrawable(R.drawable.ic_headphones_black_24dp);
+                    break;
 
-                    case "Museu":
-                        icon = resources.getDrawable(R.drawable.ic_account_balance_black_24dp);
-                        break;
+                case "Cinema":
+                    icon = resources.getDrawable(R.drawable.ic_theaters_black_24dp);
+                    break;
 
-                    case "Infantil":
-                        icon = resources.getDrawable(R.drawable.ic_duck_black_24dp);
-                        break;
+                case "Museu":
+                    icon = resources.getDrawable(R.drawable.ic_account_balance_black_24dp);
+                    break;
 
-                    case "Esport":
-                        icon = resources.getDrawable(R.drawable.ic_dribbble_black_24dp);
-                        break;
+                case "Infantil":
+                    icon = resources.getDrawable(R.drawable.ic_duck_black_24dp);
+                    break;
 
-                    case "Exposició":
-                        icon = resources.getDrawable(R.drawable.icon);
-                        break;
+                case "Esport":
+                    icon = resources.getDrawable(R.drawable.ic_dribbble_black_24dp);
+                    break;
 
-                    case "Art":
-                        icon = resources.getDrawable(R.drawable.ic_palette_black_24dp);
-                        break;
+                case "Exposició":
+                    icon = resources.getDrawable(R.drawable.ic_crop_original_black_24dp);
+                    break;
 
-                    case "Ciència":
-                        icon = resources.getDrawable(R.drawable.ic_beaker_outline_black_24dp);
-                        break;
+                case "Art":
+                    icon = resources.getDrawable(R.drawable.ic_palette_black_24dp);
+                    break;
 
-                    case "Oci&Cultura":
-                        icon = resources.getDrawable(R.drawable.icon);
-                        break;
+                case "Ciència":
+                    icon = resources.getDrawable(R.drawable.ic_beaker_outline_black_24dp);
+                    break;
 
-                    default:
-                        break;
-                }
-                mItems.add(new ListViewItem(icon, obj.getString("nom"), obj.getString("nomLloc")));
+                case "Oci&Cultura":
+                    icon = resources.getDrawable(R.drawable.ic_book_open_black_24dp);
+                    break;
+
+                default:
+                    break;
             }
-
-            setUpList();
+            String nom = obj.getString("nom");
+            String nomLloc = obj.getString("nomLloc");
+            if (nom.length() > 40) {
+                nom = nom.substring(0,40);
+                nom = nom + "...";
+            }
+            if (nomLloc.length() > 45) {
+                nomLloc = nomLloc.substring(0,45);
+                nomLloc = nomLloc + "...";
+            }
+            Global.getInstance().mItemsSaved.add(new ListViewItem(obj.getString("_id"), obj.getString("data_inici"), obj.getString("data_final"), nom, nomLloc, obj.getString("carrer"), obj.getString("numero"), obj.getString("districte"), obj.getString("municipi"), obj.getString("categories_generals"), icon ));
         }
+        setUpList();
         return s;
     }
 
-    private void setUpList() {
-
-        mListView.setAdapter(new ListViewDemoAdapter(getActivity(), mItems));
+    public void setUpList() {
+        mListView.setAdapter(new ListViewDemoAdapter(getActivity(), Global.getInstance().mItemsSaved));
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // When clicked, show a toast with the TextView text
                 Toast.makeText(getActivity(), "You clicked " + Integer.toString(position), Toast.LENGTH_SHORT).show();
-                try {
-                    DetailsEventFragment detailsEventFragment = new DetailsEventFragment();
-                    JSONObject obj = jArray.getJSONObject(position);
-                    ArrayList<String> categories = new ArrayList<String>();
-                    ArrayList<String> categories_generals = new ArrayList<String>();
-                    Bundle args = new Bundle();
-                    args.putString("id", obj.getString("_id"));
-                    args.putString("data_inici", obj.getString("data_inici"));
-                    args.putString("data_final", obj.getString("data_final"));
-                    args.putString("nom", obj.getString("nom"));
-                    args.putString("nomLloc", obj.getString("nomLloc"));
-                    args.putString("carrer", obj.getString("carrer"));
-                    args.putString("numero", obj.getString("numero"));
-                    args.putString("districte", obj.getString("districte"));
-                    args.putString("municipi", obj.getString("municipi"));
-                    args.putString("categories", obj.getString("categories_generals"));
-                    //args.putStringArray("categories", categories);
-                    //args.putStringArray("categories_generals", categories_generals);
-                    detailsEventFragment.setArguments(args);
-                    FragmentManager fm = getFragmentManager();
+                DetailsEventFragment detailsEventFragment = new DetailsEventFragment();
+                //JSONObject obj = jArray.getJSONObject(position);
 
-                    //fm.beginTransaction().hide(getCurrentFragment()).commit();
-                    fm.beginTransaction().replace(R.id.container, detailsEventFragment).commit();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Bundle args = new Bundle();
+                args.putString("id", Global.getInstance().mItemsSaved.get(position).id);
+                args.putString("data_inici", Global.getInstance().mItemsSaved.get(position).data_inici);
+                args.putString("data_final", Global.getInstance().mItemsSaved.get(position).data_final);
+                args.putString("nom", Global.getInstance().mItemsSaved.get(position).nom);
+                args.putString("nomLloc", Global.getInstance().mItemsSaved.get(position).nomLloc);
+                args.putString("carrer", Global.getInstance().mItemsSaved.get(position).carrer);
+                args.putString("numero", Global.getInstance().mItemsSaved.get(position).numero);
+                args.putString("districte",Global.getInstance().mItemsSaved.get(position).districte);
+                args.putString("municipi", Global.getInstance().mItemsSaved.get(position).municipi);
+                args.putString("categories", Global.getInstance().mItemsSaved.get(position).categories);
+
+                detailsEventFragment.setArguments(args);
+                FragmentManager fm = getFragmentManager();
+
+                //fm.beginTransaction().hide(getCurrentFragment()).commit();
+                fm.beginTransaction()
+                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                        .replace(R.id.container, detailsEventFragment).commit();
             }
         });
 
         ColorDrawable myColor = new ColorDrawable(0xFFCFBEBE);
         mListView.setDivider(myColor);
         mListView.setDividerHeight(2);
-        //Toast.makeText(getActivity(), "Connecta't a internet per obtenir els esdeveniments!", Toast.LENGTH_SHORT).show();
     }
+
 }
