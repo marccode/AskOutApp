@@ -8,8 +8,9 @@ import java.util.List;
 public class Global {
     private static Global instance = null;
 
-    public boolean[] interests;
+    public boolean[] interests = null;
     public List<ListViewItem> mItems = null;
+    public List<ListViewItem> mItemsSaved = null;
 
     protected Global() {
     }

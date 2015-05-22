@@ -72,12 +72,9 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
         }
 
         if (Global.getInstance().mItems == null) {
-            Toast.makeText(getActivity(), "NULL", Toast.LENGTH_SHORT).show();
             onRefresh();
         }
         else {
-            Toast.makeText(getActivity(), "NOT NULL", Toast.LENGTH_SHORT).show();
-            Toast.makeText(getActivity(), Integer.toString(Global.getInstance().mItems.size()), Toast.LENGTH_SHORT).show();
             setUpList();
         }
         return view;
@@ -85,8 +82,6 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh() {
-        //new myTask().execute();
-        Toast.makeText(getActivity(), "refresh", Toast.LENGTH_LONG).show();
         Global.getInstance().mItems = new ArrayList<ListViewItem>();
         new RequestTask().execute("http://jediantic.upc.es/api/events/");// + date.toString());
     }
@@ -211,7 +206,6 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
     }
 
     public void setUpList() {
-        Toast.makeText(getActivity(), "setUpList", Toast.LENGTH_LONG).show();
         mListView.setAdapter(new ListViewDemoAdapter(getActivity(), Global.getInstance().mItems));
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
