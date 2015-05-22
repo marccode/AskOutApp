@@ -196,7 +196,7 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
                     default:
                         break;
                 }
-                mItems.add(new ListViewItem(icon, obj.getString("nom"), obj.getString("nomLloc")));
+                //mItems.add(new ListViewItem(icon, obj.getString("nom"), obj.getString("nomLloc")));
             }
 
             setUpList();

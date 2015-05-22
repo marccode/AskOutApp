@@ -48,8 +48,8 @@ public class ListViewDemoAdapter extends ArrayAdapter<ListViewItem> {
         // update the item view
         ListViewItem item = getItem(position);
         viewHolder.ivIcon.setImageDrawable(item.icon);
-        viewHolder.tvTitle.setText(item.title);
-        viewHolder.tvDescription.setText(item.description);
+        viewHolder.tvTitle.setText(item.nom);
+        viewHolder.tvDescription.setText(item.nomLloc);
 
         return convertView;
     }
