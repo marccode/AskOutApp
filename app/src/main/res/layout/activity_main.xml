@@ -9,9 +9,11 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.marc.askout.MainActivity"
     android:background="#ffffffff"
-    android:id="@+id/relativeLayoutMain">
+    android:id="@+id/relativeLayoutMain"
+    android:orientation="vertical">
 
-    <LinearLayout
+
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="250pt"
@@ -22,20 +24,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="-10pt"
             android:id="@+id/imageView"
-            android:src="@drawable/logo_heads" />
+            android:src="@drawable/logo"
+            android:layout_centerHorizontal="true"/>
 
         <com.facebook.login.widget.LoginButton
-            android:layout_marginTop="-10pt"
             android:layout_width="140pt"
             android:layout_height="30pt"
             android:layout_gravity="center_horizontal"
             facebook:confirm_logout="false"
             facebook:tooltip_mode="never_display"
             facebook:login_text="@string/loginFacebook"
-            android:id="@+id/view" />
+            android:id="@+id/view"
+            android:layout_below="@+id/imageView"
+            android:layout_centerHorizontal="true" />
 
         <Button
-            android:layout_marginTop="10pt"
+            android:layout_marginTop="10sp"
             android:layout_width="140pt"
             android:layout_height="12pt"
             android:textColor="#f5f5f5"
@@ -44,10 +48,11 @@
             android:textStyle="bold"
             style="?android:attr/borderlessButtonStyle"
             android:background="#f26b25"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/mestard" />
+            android:layout_centerHorizontal="true"
+            android:id="@+id/mestard"
+            android:layout_below="@+id/view"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>

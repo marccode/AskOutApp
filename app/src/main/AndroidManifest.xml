@@ -34,7 +34,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:icon="@drawable/logo_heads"
+        android:icon="@drawable/logo_text"
         android:label="AskOut"
         android:theme="@style/AppTheme" >
         <activity

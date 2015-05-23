@@ -8,13 +8,19 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckedTextView;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.marc.askout.InfoSingleEvent;
+import com.example.marc.askout.dummy.MyExpandableListAdapter;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -30,14 +36,20 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class EventsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     SwipeRefreshLayout mSwipeRefreshLayout;
-    ListView mListView;
+    //ListView mListView;
     JSONArray jArray;
+    ExpandableListView mListView;
     int year;
     int month;
     int day;
+
+    public static JSONArray jArray;
+    private static int numEsdCat[];
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,9 +71,9 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
 
             // Inflate the layout for this fragment
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-            mListView =  (ListView) view.findViewById(R.id.activity_main_listview);
+            mListView =  (ExpandableListView) view.findViewById(R.id.activity_main_listview);
 
-            //Global.getInstance().mItems = new ArrayList<ListViewItem>();
+            groups = new SparseArray<Group>();
 
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -135,14 +147,12 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
         Toast.makeText(getActivity(), Integer.toString(jArray.length()), Toast.LENGTH_LONG).show();
 
         for (int i = 0; i < 8; i++) { // POT DONAR PROBLEMES SI EL jArray es més petit de 15!!!
-            Log.d("FOR", Integer.toString(i));
             Toast.makeText(getActivity(), Integer.toString(i), Toast.LENGTH_LONG).show();
             JSONObject obj = jArray.getJSONObject(i);
             JSONArray pony = obj.getJSONArray("categories_generals");
 
             Resources resources = getResources();
             Drawable icon = resources.getDrawable(R.drawable.icon);
-
 
             switch (pony.get(0).toString()) {
                 case "Espectacles":
@@ -188,6 +198,8 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                 default:
                     break;
             }
+            
+            
             String nom = obj.getString("nom");
             String nomLloc = obj.getString("nomLloc");
             if (nom.length() > 40) {
@@ -198,15 +210,100 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                 nomLloc = nomLloc.substring(0,45);
                 nomLloc = nomLloc + "...";
             }
+            
             Global.getInstance().mItems.add(new ListViewItem(obj.getString("_id"), obj.getString("data_inici"), obj.getString("data_final"), nom, nomLloc, obj.getString("carrer"), obj.getString("numero"), obj.getString("districte"), obj.getString("municipi"), obj.getString("categories_generals"), icon ));
         }
-        Toast.makeText(getActivity(), "aBOUT TOsetUpList", Toast.LENGTH_LONG).show();
         setUpList();
         return s;
     }
 
     public void setUpList() {
-        mListView.setAdapter(new ListViewDemoAdapter(getActivity(), Global.getInstance().mItems));
+        groups = new SparseArray<Group>();
+        MyExpandableListAdapter adapter = new MyExpandableListAdapter(getActivity(), groups);
+        numEsdCat = new int[10];
+        mListView.setAdapter(adapter);
+
+        Group espectacles = new Group("Espectacles");
+        Group musica = new Group("Música");
+        Group cinema = new Group("Cinema");
+        Group museu = new Group("Museu");
+        Group infantil = new Group("Infantil");
+        Group esport = new Group("Esport");
+        Group exposicio = new Group("Exposició");
+        Group art = new Group("Art");
+        Group ciencia = new Group("Ciència");
+        Group ocicultura = new Group("Oci i Cultura");
+        
+        for (int i = 0; i < Global.getInstance().mItems.size(); ++i) {
+            InfoSingleEvent info = new InfoSingleEvent(nom, nomLloc);
+            switch (pony.get(0).toString()) {
+                case "Espectacles":
+                    espectacles.children.add(info);
+                    numEsdCat[0]++;
+                    break;
+
+                case "Música":
+                    musica.children.add(info);
+                    numEsdCat[1]++;
+                    break;
+
+                case "Cinema":
+                    cinema.children.add(info);
+                    numEsdCat[2]++;
+                    break;
+
+                case "Museu":
+                    museu.children.add(info);
+                    numEsdCat[3]++;
+                    break;
+
+                case "Infantil":
+                    infantil.children.add(info);
+                    numEsdCat[4]++;
+                    break;
+
+                case "Esport":
+                    esport.children.add(info);
+                    numEsdCat[5]++;
+                    break;
+
+                case "Exposició":
+                    exposicio.children.add(info);
+                    numEsdCat[6]++;
+                    break;
+
+                case "Art":
+                    art.children.add(info);
+                    numEsdCat[7]++;
+                    break;
+
+                case "Ciència":
+                    ciencia.children.add(info);
+                    numEsdCat[8]++;
+                    break;
+
+                case "Oci&Cultura":
+                    ocicultura.children.add(info);
+                    numEsdCat[9]++;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        if(! espectacles.isEmpty()) groups.append(0, espectacles);
+        if(! musica.isEmpty()) groups.append(0, musica);
+        if(! cinema.isEmpty()) groups.append(0, cinema);
+        if(! museu.isEmpty()) groups.append(0, museu);
+        if(! infantil.isEmpty()) groups.append(0, infantil);
+        if(! esport.isEmpty()) groups.append(0, esport);
+        if(! exposicio.isEmpty()) groups.append(0, exposicio);
+        if(! art.isEmpty()) groups.append(0, art);
+        if(! ciencia.isEmpty()) groups.append(0, ciencia);
+        if(! ocicultura.isEmpty()) groups.append(0, ocicultura);
+        
+        //mListView.setAdapter(new ListViewDemoAdapter(getActivity(), Global.getInstance().mItems));
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -223,11 +320,9 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                 args.putString("nomLloc", Global.getInstance().mItems.get(position).nomLloc);
                 args.putString("carrer", Global.getInstance().mItems.get(position).carrer);
                 args.putString("numero", Global.getInstance().mItems.get(position).numero);
-                args.putString("districte",Global.getInstance().mItems.get(position).districte);
+                args.putString("di stricte",Global.getInstance().mItems.get(position).districte);
                 args.putString("municipi", Global.getInstance().mItems.get(position).municipi);
                 args.putString("categories", Global.getInstance().mItems.get(position).categories);
-                args.putInt("position", position);
-                args.putString("from", "eventsList");
 
                 detailsEventFragment.setArguments(args);
                 FragmentManager fm = getFragmentManager();

@@ -141,7 +141,6 @@ public class DetailsEventFragment extends Fragment {
                         dataText.setText(data_inici);
                         dataText.setLines(1);
                     }
-                    Toast.makeText(getActivity(), "numero linees" + numeroLinies, Toast.LENGTH_LONG).show();
                 }
             });
             //CODI PER ELS FLOATING BUTTON
