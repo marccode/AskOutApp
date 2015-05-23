@@ -36,4 +36,5 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.9.0'
     compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    compile 'com.prolificinteractive:material-calendarview:0.4.0'
 }

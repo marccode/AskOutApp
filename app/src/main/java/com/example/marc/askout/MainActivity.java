@@ -81,7 +81,6 @@ public class MainActivity extends FragmentActivity {
     private CallbackManager callbackManager;
     private ProfileTracker profileTracker;
     private ShareDialog shareDialog;
-    private String myID = "-1";
 
     private Boolean checkLogin() {
 
@@ -158,8 +157,6 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(i);
-                //Intent i = new Intent(getApplicationContext(), TestActivity.class);
-                //startActivity(i);
             }
         });
 
@@ -202,9 +199,10 @@ public class MainActivity extends FragmentActivity {
         profileTracker.stopTracking();
     }
     public void getMyIdFromServer(Profile p) {
-        String token = AccessToken.getCurrentAccessToken().getToken();
-        Log.d("token", token);
-        new RequestTask().execute("http://jediantic.upc.es/api/desarUser/" + token);
+        if (p.getCurrentProfile() != null) {
+            String token = AccessToken.getCurrentAccessToken().getToken();
+            new RequestTask().execute("http://jediantic.upc.es/api/desarUser/" + token);
+        }
     }
 
     class RequestTask extends AsyncTask<String, String, String> {
@@ -255,7 +253,6 @@ public class MainActivity extends FragmentActivity {
             PreferenceManager.getDefaultSharedPreferences(this).edit().putString("myID", s).commit();
 
             Intent i = new Intent(this, HomeActivity.class);
-            //i.putExtra("id", s);
             startActivity(i);
         }
         else {

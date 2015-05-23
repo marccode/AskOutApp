@@ -221,6 +221,8 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
                 args.putString("districte",Global.getInstance().mItemsSaved.get(position).districte);
                 args.putString("municipi", Global.getInstance().mItemsSaved.get(position).municipi);
                 args.putString("categories", Global.getInstance().mItemsSaved.get(position).categories);
+                args.putInt("position", position);
+                args.putString("from", "myEventsList");
 
                 detailsEventFragment.setArguments(args);
                 FragmentManager fm = getFragmentManager();

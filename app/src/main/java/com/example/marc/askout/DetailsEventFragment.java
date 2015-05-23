@@ -63,6 +63,8 @@ public class DetailsEventFragment extends Fragment {
     private String municipi;
     private String latitude;
     private String longitude;
+    private int position;
+    private String from;
 
     private TextView nomText;
     private TextView nomLlocText;
@@ -106,6 +108,9 @@ public class DetailsEventFragment extends Fragment {
             municipi = getArguments().getString("municipi");
             latitude = getArguments().getString("latitude");
             longitude  = getArguments().getString("longitude");
+            position = getArguments().getInt("position");
+            from = getArguments().getString("from");
+
             //assignem les dades al contingut XML
             nomText = (TextView) rootView.findViewById(R.id.nomEsd);
             nomText.setText(nom);
@@ -160,8 +165,7 @@ public class DetailsEventFragment extends Fragment {
 
                                 }
                             }).show();
-                    String userId = Profile.getCurrentProfile().getId(); // NO ES AQUEST ID
-                    guardarEsdeveniment(userId, id);
+                    guardarEsdeveniment(id);
                 }
             });
 
@@ -240,6 +244,13 @@ public class DetailsEventFragment extends Fragment {
             botoGuardar.setVisibility(View.INVISIBLE);
             botoRecordatori.setVisibility(View.INVISIBLE);
         }
+        if (from.equals("myEventsList")) {
+            botoGuardar.setVisibility(View.INVISIBLE);
+        }
+        else if (from.equals("eventsList")) {
+            //botoRecordatori.setVisibility(View.INVISIBLE);
+        }
+
         rootView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
@@ -391,10 +402,11 @@ public class DetailsEventFragment extends Fragment {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             //Do anything with response...
+            Global.getInstance().mItemsSaved.add(Global.getInstance().mItems.get(position));
         }
     }
 
-    private void guardarEsdeveniment(String userId, String eventId) {
+    private void guardarEsdeveniment(String eventId) {
         new RequestTask().execute("http://jediantic.upc.es/api/anarEvent/" + HomeActivity.myID + "/" + eventId);
     }
 

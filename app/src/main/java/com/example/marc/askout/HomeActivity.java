@@ -122,6 +122,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         //LOG OUT FROM FACEBOOK
+                        myID = "-1";
                         LoginManager.getInstance().logOut();
                         Intent i = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(i);
