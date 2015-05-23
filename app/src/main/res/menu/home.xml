@@ -6,4 +6,9 @@
         android:icon="@drawable/ic_music_circle_white_24dp"
         android:title="as"
         android2:showAsAction="ifRoom"  />
+
+    <item android:id="@+id/action_search"
+        android:icon="@drawable/ic_music_circle_white_24dp"
+        android:title="as"
+        android2:showAsAction="ifRoom"  />
 </menu>
