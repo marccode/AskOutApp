@@ -42,7 +42,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
     SwipeRefreshLayout mSwipeRefreshLayout;
     private List<ListViewItem> mItems;
     Date date;
-    ExpandableListView mListView;
+    public ExpandableListView mListView;
     SparseArray<Group> groups = new SparseArray<Group>();
 
     public static JSONArray jArray;
@@ -91,6 +91,8 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
         onRefresh();
         MyExpandableListAdapter adapter = new MyExpandableListAdapter(getActivity(), groups);
         numEsdCat = new int[10];
+        int previousGroup =-1;
+
         mListView.setAdapter(adapter);
         return view;
     }
@@ -98,8 +100,6 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
     @Override
     public void onRefresh() {
         //new myTask().execute();
-        Toast.makeText(getActivity(), "refresh", Toast.LENGTH_LONG).show();
-        new RequestTask().execute("http://jediantic.upc.es/api/events/");// + date.toString());
         new RequestTask().execute("http://jediantic.upc.es/api/events");
     }
 
