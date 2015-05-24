@@ -535,5 +535,4 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
         }
         return pos;
     }
-
 }
