@@ -64,7 +64,7 @@ public class DetailsEventFragment extends Fragment {
     private String latitude;
     private String longitude;
     private int position;
-    private String from;
+    private String from = "-1";
 
     private TextView nomText;
     private TextView nomLlocText;
@@ -96,159 +96,159 @@ public class DetailsEventFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_details_event, container, false);
 
         if (getArguments() != null) {
-            //obtenim les dades a traves del Bundle
-            id = getArguments().getString("id");
-            data_inici = getArguments().getString("data_inici");
-            data_final = getArguments().getString("data_inici");
-            nom = getArguments().getString("nom");
-            nomLloc = getArguments().getString("nomLloc");
-            carrer = getArguments().getString("carrer");
-            numero = getArguments().getString("numero");
-            districte = getArguments().getString("districte");
-            municipi = getArguments().getString("municipi");
-            latitude = getArguments().getString("latitude");
-            longitude  = getArguments().getString("longitude");
             position = getArguments().getInt("position");
             from = getArguments().getString("from");
-
-            //assignem les dades al contingut XML
-            nomText = (TextView) rootView.findViewById(R.id.nomEsd);
-            nomText.setText(nom);
-            nomLlocText = (TextView) rootView.findViewById(R.id.nomLlocEsd);
-            nomLlocText.setText(nomLloc + "\n" + carrer + " " + numero + "\n" + districte + " " + municipi);
-            dataText = (TextView) rootView.findViewById(R.id.dataEsd);
-
-            String any =  data_inici.substring(0,4);
-            String mes = data_inici.substring(5,7);
-            String dia = data_inici.substring(8,10);
-            String hora = data_inici.substring(11, 16);
-            dataText.setText("\n" + dia + "/" + mes + "/" + any + " " + hora);
-            categoriesText = (TextView) rootView.findViewById(R.id.categoriesEsd);
-            String categoria = getArguments().getString("categories");
-            categoria = categoria.replace("[", "");
-            categoria = categoria.replace("]", "");
-            categoria = categoria.replace("&", " i ");
-            categoria = categoria.substring(1,categoria.length()-1);
-            categoriesText.setText("\n" + categoria);
-            categoriesText.post(new Runnable() {
-                @Override
-            public void run() {                                                              //una vegada els textview estan llestos, comptem les linees per donar tamany al layout amb les linees
-                    int numeroLinies = nomText.getLineCount() + nomLlocText.getLineCount() + dataText.getLineCount() + categoriesText.getLineCount();
-                    if (numeroLinies == 10) {
-                        dataText.setText(data_inici);
-                        dataText.setLines(2);
-                    } else if (numeroLinies == 11) {
-                        dataText.setText(data_inici);
-                        dataText.setLines(1);
-                    }
-                }
-            });
-            //CODI PER ELS FLOATING BUTTON
-            botoCompartir = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonShare);
-            botoGuardar = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonSave);
-            botoMapa = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonMaps);
-            botoRecordatori = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonReminder);
-            botoGuardar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new MaterialDialog.Builder(getActivity())
-                            .title("Atenció")
-                            .content("Vols guardar l'esdeveniment a la llista dels teus esdeveniments?")
-                            .positiveText("GUARDAR")
-                            .negativeText("CANCEL·LAR")
-                            .positiveColorRes(R.color.material_blue_grey_900)
-                            .neutralColorRes(R.color.material_blue_grey_900)
-                            .callback(new MaterialDialog.ButtonCallback() {
-                                @Override
-                                public void onPositive(MaterialDialog dialog) {
-
-                                }
-                            }).show();
-                    guardarEsdeveniment(id);
-                }
-            });
-
-            botoRecordatori.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getActivity(), "niet", Toast.LENGTH_LONG).show();
-                    if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("notification_preference", true)) {
-                        boolean wrapInScrollView = true;
-                        new MaterialDialog.Builder(getActivity())
-                                .title("Tria l'hora de l'avís")
-                                .customView(R.layout.timepicker_layout, wrapInScrollView)
-                                .positiveText("Guardar")
-                                .negativeText("Cancelar")
-                                .callback(new MaterialDialog.ButtonCallback() {
-                                    @Override
-                                    public void onPositive(MaterialDialog dialog) {
-                                        // GET TIME AND CALL SETALARM WITH THE TIME
-                                        TimePicker timePicker = (TimePicker) rootView.findViewById(R.id.timePicker);
-                                        //int hora =  timePicker.getCurrentHour();
-                                        //String hora = timePicker.getCurrentHour().toString();
-                                        Toast.makeText(getActivity(), "HORA I MINUT ", Toast.LENGTH_LONG).show();
-                                        //setAlarm(10, 10, 10);
-                                    }
-                                }).show();
-                    } else {
-                        new MaterialDialog.Builder(getActivity())
-                                .title("Atenció")
-                                .content("Activa les notificacions per poder programara un avís!")
-                                .positiveText("Activa")
-                                .negativeText("Cancela")
-                                .positiveColorRes(R.color.material_blue_grey_900)
-                                .neutralColorRes(R.color.material_blue_grey_900)
-                                .callback(new MaterialDialog.ButtonCallback() {
-                                    @Override
-                                    public void onPositive(MaterialDialog dialog) {
-                                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean("notification_preference", true).commit();
-                                        //showTimePicker(data_inici);
-                                    }
-                                }).show();
-                    }
-                }
-            });
-
-            botoMapa.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //OBRIR MAPS - MATERIAL DIALOG per confirmar
-                    new MaterialDialog.Builder(getActivity())
-                            .title("Atenció")
-                            .content("Vols obrir Google Maps a la localització de l'esdeveniment?")
-                            .positiveText("OBRIR")
-                            .negativeText("CANCEL·LAR")
-                            .positiveColorRes(R.color.material_blue_grey_900)
-                            .neutralColorRes(R.color.material_blue_grey_900)
-                            .callback(new MaterialDialog.ButtonCallback() {
-                                @Override
-                                public void onPositive(MaterialDialog dialog) {
-                                    openGoogleMaps();
-                                }
-                            }).show();
-                }
-            });
-
-            botoCompartir.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //COMPARTIR
-                    performPublish();
-                }
-            });
-
         }
+        id = Global.getInstance().mItems.get(position).id;
+        data_inici = Global.getInstance().mItems.get(position).data_inici;
+        data_final = Global.getInstance().mItems.get(position).data_inici;
+        nom = Global.getInstance().mItems.get(position).nom;
+        nomLloc = Global.getInstance().mItems.get(position).nomLloc;
+        carrer = Global.getInstance().mItems.get(position).carrer;
+        numero = Global.getInstance().mItems.get(position).numero;
+        districte = Global.getInstance().mItems.get(position).districte;
+        municipi = Global.getInstance().mItems.get(position).municipi;
+
+
+        //assignem les dades al contingut XML
+        nomText = (TextView) rootView.findViewById(R.id.nomEsd);
+        nomText.setText(nom);
+        nomLlocText = (TextView) rootView.findViewById(R.id.nomLlocEsd);
+        nomLlocText.setText(nomLloc + "\n" + carrer + " " + numero + "\n" + districte + " " + municipi);
+        dataText = (TextView) rootView.findViewById(R.id.dataEsd);
+
+        String any =  data_inici.substring(0,4);
+        String mes = data_inici.substring(5,7);
+        String dia = data_inici.substring(8,10);
+        String hora = data_inici.substring(11, 16);
+        dataText.setText("\n" + dia + "/" + mes + "/" + any + " " + hora);
+        categoriesText = (TextView) rootView.findViewById(R.id.categoriesEsd);
+        //String categoria = getArguments().getString("categories");
+        String categoria = Global.getInstance().mItems.get(position).categories;
+        categoria = categoria.replace("[", "");
+        categoria = categoria.replace("]", "");
+        categoria = categoria.replace("&", " i ");
+        //categoria = categoria.substring(1,categoria.length()-1);
+        categoriesText.setText("\n" + categoria);
+        categoriesText.post(new Runnable() {
+            @Override
+        public void run() {                                                              //una vegada els textview estan llestos, comptem les linees per donar tamany al layout amb les linees
+                int numeroLinies = nomText.getLineCount() + nomLlocText.getLineCount() + dataText.getLineCount() + categoriesText.getLineCount();
+                if (numeroLinies == 10) {
+                    dataText.setText(data_inici);
+                    dataText.setLines(2);
+                } else if (numeroLinies == 11) {
+                    dataText.setText(data_inici);
+                    dataText.setLines(1);
+                }
+            }
+        });
+        //CODI PER ELS FLOATING BUTTON
+        botoCompartir = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonShare);
+        botoGuardar = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonSave);
+        botoMapa = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonMaps);
+        botoRecordatori = (FloatingActionButton) rootView.findViewById(R.id.floatingButtonReminder);
+        botoGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(getActivity())
+                        .title("Atenció")
+                        .content("Vols guardar l'esdeveniment a la llista dels teus esdeveniments?")
+                        .positiveText("GUARDAR")
+                        .negativeText("CANCEL·LAR")
+                        .positiveColorRes(R.color.material_blue_grey_900)
+                        .neutralColorRes(R.color.material_blue_grey_900)
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+
+                            }
+                        }).show();
+                guardarEsdeveniment(id);
+            }
+        });
+
+        botoRecordatori.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "niet", Toast.LENGTH_LONG).show();
+                if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("notification_preference", true)) {
+                    boolean wrapInScrollView = true;
+                    new MaterialDialog.Builder(getActivity())
+                            .title("Tria l'hora de l'avís")
+                            .customView(R.layout.timepicker_layout, wrapInScrollView)
+                            .positiveText("Guardar")
+                            .negativeText("Cancelar")
+                            .callback(new MaterialDialog.ButtonCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog dialog) {
+                                    // GET TIME AND CALL SETALARM WITH THE TIME
+                                    TimePicker timePicker = (TimePicker) rootView.findViewById(R.id.timePicker);
+                                    //int hora =  timePicker.getCurrentHour();
+                                    //String hora = timePicker.getCurrentHour().toString();
+                                    Toast.makeText(getActivity(), "HORA I MINUT ", Toast.LENGTH_LONG).show();
+                                    //setAlarm(10, 10, 10);
+                                }
+                            }).show();
+                } else {
+                    new MaterialDialog.Builder(getActivity())
+                            .title("Atenció")
+                            .content("Activa les notificacions per poder programara un avís!")
+                            .positiveText("Activa")
+                            .negativeText("Cancela")
+                            .positiveColorRes(R.color.material_blue_grey_900)
+                            .neutralColorRes(R.color.material_blue_grey_900)
+                            .callback(new MaterialDialog.ButtonCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog dialog) {
+                                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean("notification_preference", true).commit();
+                                    //showTimePicker(data_inici);
+                                }
+                            }).show();
+                }
+            }
+        });
+
+        botoMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //OBRIR MAPS - MATERIAL DIALOG per confirmar
+                new MaterialDialog.Builder(getActivity())
+                        .title("Atenció")
+                        .content("Vols obrir Google Maps a la localització de l'esdeveniment?")
+                        .positiveText("OBRIR")
+                        .negativeText("CANCEL·LAR")
+                        .positiveColorRes(R.color.material_blue_grey_900)
+                        .neutralColorRes(R.color.material_blue_grey_900)
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                openGoogleMaps();
+                            }
+                        }).show();
+            }
+        });
+
+        botoCompartir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //COMPARTIR
+                performPublish();
+            }
+        });
+
         if (Profile.getCurrentProfile() == null) {
             botoCompartir.setVisibility(View.INVISIBLE);
             botoGuardar.setVisibility(View.INVISIBLE);
             botoRecordatori.setVisibility(View.INVISIBLE);
         }
+
         if (from.equals("myEventsList")) {
             botoGuardar.setVisibility(View.INVISIBLE);
         }
-        else if (from.equals("eventsList")) {
+        //else if (from.equals("eventsList")) {
             //botoRecordatori.setVisibility(View.INVISIBLE);
-        }
+        //}
 
         rootView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {

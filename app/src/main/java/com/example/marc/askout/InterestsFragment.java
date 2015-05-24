@@ -83,7 +83,7 @@ public class InterestsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_interests, container, false);
         if (Global.getInstance().interests == null) {
-            Global.getInstance().interests = new boolean[]{false, false, false, false, false, false, false, false, false, false};
+            Global.getInstance().interests = new boolean[]{false, false, false, false, false, false, false, false, false, false, false};
             new RequestTask().execute("http://jediantic.upc.es/api/userInterest/" + HomeActivity.myID);
         }
         else {
@@ -204,8 +204,12 @@ public class InterestsFragment extends Fragment {
                         Global.getInstance().interests[8] = interes;
                         break;
 
-                    case "Oci&Cultura":
+                    case "Oci":
                         Global.getInstance().interests[9] = interes;
+                        break;
+
+                    case "Cultura":
+                        Global.getInstance().interests[10] = interes;
                         break;
 
                     default:

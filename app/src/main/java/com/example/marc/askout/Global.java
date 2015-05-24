@@ -11,6 +11,7 @@ public class Global {
     public boolean[] interests = null;
     public List<ListViewItem> mItems = null;
     public List<ListViewItem> mItemsSaved = null;
+    public static String [] categories={"Espectacles","Música","Cinema","Museu","Infantil","Esport","Exposició","Art","Ciència", "Oci", "Cultura"};
 
     protected Global() {
     }

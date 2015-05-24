@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="-10pt"
             android:id="@+id/imageView"
-            android:src="@drawable/logo"
+            android:src="@drawable/logo_heads"
             android:layout_centerHorizontal="true"/>
 
         <com.facebook.login.widget.LoginButton
