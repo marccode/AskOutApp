@@ -1,11 +1,15 @@
 package com.example.marc.askout;
 
 import android.app.FragmentManager;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +29,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Toolbar mToolbar;
     private EventsListFragment mEventsListFragment;
+    private SearchView search;
     public static String myID;
 
     @Override
@@ -35,6 +40,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         myID = PreferenceManager.getDefaultSharedPreferences(this).getString("myID", "-1");
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+
         setSupportActionBar(mToolbar);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -148,6 +154,11 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.home, menu);
+
+
+
+
+            //search.QueryTextChange += (s, e) => _adapter.Filter.InvokeFilter(e.NewText);
             return true;
         }
         return super.onCreateOptionsMenu(menu);
@@ -167,6 +178,10 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.container, new CalendarFragment()).commit();
                 //item.
+                break;
+            case R.id.action_search:
+                Toast.makeText(this, "Search selected", Toast.LENGTH_SHORT).show();
+
                 break;
             // action with ID action_settings was selected
             case R.id.action_settings:

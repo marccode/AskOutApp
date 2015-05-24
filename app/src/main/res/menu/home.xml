@@ -1,14 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:android2="http://schemas.android.com/apk/res-auto">
+    xmlns:android2="http://schemas.android.com/apk/res-auto"
+    xmlns:askout="http://schemas.android.com/tools">
+
     <item android:id="@+id/action_settings" android:title="@string/action_settings" />
-
+    
     <item android:id="@+id/action_calendar"
-        android:icon="@null"
-        android:title="as"
+        android:icon="@drawable/calendar_toolbar"
         android2:showAsAction="ifRoom"  />
-
-    <item android:id="@+id/action_search"
-        android:icon="@drawable/ic_music_circle_white_24dp"
-        android:title="as"
-        android2:showAsAction="ifRoom"  />
+    
+    <item android:id="@+id/action_search" android:title="search"
+        android:orderInCategory="200"
+        android2:showAsAction="ifRoom"
+        android:icon="@drawable/magnify"
+        askout:actionViewClass="android.support.v7.widget.SearchView"
+        />
 </menu>
