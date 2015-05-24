@@ -73,16 +73,6 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                 day = calendar.get(Calendar.DAY_OF_MONTH);
             }
 
-
-            /*
-            Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-            calendar.get(Calendar.YEAR)
-            */
-
-
-
-            //Toast.makeText(getActivity(), date.toString(), Toast.LENGTH_SHORT).show();
-
             // Inflate the layout for this fragment
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             mExpendableListView =  (ExpandableListView) view.findViewById(R.id.activity_main_expendablelistview);

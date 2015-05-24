@@ -65,6 +65,7 @@ public class DetailsEventFragment extends Fragment {
     private String longitude;
     private int position;
     private String from = "-1";
+    private ListViewItem item;
 
     private TextView nomText;
     private TextView nomLlocText;
@@ -95,20 +96,20 @@ public class DetailsEventFragment extends Fragment {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_details_event, container, false);
 
-        if (getArguments() != null) {
+        //if (getArguments() != null) {
             position = getArguments().getInt("position");
             from = getArguments().getString("from");
-        }
-        id = Global.getInstance().mItems.get(position).id;
-        data_inici = Global.getInstance().mItems.get(position).data_inici;
-        data_final = Global.getInstance().mItems.get(position).data_inici;
-        nom = Global.getInstance().mItems.get(position).nom;
-        nomLloc = Global.getInstance().mItems.get(position).nomLloc;
-        carrer = Global.getInstance().mItems.get(position).carrer;
-        numero = Global.getInstance().mItems.get(position).numero;
-        districte = Global.getInstance().mItems.get(position).districte;
-        municipi = Global.getInstance().mItems.get(position).municipi;
-
+            item = Global.getInstance().mItems.get(position);
+            id = item.id;
+            data_inici = item.data_inici;
+            data_final = item.data_inici;
+            nom = item.nom;
+            nomLloc = item.nomLloc;
+            carrer = item.carrer;
+            numero = item.numero;
+            districte = item.districte;
+            municipi = item.municipi;
+        //}
 
         //assignem les dades al contingut XML
         nomText = (TextView) rootView.findViewById(R.id.nomEsd);
@@ -124,7 +125,7 @@ public class DetailsEventFragment extends Fragment {
         dataText.setText("\n" + dia + "/" + mes + "/" + any + " " + hora);
         categoriesText = (TextView) rootView.findViewById(R.id.categoriesEsd);
         //String categoria = getArguments().getString("categories");
-        String categoria = Global.getInstance().mItems.get(position).categories;
+        String categoria = item.categories;
         categoria = categoria.replace("[", "");
         categoria = categoria.replace("]", "");
         categoria = categoria.replace("&", " i ");
@@ -401,7 +402,7 @@ public class DetailsEventFragment extends Fragment {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             //Do anything with response...
-            Global.getInstance().mItemsSaved.add(Global.getInstance().mItems.get(position));
+            Global.getInstance().mItemsSaved.add(item);
         }
     }
 
