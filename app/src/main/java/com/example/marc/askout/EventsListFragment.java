@@ -341,15 +341,15 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
 
     public void setUpList() {
         mListView.setAdapter(new ListViewDemoAdapter(getActivity(), Global.getInstance().mItems));
-
+/*
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // When clicked, show a toast with the TextView text
                 Toast.makeText(getActivity(), "You clicked " + Integer.toString(position), Toast.LENGTH_SHORT).show();
-                DetailsEventFragment detailsEventFragment = new DetailsEventFragment();
+                //DetailsEventFragment detailsEventFragment = new DetailsEventFragment();
 
                 Bundle args = new Bundle();
-                /*
+
                 args.putString("id", Global.getInstance().mItems.get(position).id);
                 args.putString("data_inici", Global.getInstance().mItems.get(position).data_inici);
                 args.putString("data_final", Global.getInstance().mItems.get(position).data_final);
@@ -360,19 +360,18 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                 args.putString("districte",Global.getInstance().mItems.get(position).districte);
                 args.putString("municipi", Global.getInstance().mItems.get(position).municipi);
                 args.putString("categories", Global.getInstance().mItems.get(position).categories);
-                */
-                args.putInt("position", position);
+
+                args.putInt("p", position);
                 args.putString("from", "eventsList");
 
-                detailsEventFragment.setArguments(args);
+                //detailsEventFragment.setArguments(args);
                 FragmentManager fm = getFragmentManager();
-
-                //fm.beginTransaction().hide(getCurrentFragment()).commit();
+/*
                 fm.beginTransaction()
                         .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                         .replace(R.id.container, detailsEventFragment).commit();
             }
-        });
+        });*/
 
         ColorDrawable myColor = new ColorDrawable(0xFFCFBEBE);
         mListView.setDivider(myColor);
@@ -473,52 +472,18 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
         }
 
         int i = 0;
-        if(! espectacles.isEmpty()) groups.add(i++, espectacles);
-        if(! musica.isEmpty()) groups.add(i++, musica);
-        if(! cinema.isEmpty()) groups.add(i++, cinema);
-        if(! museu.isEmpty()) groups.add(i++, museu);
-        if(! infantil.isEmpty()) groups.add(i++, infantil);
-        if(! esport.isEmpty()) groups.add(i++, esport);
-        if(! exposicio.isEmpty()) groups.add(i++, exposicio);
-        if(! art.isEmpty()) groups.add(i++, art);
-        if(! ciencia.isEmpty()) groups.add(i++, ciencia);
-        if(! oci.isEmpty()) groups.add(i++, oci);
-        if(! cultura.isEmpty()) groups.add(i++, cultura);
+        groups.add(i++, espectacles);
+        groups.add(i++, musica);
+        groups.add(i++, cinema);
+        groups.add(i++, museu);
+        groups.add(i++, infantil);
+        groups.add(i++, esport);
+        groups.add(i++, exposicio);
+        groups.add(i++, art);
+        groups.add(i++, ciencia);
+        groups.add(i++, oci);
+        groups.add(i++, cultura);
 
-        //mListView.setAdapter(new ListViewDemoAdapter(getActivity(), Global.getInstance().mItems));
-
-        /*
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // When clicked, show a toast with the TextView text
-                Toast.makeText(getActivity(), "You clicked " + Integer.toString(position), Toast.LENGTH_SHORT).show();
-                DetailsEventFragment detailsEventFragment = new DetailsEventFragment();
-                //JSONObject obj = jArray.getJSONObject(position);
-
-                Bundle args = new Bundle();
-                args.putString("id", Global.getInstance().mItems.get(position).id);
-                args.putString("data_inici", Global.getInstance().mItems.get(position).data_inici);
-                args.putString("data_final", Global.getInstance().mItems.get(position).data_final);
-                args.putString("nom", Global.getInstance().mItems.get(position).nom);
-                args.putString("nomLloc", Global.getInstance().mItems.get(position).nomLloc);
-                args.putString("carrer", Global.getInstance().mItems.get(position).carrer);
-                args.putString("numero", Global.getInstance().mItems.get(position).numero);
-                args.putString("districte",Global.getInstance().mItems.get(position).districte);
-                args.putString("municipi", Global.getInstance().mItems.get(position).municipi);
-                args.putString("categories", Global.getInstance().mItems.get(position).categories);
-                args.putInt("position", position);  
-                args.putString("from", "eventsList");
-
-                detailsEventFragment.setArguments(args);
-                FragmentManager fm = getFragmentManager();
-
-                //fm.beginTransaction().hide(getCurrentFragment()).commit();
-                fm.beginTransaction()
-                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                        .replace(R.id.container, detailsEventFragment).commit();
-            }
-        });
-        */
         MyExpandableListAdapter adapter = new MyExpandableListAdapter(getActivity(), groups);
         mExpendableListView.setAdapter(adapter);
 
@@ -531,7 +496,6 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
         int pos = 0;
         for (int i = 0; i < groupPosition; i++) {
             pos += numEsdCat[i];
-            if (numEsdCat[i] == 0 ) i = i - 1;
         }
         return pos;
     }

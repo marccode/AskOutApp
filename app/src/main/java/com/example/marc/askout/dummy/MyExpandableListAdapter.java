@@ -90,6 +90,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
                 Toast.makeText(activity, "Has fet clic a l'element " + position, Toast.LENGTH_SHORT).show();
                 Context context = parent.getContext();
+                detailsEventFragment.setArguments(args);
                 ((Activity) context).getFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                         .replace(R.id.container, detailsEventFragment).commit();
