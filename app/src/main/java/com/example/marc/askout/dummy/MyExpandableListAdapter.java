@@ -3,23 +3,23 @@ package com.example.marc.askout.dummy;
 /**
  * Created by albertvinespujadas on 5/21/15.
  */
-
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.marc.askout.DetailsEventFragment;
 import com.example.marc.askout.EventsListFragment;
-import com.example.marc.askout.Global;
 import com.example.marc.askout.Group;
 import com.example.marc.askout.InfoSingleEvent;
 import com.example.marc.askout.R;
@@ -31,12 +31,11 @@ import java.util.ArrayList;
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
-    private final SparseArray<Group> groups;
+    private final ArrayList<Group> groups;
     public LayoutInflater inflater;
     public Activity activity;
 
-    public MyExpandableListAdapter(Activity act, SparseArray<Group> groups) {
-        Log.d("PFF", "BUILDER");
+    public MyExpandableListAdapter(Activity act, ArrayList<Group> groups) {
         activity = act;
         this.groups = groups;
         inflater = act.getLayoutInflater();
@@ -44,7 +43,6 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        Log.d("PFF", "getChild");
         return groups.get(groupPosition).children.get(childPosition);
     }
 
@@ -60,41 +58,48 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.listrow_details, null);
         }
-
-        TextView nom = (TextView) convertView.findViewById(R.id.tvTitle);
+        TextView nom = null;
+        TextView nomLloc = null;
+        nom = (TextView) convertView.findViewById(R.id.tvTitle);
         nom.setText(children.nom);
-        TextView nomLloc = (TextView) convertView.findViewById(R.id.tvDescription);
+        nomLloc = (TextView) convertView.findViewById(R.id.tvDescription);
         nomLloc.setText(children.nomLloc);
 
-        convertView.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                DetailsEventFragment detailsEventFragment = new DetailsEventFragment();
-                int position = EventsListFragment.getEventPosition(groupPosition) + childPosition;
+                try {
+                    DetailsEventFragment detailsEventFragment = new DetailsEventFragment();
+                    int position = EventsListFragment.getEventPosition(groupPosition) + childPosition;
+                    JSONObject obj = EventsListFragment.jArray.getJSONObject(position);
+                    ArrayList<String> categories = new ArrayList<String>();
+                    ArrayList<String> categories_generals = new ArrayList<String>();
+                    Bundle args = new Bundle();
+                    args.putString("id", obj.getString("_id"));
+                    args.putString("data_inici", obj.getString("data_inici"));
+                    args.putString("data_final", obj.getString("data_final"));
+                    args.putString("nom", obj.getString("nom"));
+                    args.putString("nomLloc", obj.getString("nomLloc"));
+                    args.putString("carrer", obj.getString("carrer"));
+                    args.putString("numero", obj.getString("numero"));
+                    args.putString("districte", obj.getString("districte"));
+                    args.putString("municipi", obj.getString("municipi"));
+                    args.putString("categories", obj.getString("categories_generals"));
+                    //args.putStringArray("categories", categories);
+                    //args.putStringArray("categories_generals", categories_generals);
+                    detailsEventFragment.setArguments(args);
 
-                Bundle args = new Bundle();
-                /*
-                args.putString("id", Global.getInstance().mItems.get(position).id);
-                args.putString("data_inici", Global.getInstance().mItems.get(position).data_inici);
-                args.putString("data_final", Global.getInstance().mItems.get(position).data_final);
-                args.putString("nom", Global.getInstance().mItems.get(position).nom);
-                args.putString("nomLloc", Global.getInstance().mItems.get(position).nomLloc);
-                args.putString("carrer", Global.getInstance().mItems.get(position).carrer);
-                args.putString("numero", Global.getInstance().mItems.get(position).numero);
-                args.putString("districte",Global.getInstance().mItems.get(position).districte);
-                args.putString("municipi", Global.getInstance().mItems.get(position).municipi);
-                args.putString("categories", Global.getInstance().mItems.get(position).categories);
-                */
-                args.putInt("position", position);
-                args.putString("from", "eventsList");
-
-                Toast.makeText(activity, "Has fet clic a l'element " + position, Toast.LENGTH_SHORT).show();
-                Context context = parent.getContext();
-                ((Activity) context).getFragmentManager().beginTransaction()
-                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                        .replace(R.id.container, detailsEventFragment).commit();
+                    Toast.makeText(activity, "Has fet clic a l'element " + position, Toast.LENGTH_SHORT).show();
+                    Context context = parent.getContext();
+                    ((Activity) context).getFragmentManager().beginTransaction()
+                            .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                            .replace(R.id.container, detailsEventFragment).commit();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
+
 
         return convertView;
     }
@@ -130,8 +135,8 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        Log.d("PFF", "getGroupView - " + Integer.toString(groupPosition));
+    public View getGroupView(int groupPosition, boolean isExpanded,
+                             View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.listrow_group, null);
         }

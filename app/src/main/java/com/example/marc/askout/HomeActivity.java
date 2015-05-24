@@ -181,6 +181,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                 break;
             case R.id.action_search:
                 Toast.makeText(this, "Search selected", Toast.LENGTH_SHORT).show();
+                //CANVI D'ACTIVITAT
 
                 break;
             // action with ID action_settings was selected

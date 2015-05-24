@@ -9,7 +9,7 @@ import java.util.List;
 public class Group {
 
     public String string;
-    public final List<InfoSingleEvent> children = new ArrayList<InfoSingleEvent>();
+    public List<InfoSingleEvent> children = new ArrayList<InfoSingleEvent>();
 
     public Group(String string) {
         this.string = string;
@@ -19,4 +19,15 @@ public class Group {
         return children.isEmpty();
     }
 
+    public List<InfoSingleEvent> getList() {
+        return children;
+    }
+
+    public String getName() {
+        return string;
+    }
+
+    public void setList(List<InfoSingleEvent> children) {
+        this.children = children;
+    }
 }

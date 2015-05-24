@@ -50,7 +50,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
     int month;
     int day;
     private static int numEsdCat[];
-    SparseArray<Group> groups = new SparseArray<Group>();
+    ArrayList<Group> groups = new ArrayList<Group>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
             mExpendableListView =  (ExpandableListView) view.findViewById(R.id.activity_main_expendablelistview);
             mListView =  (ListView) view.findViewById(R.id.activity_main_listview);
 
-            groups = new SparseArray<Group>();
+            groups = new ArrayList<Group>();
 
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -483,18 +483,18 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
         }
 
         int i = 0;
-        if(! espectacles.isEmpty()) groups.append(i++, espectacles);
-        if(! musica.isEmpty()) groups.append(i++, musica);
-        if(! cinema.isEmpty()) groups.append(i++, cinema);
-        if(! museu.isEmpty()) groups.append(i++, museu);
-        if(! infantil.isEmpty()) groups.append(i++, infantil);
-        if(! esport.isEmpty()) groups.append(i++, esport);
-        if(! exposicio.isEmpty()) groups.append(i++, exposicio);
-        if(! art.isEmpty()) groups.append(i++, art);
-        if(! ciencia.isEmpty()) groups.append(i++, ciencia);
-        if(! oci.isEmpty()) groups.append(i++, oci);
-        if(! cultura.isEmpty()) groups.append(i++, cultura);
-        
+        if(! espectacles.isEmpty()) groups.add(i++, espectacles);
+        if(! musica.isEmpty()) groups.add(i++, musica);
+        if(! cinema.isEmpty()) groups.add(i++, cinema);
+        if(! museu.isEmpty()) groups.add(i++, museu);
+        if(! infantil.isEmpty()) groups.add(i++, infantil);
+        if(! esport.isEmpty()) groups.add(i++, esport);
+        if(! exposicio.isEmpty()) groups.add(i++, exposicio);
+        if(! art.isEmpty()) groups.add(i++, art);
+        if(! ciencia.isEmpty()) groups.add(i++, ciencia);
+        if(! oci.isEmpty()) groups.add(i++, oci);
+        if(! cultura.isEmpty()) groups.add(i++, cultura);
+
         //mListView.setAdapter(new ListViewDemoAdapter(getActivity(), Global.getInstance().mItems));
 
         /*
