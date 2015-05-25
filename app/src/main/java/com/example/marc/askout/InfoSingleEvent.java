@@ -6,9 +6,11 @@ package com.example.marc.askout;
 public class InfoSingleEvent {
     public String nom;
     public String nomLloc;
+    public int position;
 
-    public InfoSingleEvent(String nom, String nomLloc) {
+    public InfoSingleEvent(String nom, String nomLloc, int position) {
         this.nom = nom;
         this.nomLloc = nomLloc;
+        this.position = position;
     }
 }

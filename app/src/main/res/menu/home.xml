@@ -2,8 +2,6 @@
     xmlns:android2="http://schemas.android.com/apk/res-auto"
     xmlns:askout="http://schemas.android.com/tools">
 
-    <item android:id="@+id/action_settings" android:title="@string/action_settings" />
-    
     <item android:id="@+id/action_calendar"
         android:icon="@drawable/calendar_toolbar"
         android2:showAsAction="ifRoom"  />

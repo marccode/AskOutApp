@@ -172,7 +172,6 @@ public class DetailsEventFragment extends Fragment {
         botoRecordatori.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "niet", Toast.LENGTH_LONG).show();
                 if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("notification_preference", true)) {
                     boolean wrapInScrollView = true;
                     new MaterialDialog.Builder(getActivity())
@@ -187,7 +186,6 @@ public class DetailsEventFragment extends Fragment {
                                     TimePicker timePicker = (TimePicker) rootView.findViewById(R.id.timePicker);
                                     //int hora =  timePicker.getCurrentHour();
                                     //String hora = timePicker.getCurrentHour().toString();
-                                    Toast.makeText(getActivity(), "HORA I MINUT ", Toast.LENGTH_LONG).show();
                                     //setAlarm(10, 10, 10);
                                 }
                             }).show();
@@ -334,8 +332,8 @@ public class DetailsEventFragment extends Fragment {
         ShareLinkContent linkContent = new ShareLinkContent.Builder()
                 .setContentTitle("AskOut!")
                 .setContentDescription(
-                        "Blah Blah Blah, have a look at this shitty event")
-                .setContentUrl(Uri.parse("http://jediantic.upc.es/"))
+                        "La nova agenda d'esdeveniments de Barcelona")
+                .setContentUrl(Uri.parse("http://jediantic.upc.es/esdeveniment/" + id))
                 .build();
 
         Boolean canPresentShareDialog = ShareDialog.canShow(
@@ -402,7 +400,7 @@ public class DetailsEventFragment extends Fragment {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             //Do anything with response...
-            Global.getInstance().mItemsSaved.add(item);
+            if (Global.getInstance().mItemsSaved != null) Global.getInstance().mItemsSaved.add(item);
         }
     }
 
@@ -427,7 +425,6 @@ public class DetailsEventFragment extends Fragment {
                         TimePicker timePicker = ((TimePicker) rootView.findViewById(R.id.timePicker));
                         int hora =  timePicker.getCurrentHour();
                         //String hora = timePicker.getCurrentHour().toString();
-                        //Toast.makeText(getActivity(), "HORA I MINUT ", Toast.LENGTH_LONG).show();
                         //setAlarm(10, 10, 10);
                     }
                 }).show();

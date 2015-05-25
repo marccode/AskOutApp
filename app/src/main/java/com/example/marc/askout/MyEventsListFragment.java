@@ -49,11 +49,6 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
         }
         else {
 
-            /*
-            Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-            calendar.get(Calendar.YEAR)
-            */
-
             // Inflate the layout for this fragment
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             mListView =  (ListView) view.findViewById(R.id.activity_main_listview);
@@ -72,7 +67,6 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
             onRefresh();
         }
         else {
-            Toast.makeText(getActivity(), "NOT NULL", Toast.LENGTH_SHORT).show();
             setUpList();
         }
         return view;
@@ -131,7 +125,7 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
     private String aux(String s) throws JSONException {
         jArray = new JSONArray(s);
 
-        for (int i = 0; i < 8; i++) { // POT DONAR PROBLEMES SI EL jArray es més petit de 15!!!
+        for (int i = 0; i < jArray.length(); i++) { // POT DONAR PROBLEMES SI EL jArray es més petit de 15!!!
             Log.d("FOR", Integer.toString(i));
             JSONObject obj = jArray.getJSONObject(i);
             JSONArray pony = obj.getJSONArray("categories_generals");
@@ -177,8 +171,11 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
                     icon = resources.getDrawable(R.drawable.ic_beaker_outline_black_24dp);
                     break;
 
-                case "Oci&Cultura":
-                    icon = resources.getDrawable(R.drawable.ic_book_open_black_24dp);
+                case "Cultura":
+                    icon = resources.getDrawable(R.drawable.ic_school_black_24dp);
+                    break;
+                case "Oci":
+                    icon = resources.getDrawable(R.drawable.ic_gamepad_variant_black_24dp);
                     break;
 
                 default:
@@ -205,8 +202,6 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // When clicked, show a toast with the TextView text
-                Toast.makeText(getActivity(), "You clicked " + Integer.toString(position), Toast.LENGTH_SHORT).show();
                 DetailsEventFragment detailsEventFragment = new DetailsEventFragment();
                 //JSONObject obj = jArray.getJSONObject(position);
 

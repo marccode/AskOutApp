@@ -17,7 +17,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.marc.askout.DetailsEventFragment;
 import com.example.marc.askout.EventsListFragment;
@@ -69,8 +68,13 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 DetailsEventFragment detailsEventFragment = new DetailsEventFragment();
-                int position = EventsListFragment.getEventPosition(groupPosition) + childPosition;
 
+                int a1 = EventsListFragment.getEventPosition(groupPosition);
+                int position = a1 + childPosition;
+                Log.d("DEF", "groupPosition = " + groupPosition);
+                Log.d("DEF", "a1 = " + a1);
+                Log.d("DEF", "childPosition = " + childPosition);
+                Log.d("DEF", "position = " + position);
                 Bundle args = new Bundle();
                 /*
                 args.putString("id", Global.getInstance().mItems.get(position).id);
@@ -84,11 +88,9 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                 args.putString("municipi", Global.getInstance().mItems.get(position).municipi);
                 args.putString("categories", Global.getInstance().mItems.get(position).categories);
                 */
-                Log.d("UFF", Integer.toString(position));
-                args.putInt("position", position);
+                Log.d("UFF", "POSITION" + Integer.toString(position));
+                args.putInt("position", groups.get(groupPosition).children.get(childPosition).position);
                 args.putString("from", "eventsList");
-
-                Toast.makeText(activity, "Has fet clic a l'element " + position, Toast.LENGTH_SHORT).show();
                 Context context = parent.getContext();
                 detailsEventFragment.setArguments(args);
                 ((Activity) context).getFragmentManager().beginTransaction()

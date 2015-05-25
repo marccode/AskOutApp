@@ -1,5 +1,6 @@
 package com.example.marc.askout;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
@@ -13,11 +14,16 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class HomeActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
@@ -129,6 +135,9 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                     public void onPositive(MaterialDialog dialog) {
                         //LOG OUT FROM FACEBOOK
                         myID = "-1";
+                        Global.getInstance().interests = null;
+                        Global.getInstance().mItems = null;
+                        Global.getInstance().mItemsSaved = new ArrayList<ListViewItem>();
                         LoginManager.getInstance().logOut();
                         Intent i = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(i);
@@ -164,8 +173,6 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         return super.onCreateOptionsMenu(menu);
     }
 
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -174,10 +181,29 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         switch (id) {
             // action with ID action_refresh was selected
             case R.id.action_calendar:
-                Toast.makeText(this, "Calendar selected", Toast.LENGTH_SHORT).show();
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.container, new CalendarFragment()).commit();
-                //item.
+                Calendar now = Calendar.getInstance();
+                DatePickerDialog dpd = DatePickerDialog.newInstance(
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePickerDialog d, int year, int month, int day) {
+                                Global.getInstance().day = day;
+                                Global.getInstance().month = month;
+                                Global.getInstance().year = year;
+                                FragmentManager fragmentManager = getFragmentManager();
+                                EventsListFragment ef = new EventsListFragment();
+                                Bundle args = new Bundle();
+                                args.putBoolean("refresh", true);
+                                ef.setArguments(args);
+                                fragmentManager.beginTransaction().replace(R.id.container, ef).commit();
+                                mToolbar.setTitle("AskOut " + day + "/" + month + "/" + year);
+                            }
+                        },
+                        now.get(Calendar.YEAR),
+                        now.get(Calendar.MONTH),
+                        now.get(Calendar.DAY_OF_MONTH)
+                );
+                dpd.show(getFragmentManager(), "Datepickerdialog");
+
                 break;
             case R.id.action_search:
                 Toast.makeText(this, "Search selected", Toast.LENGTH_SHORT).show();
