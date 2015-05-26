@@ -30,7 +30,6 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by marc on 5/4/15.
@@ -206,16 +205,6 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
                 //JSONObject obj = jArray.getJSONObject(position);
 
                 Bundle args = new Bundle();
-                args.putString("id", Global.getInstance().mItemsSaved.get(position).id);
-                args.putString("data_inici", Global.getInstance().mItemsSaved.get(position).data_inici);
-                args.putString("data_final", Global.getInstance().mItemsSaved.get(position).data_final);
-                args.putString("nom", Global.getInstance().mItemsSaved.get(position).nom);
-                args.putString("nomLloc", Global.getInstance().mItemsSaved.get(position).nomLloc);
-                args.putString("carrer", Global.getInstance().mItemsSaved.get(position).carrer);
-                args.putString("numero", Global.getInstance().mItemsSaved.get(position).numero);
-                args.putString("districte",Global.getInstance().mItemsSaved.get(position).districte);
-                args.putString("municipi", Global.getInstance().mItemsSaved.get(position).municipi);
-                args.putString("categories", Global.getInstance().mItemsSaved.get(position).categories);
                 args.putInt("position", position);
                 args.putString("from", "myEventsList");
 

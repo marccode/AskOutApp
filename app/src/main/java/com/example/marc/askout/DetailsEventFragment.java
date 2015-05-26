@@ -99,7 +99,10 @@ public class DetailsEventFragment extends Fragment {
         //if (getArguments() != null) {
             position = getArguments().getInt("position");
             from = getArguments().getString("from");
-            item = Global.getInstance().mItems.get(position);
+            if (from.equals("eventsList"))
+                item = Global.getInstance().mItems.get(position);
+            else
+                item = Global.getInstance().mItemsSaved.get(position);
             id = item.id;
             data_inici = item.data_inici;
             data_final = item.data_inici;
