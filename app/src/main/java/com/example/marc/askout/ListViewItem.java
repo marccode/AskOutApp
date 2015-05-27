@@ -17,6 +17,7 @@ public class ListViewItem {
     public final String municipi;
     public final String categories;
     public final Drawable icon;       // the drawable for the ListView item ImageView
+    public int position;  // for the SearchFragment
 
 
     public ListViewItem(String id, String data_inici, String data_final, String nom, String nomLloc, String carrer, String numero, String districte, String municipi, String categories, Drawable icon) {

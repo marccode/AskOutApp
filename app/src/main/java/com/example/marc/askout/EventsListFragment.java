@@ -1,7 +1,6 @@
 package com.example.marc.askout;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -9,17 +8,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CheckedTextView;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.marc.askout.InfoSingleEvent;
 import com.example.marc.askout.dummy.MyExpandableListAdapter;
 
 import org.apache.http.HttpResponse;
@@ -36,18 +30,14 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
 
 public class EventsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     SwipeRefreshLayout mSwipeRefreshLayout;
     public static JSONArray jArray;
     ExpandableListView mExpendableListView;
-    int year;
-    int month;
-    int day;
+    public static int year;
+    public static int month;
+    public static int day;
     String url;
     private static int numEsdCat[];
     ArrayList<Group> groups = new ArrayList<Group>();

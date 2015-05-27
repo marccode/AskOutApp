@@ -1,20 +1,18 @@
 package com.example.marc.askout;
 
-import android.app.Fragment;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
-import android.app.SearchManager;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -187,7 +185,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                             @Override
                             public void onDateSet(DatePickerDialog d, int year, int month, int day) {
                                 Global.getInstance().day = day;
-                                Global.getInstance().month = month;
+                                Global.getInstance().month = month + 1;
                                 Global.getInstance().year = year;
                                 FragmentManager fragmentManager = getFragmentManager();
                                 EventsListFragment ef = new EventsListFragment();
@@ -206,7 +204,33 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
 
                 break;
             case R.id.action_search:
-                Toast.makeText(this, "Search selected", Toast.LENGTH_SHORT).show();
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+                final EditText edittext= new EditText(this);
+                alert.setTitle("Busca events del dia " + EventsListFragment.day + "/" + EventsListFragment.month + "/" + EventsListFragment.year);
+
+                alert.setView(edittext);
+
+                alert.setPositiveButton("Cerca", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        FragmentManager fragmentManager = getFragmentManager();
+                        SearchFragment sf = new SearchFragment();
+                        Bundle args = new Bundle();
+                        args.putString("nom", edittext.getText().toString());
+                        sf.setArguments(args);
+                        fragmentManager.beginTransaction().replace(R.id.container, sf).commit();
+                    }
+                });
+
+                alert.setNegativeButton("Enrere", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // what ever you want to do with No option.
+                    }
+                });
+
+                alert.show();
+
                 //CANVI D'ACTIVITAT
 
                 break;

@@ -1,7 +1,9 @@
 package com.example.marc.askout;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -218,9 +220,69 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
             }
         });
 
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+                alert.setTitle("Alerta!");
+                alert.setMessage("Segur que vols eliminar aquest esdeveniment de la llista d'esdeveniments guardats?");
+                alert.setPositiveButton("Esborrar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    String event_id = Global.getInstance().mItemsSaved.get(position).id;
+                    new RequestTaskDelete().execute("http://jediantic.upc.es/api/borrarEventGuardat/" + HomeActivity.myID + "/" + event_id);
+                        Global.getInstance().mItemsSaved.remove(position);
+                    }
+                });
+
+                alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // what ever you want to do with No option.
+                    }
+                });
+
+                alert.show();
+                return true;
+            }
+        });
+
         ColorDrawable myColor = new ColorDrawable(0xFFCFBEBE);
         mListView.setDivider(myColor);
         mListView.setDividerHeight(2);
     }
 
+    class RequestTaskDelete extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... uri) {
+            Log.d("UFF", uri[0]);
+            String responseString = null;
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpResponse response;
+                response = httpclient.execute(new HttpGet(uri[0]));
+                StatusLine statusLine = response.getStatusLine();
+                if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    response.getEntity().writeTo(out);
+                    responseString = out.toString();
+                    out.close();
+                } else{
+                    //Closes the connection.
+                    response.getEntity().getContent().close();
+                    throw new IOException(statusLine.getReasonPhrase());
+                }
+            } catch (ClientProtocolException e) {
+                //TODO Handle problems..
+            } catch (IOException e) {
+                //TODO Handle problems..
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            //Do anything with response...
+        }
+    }
 }

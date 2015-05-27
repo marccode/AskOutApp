@@ -1,6 +1,5 @@
 package com.example.marc.askout;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class Global {
     protected Global() {
         Calendar now = Calendar.getInstance();
         year = now.get(Calendar.YEAR);
-        month = now.get(Calendar.MONTH);
+        month = now.get(Calendar.MONTH) + 1;
         day = now.get(Calendar.DAY_OF_MONTH);
     }
 
