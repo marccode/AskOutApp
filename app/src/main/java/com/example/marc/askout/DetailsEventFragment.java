@@ -115,6 +115,16 @@ public class DetailsEventFragment extends Fragment {
         //}
 
         //assignem les dades al contingut XML
+        /*
+        if (nom.length() > 40) {
+            nom = nom.substring(0,40);
+            nom = nom + "...";
+        }
+        if (nomLloc.length() > 45) {
+            nomLloc = nomLloc.substring(0,45);
+            nomLloc = nomLloc + "...";
+        }
+        */
         nomText = (TextView) rootView.findViewById(R.id.nomEsd);
         nomText.setText(nom);
         nomLlocText = (TextView) rootView.findViewById(R.id.nomLlocEsd);

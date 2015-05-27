@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by marc on 5/4/15.
@@ -184,14 +185,7 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
             }
             String nom = obj.getString("nom");
             String nomLloc = obj.getString("nomLloc");
-            if (nom.length() > 40) {
-                nom = nom.substring(0,40);
-                nom = nom + "...";
-            }
-            if (nomLloc.length() > 45) {
-                nomLloc = nomLloc.substring(0,45);
-                nomLloc = nomLloc + "...";
-            }
+
             Global.getInstance().mItemsSaved.add(new ListViewItem(obj.getString("_id"), obj.getString("data_inici"), obj.getString("data_final"), nom, nomLloc, obj.getString("carrer"), obj.getString("numero"), obj.getString("districte"), obj.getString("municipi"), obj.getString("categories_generals"), icon ));
         }
         setUpList();
@@ -199,7 +193,19 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
     }
 
     public void setUpList() {
-        mListView.setAdapter(new ListViewDemoAdapter(getActivity(), Global.getInstance().mItemsSaved));
+
+        List<ListViewItem> auxItems = Global.getInstance().mItemsSaved;
+        for (int i = 0; i < auxItems.size(); ++i) {
+            if (auxItems.get(i).nom.length() > 40) {
+                auxItems.get(i).nom = auxItems.get(i).nom.substring(0,40);
+                auxItems.get(i).nom = auxItems.get(i).nom + "...";
+            }
+            if (auxItems.get(i).nomLloc.length() > 45) {
+                auxItems.get(i).nomLloc = auxItems.get(i).nomLloc.substring(0,45);
+                auxItems.get(i).nomLloc = auxItems.get(i).nomLloc + "...";
+            }
+        }
+        mListView.setAdapter(new ListViewDemoAdapter(getActivity(), auxItems));
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -228,8 +234,8 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
                 alert.setMessage("Segur que vols eliminar aquest esdeveniment de la llista d'esdeveniments guardats?");
                 alert.setPositiveButton("Esborrar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                    String event_id = Global.getInstance().mItemsSaved.get(position).id;
-                    new RequestTaskDelete().execute("http://jediantic.upc.es/api/borrarEventGuardat/" + HomeActivity.myID + "/" + event_id);
+                        String event_id = Global.getInstance().mItemsSaved.get(position).id;
+                        new RequestTaskDelete().execute("http://jediantic.upc.es/api/esborrarEvent/" + HomeActivity.myID + "/" + event_id);
                         Global.getInstance().mItemsSaved.remove(position);
                         setUpList();
                     }

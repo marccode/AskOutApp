@@ -213,14 +213,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                     }
                     String nom = obj.getString("nom");
                     String nomLloc = obj.getString("nomLloc");
-                    if (nom.length() > 40) {
-                        nom = nom.substring(0,40);
-                        nom = nom + "...";
-                    }
-                    if (nomLloc.length() > 45) {
-                        nomLloc = nomLloc.substring(0,45);
-                        nomLloc = nomLloc + "...";
-                    }
+
                     if (url.contains(pony.get(j).toString()))
                         Global.getInstance().mItems.add(new ListViewItem(obj.getString("_id"), obj.getString("data_inici"), obj.getString("data_final"), nom, nomLloc, obj.getString("carrer"), obj.getString("numero"), obj.getString("districte"), obj.getString("municipi"), pony.get(j).toString(), icon));
                 }
@@ -357,7 +350,17 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
         
         for (int i = 0; i < Global.getInstance().mItems.size(); ++i) {
             ListViewItem item = Global.getInstance().mItems.get(i);
-            InfoSingleEvent info = new InfoSingleEvent(item.nom, item.nomLloc, i);
+
+            String nom_aux = item.nom, nomLloc_aux = item.nomLloc;
+            if (nom_aux.length() > 40) {
+                nom_aux = item.nom.substring(0,40);
+                nom_aux = nom_aux + "...";
+            }
+            if (nomLloc_aux.length() > 45) {
+                nomLloc_aux = item.nomLloc.substring(0,45);
+                nomLloc_aux = nomLloc_aux + "...";
+            }
+            InfoSingleEvent info = new InfoSingleEvent(nom_aux, nomLloc_aux, i);
             switch (item.categories) {
                 case "Espectacles":
                     espectacles.children.add(info);

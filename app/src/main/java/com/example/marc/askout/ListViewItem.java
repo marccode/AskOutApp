@@ -9,8 +9,8 @@ public class ListViewItem {
     public final String id;
     public final String data_inici;
     public final String data_final;
-    public final String nom;
-    public final String nomLloc;
+    public String nom;
+    public String nomLloc;
     public final String carrer;
     public final String numero;
     public final String districte;
