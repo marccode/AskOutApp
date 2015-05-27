@@ -32,7 +32,7 @@ public class SearchFragment extends Fragment {
         nom = getArguments().getString("nom");
         mItemsFound = new ArrayList<ListViewItem>();
         for (int i= 0; i < Global.getInstance().mItems.size(); ++i) {
-            if (Global.getInstance().mItems.get(i).nom.contains(nom)) {
+            if (Global.getInstance().mItems.get(i).nom.toLowerCase().contains(nom.toLowerCase())) {
                 ListViewItem item = Global.getInstance().mItems.get(i);
                 item.position = i;
                 mItemsFound.add(item);
