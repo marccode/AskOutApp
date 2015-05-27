@@ -162,7 +162,7 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
                     break;
 
                 case "Exposició":
-                    icon = resources.getDrawable(R.drawable.ic_crop_original_black_24dp);
+                    icon = resources.getDrawable(R.drawable.ic_crop_original_black_48dp);
                     break;
 
                 case "Art":

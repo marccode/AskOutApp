@@ -352,14 +352,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
             ListViewItem item = Global.getInstance().mItems.get(i);
 
             String nom_aux = item.nom, nomLloc_aux = item.nomLloc;
-            if (nom_aux.length() > 40) {
-                nom_aux = item.nom.substring(0,40);
-                nom_aux = nom_aux + "...";
-            }
-            if (nomLloc_aux.length() > 45) {
-                nomLloc_aux = item.nomLloc.substring(0,45);
-                nomLloc_aux = nomLloc_aux + "...";
-            }
+
             InfoSingleEvent info = new InfoSingleEvent(nom_aux, nomLloc_aux, i);
             switch (item.categories) {
                 case "Espectacles":

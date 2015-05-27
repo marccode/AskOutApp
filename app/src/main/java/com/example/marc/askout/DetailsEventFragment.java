@@ -115,26 +115,17 @@ public class DetailsEventFragment extends Fragment {
         //}
 
         //assignem les dades al contingut XML
-        /*
-        if (nom.length() > 40) {
-            nom = nom.substring(0,40);
-            nom = nom + "...";
-        }
-        if (nomLloc.length() > 45) {
-            nomLloc = nomLloc.substring(0,45);
-            nomLloc = nomLloc + "...";
-        }
-        */
+
         nomText = (TextView) rootView.findViewById(R.id.nomEsd);
         nomText.setText(nom);
         nomLlocText = (TextView) rootView.findViewById(R.id.nomLlocEsd);
         nomLlocText.setText(nomLloc + "\n" + carrer + " " + numero + "\n" + districte + " " + municipi);
         dataText = (TextView) rootView.findViewById(R.id.dataEsd);
 
-        String any =  data_inici.substring(0,4);
-        String mes = data_inici.substring(5,7);
-        String dia = data_inici.substring(8,10);
-        String hora = data_inici.substring(11, 16);
+        final String any =  data_inici.substring(0,4);
+        final String mes = data_inici.substring(5,7);
+        final String dia = data_inici.substring(8,10);
+        final String hora = data_inici.substring(11, 16);
         dataText.setText("\n" + dia + "/" + mes + "/" + any + " " + hora);
         categoriesText = (TextView) rootView.findViewById(R.id.categoriesEsd);
         //String categoria = getArguments().getString("categories");
@@ -149,7 +140,7 @@ public class DetailsEventFragment extends Fragment {
         public void run() {                                                              //una vegada els textview estan llestos, comptem les linees per donar tamany al layout amb les linees
                 int numeroLinies = nomText.getLineCount() + nomLlocText.getLineCount() + dataText.getLineCount() + categoriesText.getLineCount();
                 if (numeroLinies == 10) {
-                    dataText.setText(data_inici);
+                    dataText.setText("\n" + dia + "/" + mes + "/" + any + " " + hora);
                     dataText.setLines(2);
                 } else if (numeroLinies == 11) {
                     dataText.setText(data_inici);
