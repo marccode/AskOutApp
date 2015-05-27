@@ -6,17 +6,20 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:layout_marginLeft="8dp"
     android:focusable="false"
-    android:gravity="left"
+    android:gravity="center_vertical|left"
     android:paddingLeft="32dp"
-    android:paddingBottom="8dp"
     android:paddingRight="32dp"
     android:paddingTop="8dp"
+    android:paddingBottom="8dp"
     android:text="Test"
     android:textSize="18sp"
     android:textAlignment="textEnd"
     android:textStyle="bold"
     android:textColor="@color/white"
-    android:background="#607D8B">
+    android:background="@color/blue"
+    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+    android:checkMarkTint="#f5f5f5"
+    >
 </CheckedTextView>
 
 
