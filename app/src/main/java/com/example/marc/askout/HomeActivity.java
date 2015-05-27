@@ -193,7 +193,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                                 args.putBoolean("refresh", true);
                                 ef.setArguments(args);
                                 fragmentManager.beginTransaction().replace(R.id.container, ef).commit();
-                                mToolbar.setTitle("AskOut " + day + "/" + month + "/" + year);
+                                mToolbar.setTitle("AskOut " + day + "/" + (month+1) + "/" + year);
                             }
                         },
                         now.get(Calendar.YEAR),

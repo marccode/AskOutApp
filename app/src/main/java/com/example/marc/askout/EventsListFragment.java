@@ -73,9 +73,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
             }
         }
         else if (Global.getInstance().mItems == null) {
-            Log.d("DEF", "mItems == null");
             if (Global.getInstance().interests == null) {
-                Log.d("DEF", "interests == null");
                 Global.getInstance().interests = new boolean[]{false, false, false, false, false, false, false, false, false, false, false};
                 new RequestInterests().execute("http://jediantic.upc.es/api/userInterest/" + HomeActivity.myID);
             }
