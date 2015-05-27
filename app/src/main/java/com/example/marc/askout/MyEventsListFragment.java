@@ -231,6 +231,7 @@ public class MyEventsListFragment extends Fragment implements SwipeRefreshLayout
                     String event_id = Global.getInstance().mItemsSaved.get(position).id;
                     new RequestTaskDelete().execute("http://jediantic.upc.es/api/borrarEventGuardat/" + HomeActivity.myID + "/" + event_id);
                         Global.getInstance().mItemsSaved.remove(position);
+                        setUpList();
                     }
                 });
 
