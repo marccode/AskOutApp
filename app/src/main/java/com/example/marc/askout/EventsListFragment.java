@@ -156,7 +156,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
             jArray = new JSONArray(s);
 
             //for (int i = 0; i < jArray.length(); i++) { // POT DONAR PROBLEMES SI EL jArray es més petit de 15!!!
-            for (int i = 0; i < 15; i++) {
+            for (int i = 0; i < jArray.length(); i++) {
                 JSONObject obj = jArray.getJSONObject(i);
                 JSONArray pony = obj.getJSONArray("categories_generals");
 

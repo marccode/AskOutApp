@@ -208,7 +208,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
                 final EditText edittext= new EditText(this);
-                alert.setTitle("Busca events del dia " + EventsListFragment.day + "/" + EventsListFragment.month + "/" + EventsListFragment.year);
+                alert.setTitle("Buscar esdeveniments del dia " + EventsListFragment.day + "/" + EventsListFragment.month + "/" + EventsListFragment.year + " per títol");
 
                 alert.setView(edittext);
 
