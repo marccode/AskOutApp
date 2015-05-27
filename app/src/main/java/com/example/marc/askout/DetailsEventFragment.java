@@ -139,11 +139,11 @@ public class DetailsEventFragment extends Fragment {
             @Override
         public void run() {                                                              //una vegada els textview estan llestos, comptem les linees per donar tamany al layout amb les linees
                 int numeroLinies = nomText.getLineCount() + nomLlocText.getLineCount() + dataText.getLineCount() + categoriesText.getLineCount();
-                if (numeroLinies == 10) {
+                if (numeroLinies == 9) {
                     dataText.setText("\n" + dia + "/" + mes + "/" + any + " " + hora);
                     dataText.setLines(2);
-                } else if (numeroLinies == 11) {
-                    dataText.setText(data_inici);
+                } else if (numeroLinies >= 10) {
+                    dataText.setText(dia + "/" + mes + "/" + any + " " + hora);
                     dataText.setLines(1);
                 }
             }
