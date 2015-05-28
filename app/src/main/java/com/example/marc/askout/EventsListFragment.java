@@ -214,8 +214,12 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                     String nom = obj.getString("nom");
                     String nomLloc = obj.getString("nomLloc");
 
-                    if (url.contains(pony.get(j).toString()))
-                        Global.getInstance().mItems.add(new ListViewItem(obj.getString("_id"), obj.getString("data_inici"), obj.getString("data_final"), nom, nomLloc, obj.getString("carrer"), obj.getString("numero"), obj.getString("districte"), obj.getString("municipi"), pony.get(j).toString(), icon));
+                    if (url.contains(pony.get(j).toString())) {
+                        String carrer = obj.getString("carrer");
+                        if (carrer == null) carrer = "";
+                        Global.getInstance().mItems.add(new ListViewItem(obj.getString("_id"), obj.getString("data_inici"), obj.getString("data_final"), nom, nomLloc, carrer, obj.getString("numero"), obj.getString("districte"), obj.getString("municipi"), pony.get(j).toString(), icon));
+
+                    }
                 }
             }
 
@@ -268,6 +272,7 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
     }
 
     private String auxInterests(String s) throws JSONException {
+        onRefresh();
         if (s != null) {
             JSONArray jArray = new JSONArray(s);
             boolean[] interests = new boolean[11];
@@ -325,7 +330,6 @@ public class EventsListFragment extends Fragment implements SwipeRefreshLayout.O
                 }
             }
             Global.getInstance().interests = interests;
-            onRefresh();
         }
         return s;
     }

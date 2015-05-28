@@ -60,6 +60,9 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         else {
             //Toast.makeText(this, "IS NUL ON HOME ACTIVITY", Toast.LENGTH_LONG).show();
         }
+        FragmentManager fragmentManager;
+        fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container, new EventsListFragment()).commit();
     }
 
     @Override
@@ -150,6 +153,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerC
         else {
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.container, new EventsListFragment()).commit();
+            mToolbar.setTitle("Askout");
         }
     }
 
